@@ -11,12 +11,18 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       line-height: 1.6;
       color: #fff;
-      /* Use the new background image as an absolute background.
-         The width is forced to 100% of the viewport while the height adjusts automatically. */
+      /* Set the absolute background image */
       background: url("images/DALL·E 2025-03-22 17.45.58 - Create an epic, high-resolution background image divided into four distinct sections, styled in the iconic blocky and colorful art style of Roblox. __.webp") no-repeat center center fixed;
-      background-size: 100% auto;
+      background-size: cover;
       overflow-x: hidden;
     }
+    /* On small devices, show the entire image */
+    @media (max-width: 768px) {
+      body {
+        background-size: contain;
+      }
+    }
+    
     a { text-decoration: none; color: #00c8ff; }
     ul { list-style: none; }
     img { max-width: 100%; display: block; }
@@ -47,7 +53,7 @@
     .section-title { text-align: center; font-size: 3rem; margin-bottom: 40px; color: #ff6600; position: relative; text-shadow: 2px 2px 0 #000; }
     .section-title::after { content: ''; display: block; width: 100px; height: 5px; background: linear-gradient(to right, #ff3300, #ff9500); margin: 15px auto 0; border-radius: 5px; }
 
-    /* Card Flip Styles (applies to both characters and news cards) */
+    /* Card Flip Styles (for both character and news cards) */
     .card-wrapper { perspective: 1000px; height: 400px; }
     .card { position: relative; width: 100%; height: 100%; transition: transform 0.8s; transform-style: preserve-3d; cursor: pointer; }
     .card.flipped { transform: rotateY(180deg); }
@@ -653,7 +659,6 @@ return RadarPing
           <a href="#" class="btn">JOIN NOW!</a>
         </div>
         <div class="community-image">
-          <!-- Updated community image now uses the new epic background file -->
           <img src="images/DALL·E 2025-03-22 17.45.58 - Create an epic, high-resolution background image divided into four distinct sections, styled in the iconic blocky and colorful art style of Roblox. __.webp" alt="Community Image" />
         </div>
       </div>
