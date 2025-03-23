@@ -1523,8 +1523,8 @@ print("Prepare for the Weekend Battle Tournament!")
 
   <!-- Gun.js Real-Time Messaging Integration -->
   <script>
-    // Initialize Gun.js (using the public relay URL if you don't host your own)
-    const gun = Gun({ peers: ['https://your-relay-server.com/gun'] });
+    // Initialize Gun.js with a working public relay
+    const gun = Gun({ peers: ['https://gun-manhattan.herokuapp.com/gun'] });
     const messagesRef = gun.get('messages');
     const messageForm = document.getElementById('messageForm');
     const messagesList = document.getElementById('messagesList');
@@ -1537,16 +1537,17 @@ print("Prepare for the Weekend Battle Tournament!")
         messagesRef.set({
           username: username,
           message: message,
-          timestamp: new Date().toISOString()
+          timestamp: Date.now()  // Using numeric timestamp for easier sorting
         });
         messageForm.reset();
       }
     });
 
-    messagesRef.map().on((data) => {
+    messagesRef.map().on((data, key) => {
       if (data) {
         const newMessage = document.createElement('div');
         newMessage.className = 'message';
+        newMessage.setAttribute('data-id', key);
         const timeString = data.timestamp ? new Date(data.timestamp).toLocaleTimeString() : 'Just now';
         const firstLetter = data.username.charAt(0).toUpperCase();
         newMessage.innerHTML = `
