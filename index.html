@@ -4,6 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Leo's Insight - Epic Roblox Gaming Magazine & Development Community</title>
+  <!-- EmailJS SDK for sending user data without backend -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function() {
+      // Initialize EmailJS with your public key
+      emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your actual EmailJS public key
+    })();
+  </script>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
     /* CSS Reset and Base Styles */
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -15,8 +25,20 @@
       background-size: cover;
       overflow-x: hidden;
     }
-    @media (max-width: 768px) { body { background-size: contain; } }
-    
+    @media (max-width: 768px) {
+      body { background-size: contain; }
+      .header-container { flex-direction: column; }
+      .logo-container { margin-bottom: 10px; }
+      nav ul { flex-direction: column; align-items: center; display: none; }
+      nav ul.active { display: flex; }
+      nav ul li { margin: 10px 0; }
+      .hamburger-menu { display: block; }
+      .hero h1 { font-size: 2.5rem; }
+      .section-title { font-size: 2.2rem; }
+      .community-content { grid-template-columns: 1fr; }
+      .cards-container, .news-grid, .blog-posts { grid-template-columns: 1fr; }
+    }
+
     a { text-decoration: none; color: #00c8ff; }
     ul { list-style: none; }
     img { max-width: 100%; display: block; }
@@ -30,55 +52,197 @@
       position: relative;
       z-index: 100;
     }
-    .header-container { display: flex; justify-content: space-between; align-items: center; }
+    .hamburger-menu {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 30px;
+      height: 21px;
+      cursor: pointer;
+      z-index: 200;
+      position: absolute;
+      right: 20px;
+      top: 25px;
+    }
+    .hamburger-menu span {
+      display: block;
+      height: 3px;
+      width: 100%;
+      background-color: white;
+      border-radius: 3px;
+      transition: all 0.3s ease;
+    }
+    .hamburger-menu.active span:nth-child(1) {
+      transform: translateY(9px) rotate(45deg);
+    }
+    .hamburger-menu.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger-menu.active span:nth-child(3) {
+      transform: translateY(-9px) rotate(-45deg);
+    }
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
     .logo-container { display: flex; align-items: center; gap: 10px; }
-    .logo-coin {
-      width: 50px;
-      height: 50px;
-      background-color: #00c8ff;
+    .site-logo {
+      width: 70px;
+      height: 70px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
+      animation: logo-animation 5s infinite;
+      box-shadow: 0 0 15px rgba(255, 102, 0, 0.5);
+      transition: all 0.3s ease;
+    }
+    .site-logo:hover {
+      transform: rotate(10deg) scale(1.1);
+      box-shadow: 0 0 25px rgba(255, 102, 0, 0.8);
+    }
+    @keyframes logo-animation {
+      0% { filter: brightness(1); transform: scale(1) rotate(0deg); }
+      25% { filter: brightness(1.4); transform: scale(1.08) rotate(5deg); }
+      50% { filter: brightness(1.2); transform: scale(1.05) rotate(0deg); }
+      75% { filter: brightness(1.4); transform: scale(1.08) rotate(-5deg); }
+      100% { filter: brightness(1); transform: scale(1) rotate(0deg); }
+    }
+
+    /* User Profile Styles */
+    .user-profile {
+      display: flex;
+      align-items: center;
+    }
+    .join-btn {
+      background: linear-gradient(45deg, #ff6600, #ff9500);
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 20px;
       font-weight: bold;
-      color: #fff;
-      animation: spin 5s linear infinite;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .join-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 102, 0, 0.4);
+    }
+    .user-info {
+      display: flex;
+      align-items: center;
+    }
+    .user-display-name {
+      font-weight: bold;
+      color: #ff6600;
+      margin-right: 10px;
+    }
+    .user-header-badges {
+      display: flex;
+      gap: 5px;
+    }
+    .header-badge {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+    }
+    .header-badge.shimmer {
+      animation: badge-shimmer 2s;
+    }
+    @keyframes badge-shimmer {
+      0% { transform: scale(1); box-shadow: 0 0 0 rgba(255, 255, 255, 0); }
+      50% { transform: scale(1.5); box-shadow: 0 0 20px rgba(255, 255, 255, 0.8); }
+      100% { transform: scale(1); box-shadow: 0 0 0 rgba(255, 255, 255, 0); }
     }
     .logo-text {
       font-size: 2.2rem;
       font-weight: bold;
       font-family: 'Impact', 'Arial Black', sans-serif;
       text-transform: uppercase;
-      color: #fff;
+      color: #0099ff;
       letter-spacing: 1px;
+      text-shadow:
+        0 0 5px rgba(0, 153, 255, 0.5),
+        0 0 10px rgba(0, 153, 255, 0.5),
+        0 0 15px rgba(0, 153, 255, 0.5),
+        0 0 20px rgba(0, 153, 255, 0.5),
+        2px 2px 2px rgba(0, 0, 0, 0.5);
+      animation: logo-text-glow 3s infinite alternate;
+      transform: perspective(500px) rotateX(10deg);
+    }
+
+    @keyframes logo-text-glow {
+      0% { text-shadow:
+        0 0 5px rgba(0, 153, 255, 0.5),
+        0 0 10px rgba(0, 153, 255, 0.5),
+        0 0 15px rgba(0, 153, 255, 0.5),
+        0 0 20px rgba(0, 153, 255, 0.5),
+        2px 2px 2px rgba(0, 0, 0, 0.5); }
+      100% { text-shadow:
+        0 0 10px rgba(0, 153, 255, 0.8),
+        0 0 20px rgba(0, 153, 255, 0.8),
+        0 0 30px rgba(0, 153, 255, 0.8),
+        0 0 40px rgba(0, 153, 255, 0.8),
+        2px 2px 2px rgba(0, 0, 0, 0.5); }
     }
     @keyframes spin { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
     .tagline { font-style: italic; margin-top: 5px; font-size: 1.1rem; text-shadow: 1px 1px 0 rgba(0,0,0,0.5); }
-    nav ul { display: flex; }
-    nav ul li { margin-left: 20px; }
+    nav {
+      margin-left: 20px;
+    }
+    nav ul {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+    nav ul li {
+      margin: 0;
+    }
     nav ul li a {
       color: white;
       font-weight: bold;
-      padding: 8px 15px;
-      border-radius: 20px;
-      background: rgba(0,0,0,0.2);
+      padding: 10px 15px;
+      border-radius: 5px;
+      background: linear-gradient(to bottom, #333333, #222222);
       transition: all 0.3s;
-      font-size: 1.1rem;
+      font-size: 0.95rem;
+      display: block;
+      text-align: center;
+      border: 1px solid #444;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
     nav ul li a:hover {
-      background: rgba(0,0,0,0.4);
+      background: linear-gradient(to bottom, #ff6600, #ff4500);
       transform: translateY(-3px);
       box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+      border-color: #ff8800;
+    }
+    nav ul li a.active {
+      background: linear-gradient(to bottom, #ff6600, #ff4500);
+      border-color: #ff8800;
     }
 
     /* Hero Section */
     .hero {
       position: relative;
-      height: 90vh;
+      min-height: 90vh;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
+      padding: 80px 20px;
     }
     .hero-bg {
       position: absolute;
@@ -91,17 +255,243 @@
       filter: brightness(0.6);
     }
     .hero-content {
-      text-align: center;
-      padding: 20px;
-      background: rgba(0,0,0,0.6);
+      padding: 30px;
+      background: rgba(0,0,0,0.7);
       border-radius: 20px;
       box-shadow: 0 0 30px rgba(255,100,0,0.3);
-      max-width: 800px;
-      transform: skew(-2deg);
+      max-width: 1200px;
       border: 3px solid #ff6600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
     }
-    .hero h1 { font-size: 4rem; margin-bottom: 20px; text-shadow: 3px 3px 0 rgba(255,60,0,0.8); color: #fff; line-height: 1.1; }
-    .hero p { font-size: 1.3rem; margin: 0 auto 30px; text-shadow: 1px 1px 0 #000; }
+    @media (min-width: 992px) {
+      .hero-content {
+        flex-direction: row;
+        align-items: center;
+        text-align: left;
+      }
+    }
+    .hero-avatar {
+      flex-shrink: 0;
+      position: relative;
+    }
+    .leo-avatar {
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #ff6600;
+      box-shadow: 0 0 30px rgba(255, 102, 0, 0.6);
+      animation: avatar-glow 3s infinite alternate;
+    }
+    @keyframes avatar-glow {
+      0% { box-shadow: 0 0 20px rgba(255, 102, 0, 0.6); }
+      100% { box-shadow: 0 0 40px rgba(255, 102, 0, 0.8); }
+    }
+    .hero-text {
+      flex: 1;
+      text-align: center;
+    }
+    @media (min-width: 992px) {
+      .hero-text {
+        text-align: left;
+      }
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+    }
+    @media (min-width: 992px) {
+      .hero-actions {
+        justify-content: flex-start;
+      }
+    }
+
+    .narrator-btn {
+      background: rgba(0, 0, 0, 0.7);
+      border: 2px solid #ff6600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .narrator-btn:hover {
+      background: rgba(255, 102, 0, 0.3);
+    }
+
+    /* Narrator Controls */
+    .narrator-controls {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 500px;
+      background: rgba(0, 0, 0, 0.95);
+      color: white;
+      padding: 25px;
+      z-index: 1000;
+      display: none;
+      border: 2px solid #0099ff;
+      border-radius: 10px;
+      box-shadow: 0 0 30px rgba(0, 153, 255, 0.5);
+    }
+
+    .narrator-controls-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 15px;
+    }
+
+    .narrator-controls-header h3 {
+      font-size: 1.5rem;
+      margin: 0;
+      color: #0099ff;
+      text-shadow: 0 0 10px rgba(0, 153, 255, 0.5);
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: #ccc;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .close-btn:hover {
+      color: #fff;
+      transform: scale(1.1);
+    }
+
+    .narrator-options {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .narrator-option {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .narrator-option label {
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
+    .voice-select,
+    .language-select {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+    }
+
+    .voice-select option,
+    .language-select option {
+      background: #222;
+      color: white;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      height: 5px;
+      border-radius: 5px;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 15px;
+      height: 15px;
+      background: #0099ff;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 5px rgba(0, 153, 255, 0.8);
+    }
+
+    .narrator-controls-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+      justify-content: center;
+    }
+
+    .narrator-control-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .narrator-control-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .narrator-control-btn.primary {
+      background: #0099ff;
+      border-color: #0099ff;
+    }
+
+    .narrator-control-btn.primary:hover {
+      background: #00aaff;
+      box-shadow: 0 0 15px rgba(0, 153, 255, 0.5);
+    }
+
+    .narrator-control-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .narrator-control-btn:disabled:hover {
+      transform: none;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      text-shadow: 3px 3px 0 rgba(255,60,0,0.8);
+      color: #fff;
+      line-height: 1.1;
+    }
+    @media (min-width: 768px) {
+      .hero h1 {
+        font-size: 3.5rem;
+      }
+    }
+    .hero p {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 0 #000;
+      line-height: 1.6;
+    }
+    @media (min-width: 768px) {
+      .hero p {
+        font-size: 1.2rem;
+      }
+    }
     .btn {
       display: inline-block;
       background: #ff4500;
@@ -233,6 +623,180 @@
       background: linear-gradient(45deg, #1a1a1a 0%, #2a2a2a 100%);
       position: relative;
       overflow: hidden;
+    }
+    .news-toggle {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+      gap: 15px;
+    }
+    .news-toggle-btn {
+      background: rgba(20,20,20,0.8);
+      color: #ccc;
+      border: 2px solid #444;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 1rem;
+    }
+    .news-toggle-btn:hover {
+      background: rgba(255,100,0,0.2);
+      border-color: #ff6600;
+      transform: translateY(-2px);
+    }
+    .news-toggle-btn.active {
+      background: #ff4500;
+      color: white;
+      border-color: #ff6600;
+      box-shadow: 0 5px 15px rgba(255,100,0,0.3);
+    }
+    #livePosts {
+      display: none;
+    }
+    .roblox-news-container {
+      width: 100%;
+      background: rgba(0,0,0,0.3);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 30px;
+      border: 1px solid #333;
+    }
+
+    .news-feed-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .news-feed-header h3 {
+      font-size: 1.5rem;
+      color: #ff6600;
+      margin: 0;
+    }
+
+    .refresh-btn {
+      background: rgba(0,0,0,0.3);
+      color: #ccc;
+      border: 1px solid #444;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s;
+    }
+
+    .refresh-btn:hover {
+      background: rgba(255,102,0,0.2);
+      color: #fff;
+      border-color: #ff6600;
+    }
+
+    .refresh-btn i {
+      font-size: 0.9rem;
+    }
+
+    .roblox-news-feed {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .news-item {
+      background: rgba(20,20,20,0.7);
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #333;
+      transition: all 0.3s;
+    }
+
+    .news-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      border-color: #ff6600;
+    }
+
+    .news-item-img {
+      height: 180px;
+      overflow: hidden;
+    }
+
+    .news-item-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .news-item:hover .news-item-img img {
+      transform: scale(1.05);
+    }
+
+    .news-item-content {
+      padding: 15px;
+    }
+
+    .news-item-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+
+    .news-item-title {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: #fff;
+      line-height: 1.3;
+    }
+
+    .news-item-excerpt {
+      font-size: 0.9rem;
+      color: #ccc;
+      margin-bottom: 15px;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .news-item-link {
+      display: inline-block;
+      color: #ff6600;
+      font-size: 0.9rem;
+      font-weight: bold;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .news-item-link:hover {
+      color: #ff9900;
+      text-decoration: underline;
+    }
+
+    #fallbackNewsContent {
+      display: none;
+    }
+
+    .loading-news {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 30px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 15px;
+      color: #ccc;
+      font-size: 1.1rem;
+      margin-top: 20px;
     }
     .blog-bg {
       position: absolute;
@@ -425,6 +989,38 @@
       max-width: 800px;
       margin: 0 auto;
     }
+    .message-status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding: 10px 15px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 10px;
+      font-size: 0.9rem;
+    }
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: bold;
+    }
+    .status-indicator.online { color: #4ee44e; }
+    .status-indicator.offline { color: #ff4500; }
+    .status-loading {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #ccc;
+    }
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #ff6600;
+      animation: spin 1s linear infinite;
+    }
     .messages-list {
       margin-bottom: 30px;
       max-height: 400px;
@@ -433,11 +1029,29 @@
       background: rgba(0,0,0,0.3);
       border-radius: 15px;
       border: 1px solid #333;
+      scrollbar-width: thin;
+      scrollbar-color: #ff6600 #222;
+    }
+    .messages-list::-webkit-scrollbar {
+      width: 8px;
+    }
+    .messages-list::-webkit-scrollbar-track {
+      background: #222;
+      border-radius: 10px;
+    }
+    .messages-list::-webkit-scrollbar-thumb {
+      background-color: #ff6600;
+      border-radius: 10px;
     }
     .message {
       margin-bottom: 20px;
       padding-bottom: 20px;
       border-bottom: 1px solid #333;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     .message:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
     .message-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
@@ -457,7 +1071,45 @@
     }
     .user-name { font-weight: bold; color: #ff6600; font-size: 1.1rem; }
     .message-time { color: #888; font-size: 0.9rem; }
-    .message-content { color: #ddd; font-size: 1rem; line-height: 1.5; }
+    .message-content {
+      color: #ddd;
+      font-size: 1rem;
+      line-height: 1.5;
+      word-break: break-word;
+      white-space: pre-wrap;
+    }
+    .moderation-notice {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      background: rgba(255, 193, 7, 0.1);
+      border: 1px solid rgba(255, 193, 7, 0.3);
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      color: #ffc107;
+    }
+    .moderation-icon {
+      font-size: 1.5rem;
+    }
+    .moderation-text {
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    .moderation-text a {
+      color: #ff6600;
+      text-decoration: underline;
+    }
+    .message-warning {
+      color: #ff4500;
+      font-size: 0.9rem;
+      margin-top: 5px;
+      display: none;
+    }
+    .message-warning.show {
+      display: block;
+      animation: fadeIn 0.3s;
+    }
     .message-form {
       background: rgba(0,0,0,0.3);
       padding: 20px;
@@ -488,6 +1140,12 @@
       border-radius: 10px;
       border: 1px solid #333;
       color: #ccc;
+      width: 100%;
+    }
+    .form-actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
     }
     .form-button {
       background: #ff4500;
@@ -500,11 +1158,26 @@
       cursor: pointer;
       transition: all 0.3s;
       text-transform: uppercase;
+      min-width: 150px;
     }
     .form-button:hover {
       background: #ff6600;
       transform: translateY(-3px);
       box-shadow: 0 5px 15px rgba(255,100,0,0.3);
+    }
+    .form-button:disabled {
+      background: #666;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    .send-status {
+      color: #4ee44e;
+      font-weight: bold;
+      min-height: 20px;
+    }
+    .send-status.error {
+      color: #ff4500;
     }
 
     /* Newsletter Section */
@@ -572,16 +1245,347 @@
 
     /* Play Game Section */
     .play-game {
-      padding: 60px 0;
+      padding: 80px 0;
+      background: #111;
+    }
+
+    .roblox-player-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .roblox-player-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .roblox-player-header h3 {
+      font-size: 1.5rem;
+      color: #ff6600;
+      margin: 0;
+    }
+
+    .player-controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .player-btn {
+      background: rgba(0,0,0,0.3);
+      color: #fff;
+      border: 1px solid #444;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+
+    .player-btn:hover {
+      background: rgba(255,102,0,0.2);
+      border-color: #ff6600;
+    }
+
+    .player-btn.primary {
+      background: #ff6600;
+      border-color: #ff6600;
+    }
+
+    .player-btn.primary:hover {
+      background: #ff8800;
+      box-shadow: 0 0 15px rgba(255, 102, 0, 0.5);
+    }
+
+    .game-selector {
+      background: rgba(0,0,0,0.3);
+      color: #fff;
+      border: 1px solid #444;
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      min-width: 180px;
+    }
+
+    .game-selector option {
+      background: #222;
+      color: #fff;
+    }
+
+    .roblox-player-wrapper {
+      width: 100%;
       background: #000;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 20px;
+      border: 2px solid #333;
+    }
+
+    .roblox-player {
+      width: 100%;
+      height: 0;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      position: relative;
+    }
+
+    .roblox-player iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .player-placeholder {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #111, #222);
+    }
+
+    .placeholder-content {
       text-align: center;
+      padding: 20px;
+      max-width: 600px;
     }
-    .play-game .btn {
+
+    .placeholder-logo {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 20px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .placeholder-content h3 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      color: #ff6600;
+    }
+
+    .placeholder-content p {
+      font-size: 1.1rem;
+      color: #ccc;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .placeholder-features {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
       margin-top: 20px;
-      background: #00c8ff;
-      border-color: #00c8ff;
     }
-    .play-game .btn:hover { background: #00a0d8; }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+      color: #ddd;
+    }
+
+    .feature i {
+      color: #ff6600;
+    }
+
+    .player-info {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    @media (min-width: 768px) {
+      .player-info {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .info-box {
+      background: rgba(0,0,0,0.3);
+      border-radius: 10px;
+      padding: 20px;
+      border: 1px solid #333;
+    }
+
+    .info-box h4 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.2rem;
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: #ff6600;
+    }
+
+    .info-box p {
+      font-size: 0.95rem;
+      color: #ccc;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .info-box a {
+      color: #ff6600;
+      text-decoration: underline;
+      transition: all 0.3s;
+    }
+
+    .info-box a:hover {
+      color: #ff9900;
+    }
+
+    /* About Us Section */
+    .about-us {
+      padding: 60px 0;
+      background: linear-gradient(45deg, #1f1f1f 0%, #2f2f2f 100%); /* Slightly different gradient */
+      position: relative;
+      overflow: hidden;
+      color: #ddd;
+    }
+
+    .about-bg { /* Optional background image/pattern */
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url("images/footer-bg.webp") center/cover no-repeat; /* Reuse or use a new one */
+      opacity: 0.08;
+      z-index: -1;
+    }
+
+    .about-content {
+      display: grid;
+      grid-template-columns: 1fr; /* Default to single column */
+      gap: 40px;
+      background: rgba(0,0,0,0.6);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+      border: 2px solid #444;
+    }
+
+    /* Make it two columns on larger screens */
+    @media (min-width: 992px) {
+      .about-content {
+        grid-template-columns: 1fr 1fr;
+         align-items: flex-start; /* Align items top */
+      }
+    }
+
+
+    .about-text h3,
+    .community-rules h3 {
+      font-size: 1.8rem;
+      color: #ff6600;
+      margin-bottom: 15px;
+      text-shadow: 1px 1px 0 #000;
+    }
+
+    .about-text p,
+    .community-rules p {
+      margin-bottom: 15px;
+      line-height: 1.7;
+      font-size: 1.05rem;
+      color: #ccc;
+    }
+
+    .about-text ul,
+    .community-rules ul {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 20px;
+    }
+
+    .about-text ul li,
+    .community-rules ul li {
+      margin-bottom: 10px;
+      padding-left: 25px;
+      position: relative;
+      color: #ddd;
+    }
+
+    /* Custom bullet points */
+    .about-text ul li::before {
+      content: '\1F4A5'; /* Or use other relevant emojis: ✨, 💻, 🤝 */
+      position: absolute;
+      left: 0;
+      color: #ff6600; /* Or adjust color */
+      font-size: 1rem;
+    }
+    .community-rules ul li::before {
+      content: ''; /* Default content */
+      position: absolute;
+      left: 0;
+      top: 5px; /* Adjust vertical alignment */
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+    }
+    .community-rules ul li:nth-child(-n+3)::before { /* Rules 1-3: Good things */
+       content: '\2705';
+       font-size: 1rem;
+       background: none; /* Override background */
+       border: none; /* Override border */
+       top: 0;
+    }
+
+    .community-rules ul li:nth-child(n+4)::before { /* Rules 4+: Bad things */
+        content: '\274C';
+        font-size: 1rem;
+        background: none;
+        border: none;
+        top: 0;
+    }
+
+
+    .community-rules {
+      background: rgba(255,100,0,0.05);
+      padding: 25px;
+      border-radius: 15px;
+      border: 1px solid rgba(255,100,0,0.2);
+    }
+
+    .rules-warning {
+      font-weight: bold;
+      color: #ffc107; /* Warning color */
+      font-size: 0.95rem;
+      margin-top: 20px;
+      border-top: 1px solid rgba(255,100,0,0.2);
+      padding-top: 15px;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .about-content {
+        padding: 20px;
+      }
+      .about-text h3,
+      .community-rules h3 {
+        font-size: 1.6rem;
+      }
+    }
 
     /* Footer */
     footer {
@@ -651,6 +1655,28 @@
       color: #888;
       font-size: 0.9rem;
     }
+    .footer-logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+    .footer-site-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      animation: footer-logo-animation 6s infinite;
+      box-shadow: 0 0 20px rgba(255, 102, 0, 0.6);
+      transition: all 0.3s ease;
+    }
+    .footer-site-logo:hover {
+      transform: scale(1.15);
+      box-shadow: 0 0 30px rgba(255, 102, 0, 0.9);
+    }
+    @keyframes footer-logo-animation {
+      0% { filter: brightness(1); transform: translateY(0); }
+      50% { filter: brightness(1.3); transform: translateY(-10px); }
+      100% { filter: brightness(1); transform: translateY(0); }
+    }
   </style>
   <!-- Include Gun.js from CDN -->
   <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
@@ -660,19 +1686,34 @@
   <header>
     <div class="container header-container">
       <div class="logo-container">
-        <div class="logo-coin">LEE</div>
+        <img src="logo.png" alt="Leo's Insight Logo" class="site-logo">
         <div class="logo-text">LEO'S INSIGHT</div>
       </div>
+      <div class="hamburger-menu" id="hamburgerMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
       <nav>
-        <ul>
+        <ul id="navMenu">
           <li><a href="#characters">Cool Characters</a></li>
           <li><a href="#news">Game News</a></li>
           <li><a href="#blog">Blog</a></li>
           <li><a href="#community">Our Squad</a></li>
           <li><a href="#play">Play</a></li>
           <li><a href="#message-board">Message HQ</a></li>
+          <li><a href="#achievements">Achievements</a></li>
+          <li><a href="#learning">Learning Center</a></li>
+          <li><a href="#about">About Us</a></li>
         </ul>
       </nav>
+      <div class="user-profile" id="userProfile">
+        <button id="joinButton" class="join-btn">JOIN NOW</button>
+        <div id="userInfo" class="user-info" style="display: none;">
+          <span id="userDisplayName" class="user-display-name"></span>
+          <div id="userHeaderBadges" class="user-header-badges"></div>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -680,9 +1721,60 @@
   <section class="hero">
     <div class="hero-bg"></div>
     <div class="container hero-content">
-      <h1>EPIC ROBLOX ADVENTURES!</h1>
-      <p>Welcome to Leo's Insight – your dark-themed hub to discover awesome Roblox characters, game strategies, and connect with fellow gamers!</p>
-      <a href="#characters" class="btn pulse">SEE AWESOME CHARACTERS!</a>
+      <!-- NEW HERO CONTENT STARTS HERE -->
+      <div class="hero-avatar">
+        <img src="Leosavatr.png" alt="Leo's Avatar" class="leo-avatar">
+      </div>
+      <div class="hero-text">
+        <h1>MASTER THE GAME. BUILD THE FUTURE.</h1>
+        <p>
+          Welcome to Leo's Insight – where passion for Roblox meets the power to create. This platform transcends basic gameplay; we delve into strategy, mechanics, and the fundamental skills to shape your <em>own</em> worlds. Explore character potential through code, engage with development tutorials, and understand Roblox on a deeper level.
+        </p>
+        <p>
+          Join a community dedicated not just to playing, but to learning, building, and collaborating responsibly. Here, we share knowledge, elevate skills, and foster a respectful environment for aspiring creators and dedicated players alike.
+        </p>
+        <div class="hero-actions">
+          <a href="#characters" class="btn pulse">EXPLORE THE INSIGHT</a>
+          <button id="playNarration" class="btn narrator-btn"><i class="fas fa-play"></i> PLAY NARRATION</button>
+        </div>
+      </div>
+      <!-- NEW HERO CONTENT ENDS HERE -->
+    </div>
+
+    <!-- Narrator Controls -->
+    <div class="narrator-controls" id="narratorControls">
+      <div class="narrator-controls-header">
+        <h3>Narrator Settings</h3>
+        <button id="closeNarratorControls" class="close-btn"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="narrator-options">
+        <div class="narrator-option">
+          <label for="voiceSelect">Select Voice:</label>
+          <select id="voiceSelect" class="voice-select"></select>
+        </div>
+        <div class="narrator-option">
+          <label for="languageSelect">Select Language:</label>
+          <select id="languageSelect" class="language-select">
+            <option value="en-US">English (US)</option>
+            <option value="es-ES">Spanish</option>
+            <option value="fr-FR">French</option>
+            <option value="de-DE">German</option>
+            <option value="ja-JP">Japanese</option>
+          </select>
+        </div>
+        <div class="narrator-controls-buttons">
+          <button id="startNarration" class="narrator-control-btn primary"><i class="fas fa-play"></i> Play Narration</button>
+          <button id="stopNarration" class="narrator-control-btn" disabled><i class="fas fa-stop"></i> Stop</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hidden Narrator Script -->
+    <div id="narratorScript" style="display: none;">
+      <p class="narration-line">Welcome to Leo's Insight - your ultimate Roblox community hub.</p>
+      <p class="narration-line">Here, we help you master the game and build the future.</p>
+      <p class="narration-line">Discover cool characters, learn coding skills, and connect with other Roblox fans.</p>
+      <p class="narration-line">Don't just play Roblox - shape it with Leo's Insight!</p>
     </div>
   </section>
 
@@ -696,7 +1788,7 @@
           <div class="card" onclick="this.classList.toggle('flipped')">
             <div class="card-front">
               <div class="card-img">
-                <img src="images/DALL·E 2025-03-22 15.51.37 - Create an image of a Roblox 3D character exuding a dark, doom-laden presence. The character should be futuristic and imposing, with dramatic lighting,.webp" alt="Doomslayer">
+                <img loading="lazy" src="images/DALL·E 2025-03-22 15.51.37 - Create an image of a Roblox 3D character exuding a dark, doom-laden presence. The character should be futuristic and imposing, with dramatic lighting,.webp" alt="Doomslayer">
                 <div class="card-badge">DARK</div>
               </div>
               <div class="card-content">
@@ -711,31 +1803,31 @@
                 <div class="step">Deactivate: Restore appearance</div>
               </div>
               <div class="code-block">
--- FearAura Module  
-local FearAura = {}  
-  
-function FearAura:Activate(player)  
-  local character = player.Character  
-  if not character then return end  
-  for _, part in pairs(character:GetDescendants()) do  
-    if part:IsA("BasePart") then  
-      part.Transparency = 0.5  
-      part.Color = Color3.new(1, 0, 0)  
-    end  
-  end  
-end  
-  
-function FearAura:Deactivate(player)  
-  local character = player.Character  
-  if not character then return end  
-  for _, part in pairs(character:GetDescendants()) do  
-    if part:IsA("BasePart") then  
-      part.Transparency = 0  
-      part.Color = Color3.new(1, 1, 1)  
-    end  
-  end  
-end  
-  
+-- FearAura Module
+local FearAura = {}
+
+function FearAura:Activate(player)
+  local character = player.Character
+  if not character then return end
+  for _, part in pairs(character:GetDescendants()) do
+    if part:IsA("BasePart") then
+      part.Transparency = 0.5
+      part.Color = Color3.new(1, 0, 0)
+    end
+  end
+end
+
+function FearAura:Deactivate(player)
+  local character = player.Character
+  if not character then return end
+  for _, part in pairs(character:GetDescendants()) do
+    if part:IsA("BasePart") then
+      part.Transparency = 0
+      part.Color = Color3.new(1, 1, 1)
+    end
+  end
+end
+
 return FearAura
               </div>
             </div>
@@ -761,30 +1853,30 @@ return FearAura
                 <div class="step">Reset after 30 seconds</div>
               </div>
               <div class="code-block">
--- RageMode Module  
-local RageMode = {}  
-  
-function RageMode:Activate(player)  
-  local character = player.Character  
-  if not character then return end  
-  local humanoid = character:FindFirstChildOfClass("Humanoid")  
-  if not humanoid then return end  
-  
-  local origSpeed = humanoid.WalkSpeed  
-  local origMaxHealth = humanoid.MaxHealth  
-  humanoid.WalkSpeed = origSpeed * 1.5  
-  humanoid.MaxHealth = origMaxHealth * 1.5  
-  humanoid.Health = humanoid.MaxHealth  
-  
-  delay(30, function()  
-    humanoid.WalkSpeed = origSpeed  
-    humanoid.MaxHealth = origMaxHealth  
-    if humanoid.Health > origMaxHealth then  
-      humanoid.Health = origMaxHealth  
-    end  
-  end)  
-end  
-  
+-- RageMode Module
+local RageMode = {}
+
+function RageMode:Activate(player)
+  local character = player.Character
+  if not character then return end
+  local humanoid = character:FindFirstChildOfClass("Humanoid")
+  if not humanoid then return end
+
+  local origSpeed = humanoid.WalkSpeed
+  local origMaxHealth = humanoid.MaxHealth
+  humanoid.WalkSpeed = origSpeed * 1.5
+  humanoid.MaxHealth = origMaxHealth * 1.5
+  humanoid.Health = humanoid.MaxHealth
+
+  delay(30, function()
+    humanoid.WalkSpeed = origSpeed
+    humanoid.MaxHealth = origMaxHealth
+    if humanoid.Health > origMaxHealth then
+      humanoid.Health = origMaxHealth
+    end
+  end)
+end
+
 return RageMode
               </div>
             </div>
@@ -810,22 +1902,22 @@ return RageMode
                 <div class="step">Remove force after 0.5 seconds</div>
               </div>
               <div class="code-block">
--- SuperJump Module  
-local SuperJump = {}  
-  
-function SuperJump:Perform(player)  
-  local character = player.Character  
-  if not character then return end  
-  local humanoid = character:FindFirstChildOfClass("Humanoid")  
-  local root = character:FindFirstChild("HumanoidRootPart")  
-  if not humanoid or not root then return end  
-  
-  local bv = Instance.new("BodyVelocity", root)  
-  bv.Velocity = Vector3.new(0, 120, 0)  
-  bv.MaxForce = Vector3.new(0, math.huge, 0)  
-  delay(0.5, function() bv:Destroy() end)  
-end  
-  
+-- SuperJump Module
+local SuperJump = {}
+
+function SuperJump:Perform(player)
+  local character = player.Character
+  if not character then return end
+  local humanoid = character:FindFirstChildOfClass("Humanoid")
+  local root = character:FindFirstChild("HumanoidRootPart")
+  if not humanoid or not root then return end
+
+  local bv = Instance.new("BodyVelocity", root)
+  bv.Velocity = Vector3.new(0, 120, 0)
+  bv.MaxForce = Vector3.new(0, math.huge, 0)
+  delay(0.5, function() bv:Destroy() end)
+end
+
 return SuperJump
               </div>
             </div>
@@ -851,22 +1943,22 @@ return SuperJump
                 <div class="step">Reset after 0.75 seconds</div>
               </div>
               <div class="code-block">
--- TackleAbility Module  
-local TackleAbility = {}  
-  
-function TackleAbility:Perform(player, direction)  
-  local character = player.Character  
-  if not character then return end  
-  local humanoid = character:FindFirstChildOfClass("Humanoid")  
-  local root = character:FindFirstChild("HumanoidRootPart")  
-  if not humanoid or not root then return end  
-  
-  local bv = Instance.new("BodyVelocity", root)  
-  bv.Velocity = direction * 50  
-  bv.MaxForce = Vector3.new(100000, 0, 100000)  
-  delay(0.75, function() bv:Destroy() end)  
-end  
-  
+-- TackleAbility Module
+local TackleAbility = {}
+
+function TackleAbility:Perform(player, direction)
+  local character = player.Character
+  if not character then return end
+  local humanoid = character:FindFirstChildOfClass("Humanoid")
+  local root = character:FindFirstChild("HumanoidRootPart")
+  if not humanoid or not root then return end
+
+  local bv = Instance.new("BodyVelocity", root)
+  bv.Velocity = direction * 50
+  bv.MaxForce = Vector3.new(100000, 0, 100000)
+  delay(0.75, function() bv:Destroy() end)
+end
+
 return TackleAbility
               </div>
             </div>
@@ -892,21 +1984,21 @@ return TackleAbility
                 <div class="step">Apply shot velocity</div>
               </div>
               <div class="code-block">
--- PrecisionShot Module  
-local PrecisionShot = {}  
-  
-function PrecisionShot:Perform(player, targetPos)  
-  local character = player.Character  
-  if not character then return end  
-  local root = character:FindFirstChild("HumanoidRootPart")  
-  if not root then return end  
-  local direction = (targetPos - root.Position).unit  
-  local bv = Instance.new("BodyVelocity", root)  
-  bv.Velocity = direction * 100  
-  bv.MaxForce = Vector3.new(100000,100000,100000)  
-  delay(1, function() bv:Destroy() end)  
-end  
-  
+-- PrecisionShot Module
+local PrecisionShot = {}
+
+function PrecisionShot:Perform(player, targetPos)
+  local character = player.Character
+  if not character then return end
+  local root = character:FindFirstChild("HumanoidRootPart")
+  if not root then return end
+  local direction = (targetPos - root.Position).unit
+  local bv = Instance.new("BodyVelocity", root)
+  bv.Velocity = direction * 100
+  bv.MaxForce = Vector3.new(100000,100000,100000)
+  delay(1, function() bv:Destroy() end)
+end
+
 return PrecisionShot
               </div>
             </div>
@@ -932,22 +2024,22 @@ return PrecisionShot
                 <div class="step">Chain multiple moves</div>
               </div>
               <div class="code-block">
--- ComboAttack Module  
-local ComboAttack = {}  
-  
-function ComboAttack:Perform(player)  
-  local character = player.Character  
-  if not character then return end  
-  local humanoid = character:FindFirstChildOfClass("Humanoid")  
-  if not humanoid then return end  
-  
-  local anim = Instance.new("Animation")  
-  anim.AnimationId = "rbxassetid://123456789" -- Replace with real animation ID  
-  local track = humanoid:LoadAnimation(anim)  
-  track:Play()  
-  print("Combo attack executed")  
-end  
-  
+-- ComboAttack Module
+local ComboAttack = {}
+
+function ComboAttack:Perform(player)
+  local character = player.Character
+  if not character then return end
+  local humanoid = character:FindFirstChildOfClass("Humanoid")
+  if not humanoid then return end
+
+  local anim = Instance.new("Animation")
+  anim.AnimationId = "rbxassetid://123456789" -- Replace with real animation ID
+  local track = humanoid:LoadAnimation(anim)
+  track:Play()
+  print("Combo attack executed")
+end
+
 return ComboAttack
               </div>
             </div>
@@ -958,7 +2050,7 @@ return ComboAttack
           <div class="card" onclick="this.classList.toggle('flipped')">
             <div class="card-front">
               <div class="card-img">
-                <img src="images/DALL·E 2025-03-22 15.24.15 - Create a single detailed Roblox-style character inspired by Call of Duty, styled for a character card. Character Name_ Ghoststrike. Description_ A mod.webp" alt="Ghoststrike">
+                <img loading="lazy" src="images/DALL·E 2025-03-22 15.24.15 - Create a single detailed Roblox-style character inspired by Call of Duty, styled for a character card. Character Name_ Ghoststrike. Description_ A mod.webp" alt="Ghoststrike">
                 <div class="card-badge">ELITE</div>
               </div>
               <div class="card-content">
@@ -973,31 +2065,31 @@ return ComboAttack
                 <div class="step">Deactivate: Restore appearance</div>
               </div>
               <div class="code-block">
--- StealthAbility Module  
-local StealthAbility = {}  
-  
-function StealthAbility:Activate(player)  
-  local character = player.Character  
-  if not character then return end  
-  for _, part in pairs(character:GetDescendants()) do  
-    if part:IsA("BasePart") then  
-      part.Transparency = 0.7  
-    end  
-  end  
-  print("Stealth activated")  
-end  
-  
-function StealthAbility:Deactivate(player)  
-  local character = player.Character  
-  if not character then return end  
-  for _, part in pairs(character:GetDescendants()) do  
-    if part:IsA("BasePart") then  
-      part.Transparency = 0  
-    end  
-  end  
-  print("Stealth deactivated")  
-end  
-  
+-- StealthAbility Module
+local StealthAbility = {}
+
+function StealthAbility:Activate(player)
+  local character = player.Character
+  if not character then return end
+  for _, part in pairs(character:GetDescendants()) do
+    if part:IsA("BasePart") then
+      part.Transparency = 0.7
+    end
+  end
+  print("Stealth activated")
+end
+
+function StealthAbility:Deactivate(player)
+  local character = player.Character
+  if not character then return end
+  for _, part in pairs(character:GetDescendants()) do
+    if part:IsA("BasePart") then
+      part.Transparency = 0
+    end
+  end
+  print("Stealth deactivated")
+end
+
 return StealthAbility
               </div>
             </div>
@@ -1008,7 +2100,7 @@ return StealthAbility
           <div class="card" onclick="this.classList.toggle('flipped')">
             <div class="card-front">
               <div class="card-img">
-                <img src="images/DALL·E 2025-03-22 15.25.22 - Create a single Roblox-style military character in a stylized, slightly less realistic design, styled for a character card. Character Name_ Shieldborn.webp" alt="Shieldborn">
+                <img loading="lazy" src="images/DALL·E 2025-03-22 15.25.22 - Create a single Roblox-style military character in a stylized, slightly less realistic design, styled for a character card. Character Name_ Shieldborn.webp" alt="Shieldborn">
                 <div class="card-badge">TANK</div>
               </div>
               <div class="card-content">
@@ -1023,21 +2115,21 @@ return StealthAbility
                 <div class="step">Deploy in front of player</div>
               </div>
               <div class="code-block">
--- ShieldBarrier Module  
-local ShieldBarrier = {}  
-local ReplicatedStorage = game:GetService("ReplicatedStorage")  
-  
-function ShieldBarrier:Deploy(player, position, rotation)  
-  local shieldTemplate = ReplicatedStorage:FindFirstChild("ShieldBarrier")  
-  if not shieldTemplate then return end  
-  local shield = shieldTemplate:Clone()  
-  shield:SetPrimaryPartCFrame(CFrame.new(position, position + rotation))  
-  shield.Parent = workspace  
-  game:GetService("Debris"):AddItem(shield, 30)  
-  print("Shield deployed")  
-  return shield  
-end  
-  
+-- ShieldBarrier Module
+local ShieldBarrier = {}
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+function ShieldBarrier:Deploy(player, position, rotation)
+  local shieldTemplate = ReplicatedStorage:FindFirstChild("ShieldBarrier")
+  if not shieldTemplate then return end
+  local shield = shieldTemplate:Clone()
+  shield:SetPrimaryPartCFrame(CFrame.new(position, position + rotation))
+  shield.Parent = workspace
+  game:GetService("Debris"):AddItem(shield, 30)
+  print("Shield deployed")
+  return shield
+end
+
 return ShieldBarrier
               </div>
             </div>
@@ -1063,48 +2155,48 @@ return ShieldBarrier
                 <div class="step">Reset after 30 seconds</div>
               </div>
               <div class="code-block">
--- CommanderBuff Module  
-local CommanderBuff = {}  
-local Players = game:GetService("Players")  
-  
-function CommanderBuff:ActivateTeamBoost(commander, radius)  
-  local character = commander.Character  
-  if not character then return end  
-  local humanoid = character:FindFirstChildOfClass("Humanoid")  
-  if not humanoid then return end  
-  local pos = character.HumanoidRootPart.Position  
-  local teamColor = commander.TeamColor  
-  for _, player in pairs(Players:GetPlayers()) do  
-    if player.TeamColor == teamColor and player ~= commander then  
-      local pChar = player.Character  
-      if pChar and pChar:FindFirstChild("HumanoidRootPart") then  
-        local dist = (pChar.HumanoidRootPart.Position - pos).Magnitude  
-        if dist <= radius then  
-          self:BuffPlayer(player, 30)  
-        end  
-      end  
-    end  
-  end  
-end  
-  
-function CommanderBuff:BuffPlayer(player, duration)  
-  local character = player.Character  
-  if not character then return end  
-  local humanoid = character:FindFirstChildOfClass("Humanoid")  
-  if humanoid then  
-    local origSpeed = humanoid.WalkSpeed  
-    local origJump = humanoid.JumpPower  
-    humanoid.WalkSpeed = origSpeed * 1.3  
-    humanoid.JumpPower = origJump * 1.2  
-    delay(duration, function()  
-      if humanoid and humanoid.Parent then  
-        humanoid.WalkSpeed = origSpeed  
-        humanoid.JumpPower = origJump  
-      end  
-    end)  
-  end  
-end  
-  
+-- CommanderBuff Module
+local CommanderBuff = {}
+local Players = game:GetService("Players")
+
+function CommanderBuff:ActivateTeamBoost(commander, radius)
+  local character = commander.Character
+  if not character then return end
+  local humanoid = character:FindFirstChildOfClass("Humanoid")
+  if not humanoid then return end
+  local pos = character.HumanoidRootPart.Position
+  local teamColor = commander.TeamColor
+  for _, player in pairs(Players:GetPlayers()) do
+    if player.TeamColor == teamColor and player ~= commander then
+      local pChar = player.Character
+      if pChar and pChar:FindFirstChild("HumanoidRootPart") then
+        local dist = (pChar.HumanoidRootPart.Position - pos).Magnitude
+        if dist <= radius then
+          self:BuffPlayer(player, 30)
+        end
+      end
+    end
+  end
+end
+
+function CommanderBuff:BuffPlayer(player, duration)
+  local character = player.Character
+  if not character then return end
+  local humanoid = character:FindFirstChildOfClass("Humanoid")
+  if humanoid then
+    local origSpeed = humanoid.WalkSpeed
+    local origJump = humanoid.JumpPower
+    humanoid.WalkSpeed = origSpeed * 1.3
+    humanoid.JumpPower = origJump * 1.2
+    delay(duration, function()
+      if humanoid and humanoid.Parent then
+        humanoid.WalkSpeed = origSpeed
+        humanoid.JumpPower = origJump
+      end
+    end)
+  end
+end
+
 return CommanderBuff
               </div>
             </div>
@@ -1130,36 +2222,36 @@ return CommanderBuff
                 <div class="step">Reset after animation</div>
               </div>
               <div class="code-block">
--- GroundSlam Module  
-local GroundSlam = {}  
-local ReplicatedStorage = game:GetService("ReplicatedStorage")  
-  
-function GroundSlam:Perform(player)  
-  local character = player.Character  
-  if not character then return end  
-  local humanoid = character:FindFirstChildOfClass("Humanoid")  
-  local root = character:FindFirstChild("HumanoidRootPart")  
-  if not humanoid or not root then return end  
-  
-  local origSpeed = humanoid.WalkSpeed  
-  humanoid.WalkSpeed = 0  
-  
-  local slamEffect = Instance.new("Part")  
-  slamEffect.Shape = Enum.PartType.Cylinder  
-  slamEffect.Size = Vector3.new(0.5, 25, 25)  
-  slamEffect.CFrame = CFrame.new(root.Position) * CFrame.Angles(0, math.rad(90), 0)  
-  slamEffect.Anchored = true  
-  slamEffect.CanCollide = false  
-  slamEffect.Material = Enum.Material.Neon  
-  slamEffect.Color = Color3.fromRGB(255,100,0)  
-  slamEffect.Transparency = 0.5  
-  slamEffect.Parent = workspace  
-  game:GetService("Debris"):AddItem(slamEffect, 1.5)  
-  
-  delay(2, function() humanoid.WalkSpeed = origSpeed end)  
-  print("Ground slam executed")  
-end  
-  
+-- GroundSlam Module
+local GroundSlam = {}
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+function GroundSlam:Perform(player)
+  local character = player.Character
+  if not character then return end
+  local humanoid = character:FindFirstChildOfClass("Humanoid")
+  local root = character:FindFirstChild("HumanoidRootPart")
+  if not humanoid or not root then return end
+
+  local origSpeed = humanoid.WalkSpeed
+  humanoid.WalkSpeed = 0
+
+  local slamEffect = Instance.new("Part")
+  slamEffect.Shape = Enum.PartType.Cylinder
+  slamEffect.Size = Vector3.new(0.5, 25, 25)
+  slamEffect.CFrame = CFrame.new(root.Position) * CFrame.Angles(0, math.rad(90), 0)
+  slamEffect.Anchored = true
+  slamEffect.CanCollide = false
+  slamEffect.Material = Enum.Material.Neon
+  slamEffect.Color = Color3.fromRGB(255,100,0)
+  slamEffect.Transparency = 0.5
+  slamEffect.Parent = workspace
+  game:GetService("Debris"):AddItem(slamEffect, 1.5)
+
+  delay(2, function() humanoid.WalkSpeed = origSpeed end)
+  print("Ground slam executed")
+end
+
 return GroundSlam
               </div>
             </div>
@@ -1185,37 +2277,37 @@ return GroundSlam
                 <div class="step">Apply rapid dash force</div>
               </div>
               <div class="code-block">
--- DashAttack Module  
-local DashAttack = {}  
-local RunService = game:GetService("RunService")  
-  
-function DashAttack:Perform(player, direction)  
-  local character = player.Character  
-  if not character then return end  
-  local humanoid = character:FindFirstChildOfClass("Humanoid")  
-  local root = character:FindFirstChild("HumanoidRootPart")  
-  if not humanoid or not root then return end  
-  
-  local origSpeed = humanoid.WalkSpeed  
-  humanoid.WalkSpeed = 0  
-  
-  local bv = Instance.new("BodyVelocity", root)  
-  bv.Velocity = direction * 120  
-  bv.MaxForce = Vector3.new(100000, 100000, 100000)  
-  
-  local connection = RunService.Heartbeat:Connect(function()  
-    local clone = character:Clone()  
-    clone.Parent = workspace  
-    game:GetService("Debris"):AddItem(clone, 0.3)  
-  end)  
-  
-  delay(0.5, function()  
-    connection:Disconnect()  
-    bv:Destroy()  
-    humanoid.WalkSpeed = origSpeed  
-  end)  
-end  
-  
+-- DashAttack Module
+local DashAttack = {}
+local RunService = game:GetService("RunService")
+
+function DashAttack:Perform(player, direction)
+  local character = player.Character
+  if not character then return end
+  local humanoid = character:FindFirstChildOfClass("Humanoid")
+  local root = character:FindFirstChild("HumanoidRootPart")
+  if not humanoid or not root then return end
+
+  local origSpeed = humanoid.WalkSpeed
+  humanoid.WalkSpeed = 0
+
+  local bv = Instance.new("BodyVelocity", root)
+  bv.Velocity = direction * 120
+  bv.MaxForce = Vector3.new(100000, 100000, 100000)
+
+  local connection = RunService.Heartbeat:Connect(function()
+    local clone = character:Clone()
+    clone.Parent = workspace
+    game:GetService("Debris"):AddItem(clone, 0.3)
+  end)
+
+  delay(0.5, function()
+    connection:Disconnect()
+    bv:Destroy()
+    humanoid.WalkSpeed = origSpeed
+  end)
+end
+
 return DashAttack
               </div>
             </div>
@@ -1226,7 +2318,7 @@ return DashAttack
           <div class="card" onclick="this.classList.toggle('flipped')">
             <div class="card-front">
               <div class="card-img">
-                <img src="images/DALL·E 2025-03-22 15.51.23 - Create a single detailed Roblox-style character inspired by Call of Duty, styled for a character card. Character Name_ Ghoststrike. Focus on stealthy,.webp" alt="Ghoststrike Alt">
+                <img loading="lazy" src="images/DALL·E 2025-03-22 15.51.23 - Create a single detailed Roblox-style character inspired by Call of Duty, styled for a character card. Character Name_ Ghoststrike. Focus on stealthy,.webp" alt="Ghoststrike Alt">
                 <div class="card-badge">STEALTH</div>
               </div>
               <div class="card-content">
@@ -1241,42 +2333,42 @@ return DashAttack
                 <div class="step">Expand and remove after delay</div>
               </div>
               <div class="code-block">
--- RadarPing Module  
-local RadarPing = {}  
-local ReplicatedStorage = game:GetService("ReplicatedStorage")  
-local Players = game:GetService("Players")  
-  
-function RadarPing:Activate(player)  
-  local character = player.Character  
-  if not character then return end  
-  local root = character:FindFirstChild("HumanoidRootPart")  
-  if not root then return end  
-  
-  local ping = Instance.new("Part")  
-  ping.Shape = Enum.PartType.Ball  
-  ping.Size = Vector3.new(1,1,1)  
-  ping.CFrame = CFrame.new(root.Position)  
-  ping.Anchored = true  
-  ping.CanCollide = false  
-  ping.Material = Enum.Material.Neon  
-  ping.Color = Color3.fromRGB(0,200,255)  
-  ping.Transparency = 0.5  
-  ping.Parent = workspace  
-  
-  local maxRadius = 50  
-  local expandSteps = 30  
-  local stepDelay = 3 / expandSteps  
-  
-  for i = 1, expandSteps do  
-    local radius = (i / expandSteps) * maxRadius  
-    ping.Size = Vector3.new(radius, radius, radius)  
-    ping.Transparency = 0.5 + (i / expandSteps) * 0.5  
-    wait(stepDelay)  
-  end  
-  
-  ping:Destroy()  
-end  
-  
+-- RadarPing Module
+local RadarPing = {}
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+
+function RadarPing:Activate(player)
+  local character = player.Character
+  if not character then return end
+  local root = character:FindFirstChild("HumanoidRootPart")
+  if not root then return end
+
+  local ping = Instance.new("Part")
+  ping.Shape = Enum.PartType.Ball
+  ping.Size = Vector3.new(1,1,1)
+  ping.CFrame = CFrame.new(root.Position)
+  ping.Anchored = true
+  ping.CanCollide = false
+  ping.Material = Enum.Material.Neon
+  ping.Color = Color3.fromRGB(0,200,255)
+  ping.Transparency = 0.5
+  ping.Parent = workspace
+
+  local maxRadius = 50
+  local expandSteps = 30
+  local stepDelay = 3 / expandSteps
+
+  for i = 1, expandSteps do
+    local radius = (i / expandSteps) * maxRadius
+    ping.Size = Vector3.new(radius, radius, radius)
+    ping.Transparency = 0.5 + (i / expandSteps) * 0.5
+    wait(stepDelay)
+  end
+
+  ping:Destroy()
+end
+
 return RadarPing
               </div>
             </div>
@@ -1291,11 +2383,15 @@ return RadarPing
     <div class="blog-bg"></div>
     <div class="container">
       <h2 class="section-title">LATEST BLOG POSTS</h2>
-      <div class="blog-posts">
+      <div class="news-toggle">
+        <button id="staticNewsBtn" class="news-toggle-btn active">Our Posts</button>
+        <button id="liveNewsBtn" class="news-toggle-btn">Live Roblox News</button>
+      </div>
+      <div class="blog-posts" id="staticPosts">
         <!-- Blog Card 1: New Battle Arena Map: Volcanic Fortress -->
         <div class="blog-card" onclick="this.classList.toggle('flipped')">
           <div class="blog-img">
-            <img src="images/aa8d321b-227b-477d-b192-374f826e7b9e.webp" alt="New Battle Arena Map: Volcanic Fortress">
+            <img loading="lazy" src="images/aa8d321b-227b-477d-b192-374f826e7b9e.webp" alt="New Battle Arena Map: Volcanic Fortress">
           </div>
           <div class="blog-content">
             <div class="blog-meta">
@@ -1316,7 +2412,7 @@ return RadarPing
               <div class="step">Lava-themed environment</div>
             </div>
             <div class="code-block">
--- Map Update: Volcanic Fortress  
+-- Map Update: Volcanic Fortress
 print("Discover new challenges in Volcanic Fortress!")
             </div>
           </div>
@@ -1324,7 +2420,7 @@ print("Discover new challenges in Volcanic Fortress!")
         <!-- Blog Card 2: Top 5 Defense Tactics -->
         <div class="blog-card" onclick="this.classList.toggle('flipped')">
           <div class="blog-img">
-            <img src="images/ced4e9b2-18ec-4f9a-8571-cf0bf9c86c58.webp" alt="Top 5 Defense Tactics">
+            <img loading="lazy" src="images/ced4e9b2-18ec-4f9a-8571-cf0bf9c86c58.webp" alt="Top 5 Defense Tactics">
           </div>
           <div class="blog-content">
             <div class="blog-meta">
@@ -1344,7 +2440,7 @@ print("Discover new challenges in Volcanic Fortress!")
               <div class="step">Tactics for base building & raiding</div>
             </div>
             <div class="code-block">
--- Defense Tactics Guide  
+-- Defense Tactics Guide
 print("Master these top 5 defense tactics!")
             </div>
           </div>
@@ -1352,7 +2448,7 @@ print("Master these top 5 defense tactics!")
         <!-- Blog Card 3: Weekend Battle Tournament -->
         <div class="blog-card" onclick="this.classList.toggle('flipped')">
           <div class="blog-img">
-            <img src="images/0c6aafe0-0c9d-4036-9f1f-103127d41199.webp" alt="Weekend Battle Tournament">
+            <img loading="lazy" src="images/0c6aafe0-0c9d-4036-9f1f-103127d41199.webp" alt="Weekend Battle Tournament">
           </div>
           <div class="blog-content">
             <div class="blog-meta">
@@ -1373,21 +2469,127 @@ print("Master these top 5 defense tactics!")
               <div class="step">Part of The Hunt: Mega Edition (Mar 13-24, 2025)</div>
             </div>
             <div class="code-block">
--- Tournament Announcement  
+-- Tournament Announcement
 print("Prepare for the Weekend Battle Tournament!")
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="blog-posts" id="livePosts">
+        <!-- Live Roblox News Feed -->
+        <div class="roblox-news-container">
+          <div class="news-feed-header">
+            <h3>LIVE ROBLOX NEWS</h3>
+            <button id="refreshNewsFeed" class="refresh-btn"><i class="fas fa-sync-alt"></i> Refresh</button>
+          </div>
+          <div id="robloxNewsFeed" class="roblox-news-feed">
+            <!-- News items will be loaded here -->
+          </div>
+
+          <!-- Loading indicator (hidden by default, shown when refreshing) -->
+          <div class="loading-news" id="newsLoadingIndicator">
+            <div class="spinner"></div>
+            <span>Refreshing Roblox news...</span>
+          </div>
+        </div>
+
+        <!-- Fallback content for SEO and initial display -->
+        <div id="fallbackNewsContent">
+          <div class="blog-card">
+            <div class="blog-img">
+              <img loading="lazy" src="images/aa8d321b-227b-477d-b192-374f826e7b9e.webp" alt="Roblox FX Boost" />
+            </div>
+            <div class="blog-content">
+              <div class="blog-meta">
+                <span class="blog-date">April 10, 2025</span>
+                <span class="blog-category">Update</span>
+              </div>
+              <h3 class="blog-title">Roblox April Update: Particle FX Boost</h3>
+              <p class="blog-excerpt">New rendering enhancements boost VFX performance by 35%. Try them now in Studio!</p>
+            </div>
+          </div>
+
+          <div class="blog-card">
+            <div class="blog-img">
+              <img loading="lazy" src="images/ced4e9b2-18ec-4f9a-8571-cf0bf9c86c58.webp" alt="Top Avatar Customizers" />
+            </div>
+            <div class="blog-content">
+              <div class="blog-meta">
+                <span class="blog-date">April 5, 2025</span>
+                <span class="blog-category">Creator Tips</span>
+              </div>
+              <h3 class="blog-title">Top 3 Avatar Customizers You Need</h3>
+              <p class="blog-excerpt">Explore these trending avatar plugins gaining popularity among Roblox creators.</p>
+            </div>
+          </div>
+
+          <div class="blog-card">
+            <div class="blog-img">
+              <img loading="lazy" src="images/0c6aafe0-0c9d-4036-9f1f-103127d41199.webp" alt="Game Pass Revenue" />
+            </div>
+            <div class="blog-content">
+              <div class="blog-meta">
+                <span class="blog-date">April 2, 2025</span>
+                <span class="blog-category">Economy</span>
+              </div>
+              <h3 class="blog-title">Game Pass Revenue Hits Record High</h3>
+              <p class="blog-excerpt">Roblox devs earned over $300M in Q1. Learn how to optimize your Game Pass.</p>
             </div>
           </div>
         </div>
       </div>
     </div>
   </section>
-  
+
   <!-- Play Game Section -->
   <section class="play-game" id="play">
     <div class="container">
-      <h2 class="section-title">PLAY YOUR ROBLOX GAME</h2>
-      <div style="text-align: center;">
-        <a href="https://www.roblox.com/games/" target="_blank" class="btn play-btn">PLAY NOW</a>
+      <h2 class="section-title">PLAY ROBLOX GAMES</h2>
+      <div class="roblox-player-container">
+        <div class="roblox-player-header">
+          <h3>EMBEDDED GAME PLAYER</h3>
+          <div class="player-controls">
+            <button id="signInRoblox" class="player-btn"><i class="fas fa-user"></i> Sign In</button>
+            <select id="gameSelector" class="game-selector">
+              <option value="">Select a Game</option>
+              <option value="920587237">Adopt Me!</option>
+              <option value="2753915549">Blox Fruits</option>
+              <option value="4490140733">My Restaurant</option>
+              <option value="6516141723">DOORS</option>
+              <option value="6872265039">BedWars</option>
+            </select>
+            <button id="loadGame" class="player-btn primary"><i class="fas fa-gamepad"></i> Load Game</button>
+          </div>
+        </div>
+
+        <div class="roblox-player-wrapper">
+          <div id="robloxPlayerContainer" class="roblox-player">
+            <!-- Game will be loaded here -->
+            <div class="player-placeholder">
+              <div class="placeholder-content">
+                <img src="logo.png" alt="Leo's Insight Logo" class="placeholder-logo">
+                <h3>Select a Game to Play</h3>
+                <p>Choose from popular Roblox games in the dropdown above and click "Load Game" to start playing right here on Leo's Insight!</p>
+                <div class="placeholder-features">
+                  <div class="feature"><i class="fas fa-gamepad"></i> Play without leaving the site</div>
+                  <div class="feature"><i class="fas fa-users"></i> Join with friends</div>
+                  <div class="feature"><i class="fas fa-star"></i> Experience top Roblox games</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="player-info">
+          <div class="info-box">
+            <h4><i class="fas fa-info-circle"></i> How It Works</h4>
+            <p>Our embedded player lets you enjoy Roblox games directly on Leo's Insight. Sign in with your Roblox account, select a game, and start playing without leaving the site!</p>
+          </div>
+          <div class="info-box">
+            <h4><i class="fas fa-exclamation-triangle"></i> Having Issues?</h4>
+            <p>If the embedded player doesn't work, you might need to <a href="https://www.roblox.com/download" target="_blank">install Roblox</a> first or check your browser settings.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1422,36 +2624,176 @@ print("Prepare for the Weekend Battle Tournament!")
           <a href="#" class="btn">JOIN NOW!</a>
         </div>
         <div class="community-image">
-          <img src="images/DALL·E 2025-03-22 17.45.58 - Create an epic, high-resolution background image divided into four distinct sections, styled in the iconic blocky and colorful art style of Roblox. __.webp" alt="Community Image" />
+          <img loading="lazy" src="images/DALL·E 2025-03-22 17.45.58 - Create an epic, high-resolution background image divided into four distinct sections, styled in the iconic blocky and colorful art style of Roblox. __.webp" alt="Community Image" />
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Message Board Section -->
-  <section class="message-board" id="message-board">
-    <div class="message-board-bg"></div>
+
+
+  <!-- User Achievements Section -->
+  <section class="user-badges" id="achievements">
+    <div class="achievements-bg"></div>
     <div class="container">
-      <h2 class="section-title">MESSAGE HQ</h2>
-      <div class="message-container">
-        <div class="messages-list" id="messagesList">
-          <!-- Real-time messages will appear here via Gun.js -->
+      <h2 class="section-title">🏆 YOUR ACHIEVEMENTS</h2>
+      <div class="achievements-content">
+        <div class="achievements-text">
+          <h3 class="achievements-subtitle">LEO'S BADGE QUEST</h3>
+          <p class="achievements-desc">
+            Earn badges by participating in our community! Visit regularly, send messages, and contribute to unlock special achievements. Track your progress and show off your dedication.
+          </p>
+          <div class="badge-info">
+            <h3>🎖️ How to Earn Badges</h3>
+            <ul class="badge-list-info">
+              <li>⭐ <strong>Newcomer</strong>: Join the site</li>
+              <li>🛡️ <strong>Active Member</strong>: Visit 5 times</li>
+              <li>💬 <strong>Chatterbox</strong>: Send 3 messages</li>
+              <li>🥇 <strong>Top Contributor</strong>: Reach 10 total interactions</li>
+            </ul>
+          </div>
         </div>
-        <form class="message-form" id="messageForm">
-          <div class="form-group">
-            <label class="form-label" for="username">Your Gamer Name</label>
-            <input type="text" id="username" class="form-input" placeholder="Enter your gamer name" required />
+        <div class="badge-list" id="badgeList">
+          <!-- Badges will be injected here via JavaScript -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Leo's Learning Center Section -->
+  <section class="learning-center" id="learning">
+    <div class="learning-bg"></div>
+    <div class="container">
+      <h2 class="section-title">LEO'S LEARNING CENTER</h2>
+      <div class="learning-content">
+        <div class="learning-header">
+          <h3>BUILD YOUR ROBLOX PLAYER</h3>
+          <p>Discover the best beginner-friendly video tutorials to help you learn how to develop, build, and shape Roblox characters using Roblox Studio. Start your game development journey today!</p>
+        </div>
+        <div class="tutorial-grid">
+          <div class="tutorial-card">
+            <div class="video-container">
+              <iframe src="https://www.youtube.com/embed/LcjRb6tiuMk" title="Roblox Studio for Beginners" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="tutorial-content">
+              <h3 class="tutorial-title">Roblox Studio for Beginners</h3>
+              <p class="tutorial-desc">A comprehensive introduction to Roblox Studio covering all the basics you need to get started.</p>
+              <div class="tutorial-meta">
+                <span class="tutorial-level">Beginner</span>
+                <span>30 min</span>
+              </div>
+              <button class="expand-video-btn" data-video-id="LcjRb6tiuMk">Watch Full Screen</button>
+            </div>
           </div>
-          <div class="form-group">
-            <label class="form-label" for="message">Your Message</label>
-            <textarea id="message" class="form-input form-textarea" placeholder="Share your game tips or achievements!" required></textarea>
+          <div class="tutorial-card">
+            <div class="video-container">
+              <iframe src="https://www.youtube.com/embed/p005iduooyw" title="Ultimate Beginner Guide to Roblox Studio" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="tutorial-content">
+              <h3 class="tutorial-title">ULTIMATE Beginner Guide to Roblox Studio</h3>
+              <p class="tutorial-desc">Everything from installing Roblox Studio to building basic structures and navigating the interface.</p>
+              <div class="tutorial-meta">
+                <span class="tutorial-level">Beginner</span>
+                <span>55 min</span>
+              </div>
+              <button class="expand-video-btn" data-video-id="p005iduooyw">Watch Full Screen</button>
+            </div>
           </div>
-          <div class="form-group">
-            <label class="form-label" for="file">Upload Screenshot or Video</label>
-            <input type="file" id="file" class="form-file" />
+          <div class="tutorial-card">
+            <div class="video-container">
+              <iframe src="https://www.youtube.com/embed/9MUgLaF22Yo" title="Roblox Scripting Basics 2024" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="tutorial-content">
+              <h3 class="tutorial-title">Roblox Scripting Basics (2024)</h3>
+              <p class="tutorial-desc">Learn the fundamentals of Roblox scripting with this up-to-date tutorial for beginners.</p>
+              <div class="tutorial-meta">
+                <span class="tutorial-level">Beginner</span>
+                <span>40 min</span>
+              </div>
+              <button class="expand-video-btn" data-video-id="9MUgLaF22Yo">Watch Full Screen</button>
+            </div>
           </div>
-          <button type="submit" class="form-button">POST MESSAGE</button>
-        </form>
+          <div class="tutorial-card">
+            <div class="video-container">
+              <iframe src="https://www.youtube.com/embed/aX0Kw_txrIY" title="How To Script On Roblox" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="tutorial-content">
+              <h3 class="tutorial-title">How To Script On Roblox</h3>
+              <p class="tutorial-desc">AlvinBlox teaches Roblox scripting fundamentals like properties and referencing objects.</p>
+              <div class="tutorial-meta">
+                <span class="tutorial-level">Beginner</span>
+                <span>45 min</span>
+              </div>
+              <button class="expand-video-btn" data-video-id="aX0Kw_txrIY">Watch Full Screen</button>
+            </div>
+          </div>
+          <div class="tutorial-card">
+            <div class="video-container">
+              <iframe src="https://www.youtube.com/embed/3Pj3jACFZQo" title="Creating GUI in Roblox" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="tutorial-content">
+              <h3 class="tutorial-title">Creating GUI in Roblox</h3>
+              <p class="tutorial-desc">A step-by-step guide to creating user interfaces for your Roblox games.</p>
+              <div class="tutorial-meta">
+                <span class="tutorial-level">Intermediate</span>
+                <span>50 min</span>
+              </div>
+              <button class="expand-video-btn" data-video-id="3Pj3jACFZQo">Watch Full Screen</button>
+            </div>
+          </div>
+          <div class="tutorial-card">
+            <div class="video-container">
+              <iframe src="https://www.youtube.com/embed/ckDhHKUzJIg" title="Roblox Character Animation" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="tutorial-content">
+              <h3 class="tutorial-title">Character Animation in Roblox</h3>
+              <p class="tutorial-desc">Learn how to create and implement custom animations for your Roblox characters.</p>
+              <div class="tutorial-meta">
+                <span class="tutorial-level">Intermediate</span>
+                <span>35 min</span>
+              </div>
+              <button class="expand-video-btn" data-video-id="ckDhHKUzJIg">Watch Full Screen</button>
+            </div>
+          </div>
+          <div class="tutorial-card">
+            <div class="video-container">
+              <iframe src="https://www.youtube.com/embed/Wh3DyR_KyhI" title="Roblox Tower Defense Tutorial" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="tutorial-content">
+              <h3 class="tutorial-title">Tower Defense Game Tutorial</h3>
+              <p class="tutorial-desc">Learn how to build a tower defense game in Roblox with this detailed tutorial.</p>
+              <div class="tutorial-meta">
+                <span class="tutorial-level">Intermediate</span>
+                <span>60 min</span>
+              </div>
+              <button class="expand-video-btn" data-video-id="Wh3DyR_KyhI">Watch Full Screen</button>
+            </div>
+          </div>
+          <div class="tutorial-card">
+            <div class="video-container">
+              <iframe src="https://www.youtube.com/embed/NzpNR5e-gSs" title="Roblox Game Development" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="tutorial-content">
+              <h3 class="tutorial-title">Complete Game Development</h3>
+              <p class="tutorial-desc">Follow along to create a complete Roblox game from start to finish.</p>
+              <div class="tutorial-meta">
+                <span class="tutorial-level">Advanced</span>
+                <span>90 min</span>
+              </div>
+              <button class="expand-video-btn" data-video-id="NzpNR5e-gSs">Watch Full Screen</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Video Modal for Full Screen Viewing -->
+        <div id="videoModal" class="video-modal">
+          <div class="video-modal-content">
+            <span class="close-video-modal">&times;</span>
+            <div class="modal-video-container">
+              <iframe id="modalVideoFrame" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1463,9 +2805,102 @@ print("Prepare for the Weekend Battle Tournament!")
       <h2>GET THE LATEST UPDATES!</h2>
       <p>Subscribe to our newsletter for exclusive game tips, character reveals, special event announcements, and more epic Roblox content!</p>
       <form class="subscribe-form">
-        <input type="email" class="subscribe-input" placeholder="Enter your email address" required />
+        <input type="email" class="subscribe-input" placeholder="Enter your email address" aria-label="Email address for newsletter" required />
         <button type="submit" class="subscribe-btn">SUBSCRIBE</button>
       </form>
+    </div>
+  </section>
+
+  <!-- About Us & Community Rules Section -->
+  <section class="about-us" id="about">
+    <div class="about-bg"></div> <!-- Optional: Add a subtle background -->
+    <div class="container">
+      <h2 class="section-title">ABOUT LEO'S INSIGHT</h2>
+      <div class="about-content">
+        <div class="about-text">
+          <h3>Welcome to the Squad!</h3>
+          <p>
+            Hey there, Roblox adventurers! Leo's Insight is your ultimate launchpad into the coolest parts of the Roblox universe. Created by Leo, a massive Roblox fan just like you, this place is all about sharing the excitement of playing *and* the awesome power of creating.
+          </p>
+          <p>
+            Whether you're looking for tips on your favorite games, discovering epic character builds (with actual code you can learn from!), or dreaming of making your own blockbuster Roblox experience, you've landed in the right spot.
+          </p>
+          <h3>Our Mission: Play, Create, Connect!</h3>
+          <p>
+            Our goal is simple: To be the best hangout for young Roblox enthusiasts (ages 11-21) to:
+          </p>
+          <ul>
+            <li>💥 <strong>Level Up Your Game:</strong> Find strategies, news, and character ideas.</li>
+            <li>💻 <strong>Unlock Creator Mode:</strong> Learn Roblox Studio and Luau coding basics through easy-to-follow guides and tutorials.</li>
+            <li>🤝 <strong>Build Your Crew:</strong> Connect with other players and builders in a positive and supportive community.</li>
+            <li>✨ <strong>Get Inspired:</strong> See what's possible and start building your own Roblox legacy!</li>
+          </ul>
+        </div>
+        <div class="community-rules">
+          <h3>Message HQ: Keep it Awesome!</h3>
+          <p>
+            Our Message HQ is where the community comes together. To make sure it's a great space for everyone, please follow these simple rules:
+          </p>
+          <ul>
+            <li>✅ <strong>Be Respectful:</strong> Treat everyone with kindness. No bullying, harassment, or hate speech. We're all here to enjoy Roblox!</li>
+            <li>✅ <strong>Keep it Clean:</strong> No swearing, inappropriate language, or offensive topics. Remember, players of different ages use this site.</li>
+            <li>✅ <strong>Stay On Topic (Mostly!):</strong> Share Roblox tips, achievements, ideas, or ask questions. A little friendly chat is cool too!</li>
+            <li>❌ <strong>No Personal Info:</strong> NEVER share your real name, address, phone number, passwords, or other private information. Keep yourself safe!</li>
+            <li>❌ <strong>No Spamming:</strong> Don't flood the chat with repetitive messages or advertisements.</li>
+            <li>❌ <strong>No Links to Bad Stuff:</strong> Don't post links to scams, inappropriate websites, or anything harmful.</li>
+          </ul>
+          <p class="rules-warning">
+            Breaking these rules might result in your messages being deleted or, in serious cases, being temporarily or permanently unable to post. Let's work together to keep Leo's Insight fun and safe for all Roblox fans!
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Message Board Section -->
+  <section class="message-board" id="message-board">
+    <div class="message-board-bg"></div>
+    <div class="container">
+      <h2 class="section-title">MESSAGE HQ</h2>
+      <div class="message-container">
+        <div class="message-status" id="messageStatus">
+          <div class="status-indicator online">✓ Connected</div>
+          <div class="status-loading" id="loadingIndicator">
+            <div class="spinner"></div>
+            <span>Loading messages...</span>
+          </div>
+        </div>
+        <div class="moderation-notice">
+          <div class="moderation-icon">⚠️</div>
+          <div class="moderation-text">
+            <strong>Community Safety Notice:</strong> This message board is moderated for our young community (ages 11-21).
+            Inappropriate language, bullying, and personal information will be automatically filtered.
+            Please follow our <a href="#about">community guidelines</a>.
+          </div>
+        </div>
+        <div class="messages-list" id="messagesList">
+          <!-- Real-time messages will appear here via Gun.js -->
+        </div>
+        <form class="message-form" id="messageForm">
+          <div class="form-group">
+            <label class="form-label" for="username">Your Gamer Name</label>
+            <input type="text" id="username" class="form-input" placeholder="Enter your gamer name" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="message">Your Message</label>
+            <textarea id="message" class="form-input form-textarea" placeholder="Share your game tips or achievements!" required></textarea>
+            <div class="message-warning" id="messageWarning"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="file">Upload Screenshot or Video</label>
+            <input type="file" id="file" class="form-file" accept="image/*,video/*" />
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="form-button" id="submitButton">POST MESSAGE</button>
+            <div class="send-status" id="sendStatus"></div>
+          </div>
+        </form>
+      </div>
     </div>
   </section>
 
@@ -1493,6 +2928,9 @@ print("Prepare for the Weekend Battle Tournament!")
             <li><a href="#blog">Blog</a></li>
             <li><a href="#community">Our Squad</a></li>
             <li><a href="#message-board">Message HQ</a></li>
+            <li><a href="#achievements">Achievements</a></li>
+            <li><a href="#learning">Learning Center</a></li>
+            <li><a href="#about">About Us</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -1516,52 +2954,440 @@ print("Prepare for the Weekend Battle Tournament!")
         </div>
       </div>
       <div class="footer-bottom">
+        <div class="footer-logo">
+          <img src="logo.png" alt="Leo's Insight Logo" class="footer-site-logo">
+        </div>
         <p>&copy; 2025 Leo's Insight. Made with ❤️ for Roblox gamers everywhere!</p>
       </div>
     </div>
   </footer>
 
-  <!-- Gun.js Real-Time Messaging Integration -->
+  <!-- Gun.js Real-Time Messaging Integration with Optimizations -->
   <script>
-    // Initialize Gun.js with a working public relay
-    const gun = Gun({ peers: ['https://gun-manhattan.herokuapp.com/gun'] });
-    const messagesRef = gun.get('messages');
-    const messageForm = document.getElementById('messageForm');
-    const messagesList = document.getElementById('messagesList');
-
-    messageForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const username = document.getElementById('username').value;
-      const message = document.getElementById('message').value;
-      if (username && message) {
-        messagesRef.set({
-          username: username,
-          message: message,
-          timestamp: Date.now()  // Using numeric timestamp for easier sorting
-        });
-        messageForm.reset();
-      }
+    // Initialize Gun.js with multiple relays for redundancy and better performance
+    const gun = Gun({
+      peers: [
+        'https://gun-manhattan.herokuapp.com/gun',
+        'https://gun-us.herokuapp.com/gun',
+        'https://gun-eu.herokuapp.com/gun'
+      ],
+      localStorage: false,  // Disable localStorage for better performance
+      radisk: false        // Disable radisk for better performance
     });
 
-    messagesRef.map().on((data, key) => {
-      if (data) {
+    // DOM Elements
+    const messageForm = document.getElementById('messageForm');
+    const messagesList = document.getElementById('messagesList');
+    const usernameInput = document.getElementById('username');
+    const messageInput = document.getElementById('message');
+    const submitButton = document.getElementById('submitButton');
+    const sendStatus = document.getElementById('sendStatus');
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    const statusIndicator = document.querySelector('.status-indicator');
+    const hamburgerMenu = document.getElementById('hamburgerMenu');
+    const navMenu = document.getElementById('navMenu');
+
+    // Store username in localStorage for convenience
+    if (localStorage.getItem('username')) {
+      usernameInput.value = localStorage.getItem('username');
+    }
+
+    // Connection status monitoring
+    let isOnline = true;
+    window.addEventListener('online', updateConnectionStatus);
+    window.addEventListener('offline', updateConnectionStatus);
+
+    function updateConnectionStatus() {
+      isOnline = navigator.onLine;
+      if (isOnline) {
+        statusIndicator.textContent = '✓ Connected';
+        statusIndicator.className = 'status-indicator online';
+        submitButton.disabled = false;
+      } else {
+        statusIndicator.textContent = '✗ Offline';
+        statusIndicator.className = 'status-indicator offline';
+        submitButton.disabled = true;
+      }
+    }
+
+    // Debounce function to prevent rapid submissions
+    function debounce(func, wait) {
+      let timeout;
+      return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+      };
+    }
+
+    // Sanitize user input to prevent XSS
+    function sanitizeInput(input) {
+      const div = document.createElement('div');
+      div.textContent = input;
+      return div.innerHTML;
+    }
+
+    // Profanity filter and content moderation
+    const profanityList = [
+      'badword', 'swear', 'curse', 'profanity', 'explicit',
+      // Add more words here as needed
+    ];
+
+    const bullyingPatterns = [
+      'you are stupid', 'you are dumb', 'you suck', 'loser', 'noob', 'hate you',
+      // Add more patterns here
+    ];
+
+    const personalInfoPatterns = [
+      /\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b/, // Phone numbers
+      /\b\d{5}(?:-\d{4})?\b/, // ZIP codes
+      /\b(?:[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})\b/, // Email addresses
+      /\b(?:https?:\/\/)?(?:www\.)?(?:facebook|instagram|twitter|tiktok)\.com\/[A-Za-z0-9_.]+\b/i, // Social media profiles
+      /\b(?:\d{1,3}\.){3}\d{1,3}\b/ // IP addresses
+    ];
+
+    // Check message for inappropriate content
+    function checkMessageContent(message) {
+      const lowerMessage = message.toLowerCase();
+      const messageWarning = document.getElementById('messageWarning');
+
+      // Check for profanity
+      for (const word of profanityList) {
+        if (lowerMessage.includes(word)) {
+          messageWarning.textContent = 'Your message contains inappropriate language. Please revise it.';
+          messageWarning.className = 'message-warning show';
+          return false;
+        }
+      }
+
+      // Check for bullying patterns
+      for (const pattern of bullyingPatterns) {
+        if (lowerMessage.includes(pattern)) {
+          messageWarning.textContent = 'Your message may contain bullying language. Please be respectful to others.';
+          messageWarning.className = 'message-warning show';
+          return false;
+        }
+      }
+
+      // Check for personal information
+      for (const pattern of personalInfoPatterns) {
+        if (pattern.test(message)) {
+          messageWarning.textContent = 'Please do not share personal information like phone numbers, addresses, or social media profiles.';
+          messageWarning.className = 'message-warning show';
+          return false;
+        }
+      }
+
+      // Message is clean
+      messageWarning.textContent = '';
+      messageWarning.className = 'message-warning';
+      return true;
+    }
+
+    // Add real-time message checking
+    messageInput.addEventListener('input', function() {
+      checkMessageContent(this.value);
+    });
+
+    // Format timestamp for better readability
+    function formatTimestamp(timestamp) {
+      if (!timestamp) return 'Just now';
+
+      const date = new Date(timestamp);
+      const now = new Date();
+      const isToday = date.toDateString() === now.toDateString();
+
+      if (isToday) {
+        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      } else {
+        return date.toLocaleDateString([], { month: 'short', day: 'numeric' }) +
+               ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      }
+    }
+
+    // Show loading indicator initially
+    loadingIndicator.style.display = 'flex';
+
+    // Reference to messages
+    const messagesRef = gun.get('leosinsight-messages');
+
+    // Handle form submission with optimistic UI updates
+    messageForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const username = usernameInput.value.trim();
+      const message = messageInput.value.trim();
+
+      if (!username || !message) {
+        sendStatus.textContent = 'Please fill in all fields';
+        sendStatus.className = 'send-status error';
+        return;
+      }
+
+      // Check message content for inappropriate content
+      if (!checkMessageContent(message)) {
+        sendStatus.textContent = 'Please fix the issues with your message before posting';
+        sendStatus.className = 'send-status error';
+        return;
+      }
+
+      // Save username for future use
+      localStorage.setItem('username', username);
+
+      // Disable submit button during sending
+      submitButton.disabled = true;
+      sendStatus.textContent = 'Sending...';
+
+      // Create message data
+      const messageData = {
+        username: sanitizeInput(username),
+        message: sanitizeInput(message),
+        timestamp: Date.now()
+      };
+
+      // Optimistic UI update - show message immediately
+      addMessageToUI(messageData, 'temp-' + Date.now());
+
+      // Send to Gun.js with enhanced retry logic and timeout handling
+      const sendWithRetry = (retries = 3) => {
+        // Set a timeout watchdog for ACK
+        const ackTimeout = setTimeout(() => {
+          sendStatus.textContent = 'Connection timeout. Retrying...';
+          sendStatus.className = 'send-status error';
+          if (retries > 0) {
+            sendWithRetry(retries - 1);
+          } else {
+            sendStatus.textContent = 'Failed to send after multiple attempts. Please try again later.';
+            submitButton.disabled = false;
+          }
+        }, 3000); // 3 second timeout
+
+        messagesRef.set(messageData, ack => {
+          // Clear the timeout since we got a response
+          clearTimeout(ackTimeout);
+
+          if (ack.err && retries > 0) {
+            sendStatus.textContent = `Error: ${ack.err}. Retrying...`;
+            sendStatus.className = 'send-status error';
+            setTimeout(() => sendWithRetry(retries - 1), 1000);
+            return;
+          }
+
+          if (ack.err) {
+            sendStatus.textContent = `Failed to send: ${ack.err}. Please try again.`;
+            sendStatus.className = 'send-status error';
+          } else {
+            sendStatus.textContent = 'Message sent!';
+            sendStatus.className = 'send-status';
+            messageForm.reset();
+
+            // Restore username from localStorage
+            usernameInput.value = localStorage.getItem('username') || '';
+          }
+
+          submitButton.disabled = false;
+
+          // Clear status after 3 seconds
+          setTimeout(() => {
+            sendStatus.textContent = '';
+          }, 3000);
+        });
+      };
+
+      sendWithRetry();
+    });
+
+    // Message batch processing for performance
+    const messageBatch = [];
+    let batchTimer = null;
+    const BATCH_DELAY = 100; // ms
+
+    // Process message batch with DocumentFragment
+    function processBatch() {
+      if (messageBatch.length === 0) return;
+
+      const fragment = document.createDocumentFragment();
+
+      // Sort by timestamp to ensure correct order
+      messageBatch.sort((a, b) => (b.data.timestamp || 0) - (a.data.timestamp || 0));
+
+      messageBatch.forEach(item => {
+        const { data, key } = item;
+        // Check if message already exists (to prevent duplicates)
+        if (document.querySelector(`[data-id="${key}"]`)) return;
+
         const newMessage = document.createElement('div');
         newMessage.className = 'message';
         newMessage.setAttribute('data-id', key);
-        const timeString = data.timestamp ? new Date(data.timestamp).toLocaleTimeString() : 'Just now';
-        const firstLetter = data.username.charAt(0).toUpperCase();
-        newMessage.innerHTML = `
-          <div class="message-header">
-            <div class="message-user">
-              <div class="user-avatar">${firstLetter}</div>
-              <div class="user-name">${data.username}</div>
-            </div>
-            <div class="message-time">${timeString}</div>
-          </div>
-          <div class="message-content">${data.message}</div>
-        `;
-        messagesList.prepend(newMessage);
+
+        // Create message header
+        const messageHeader = document.createElement('div');
+        messageHeader.className = 'message-header';
+
+        // Create user info
+        const messageUser = document.createElement('div');
+        messageUser.className = 'message-user';
+
+        const userAvatar = document.createElement('div');
+        userAvatar.className = 'user-avatar';
+        userAvatar.textContent = data.username.charAt(0).toUpperCase();
+
+        const userName = document.createElement('div');
+        userName.className = 'user-name';
+        userName.textContent = data.username;
+
+        messageUser.appendChild(userAvatar);
+        messageUser.appendChild(userName);
+
+        // Create time element
+        const messageTime = document.createElement('div');
+        messageTime.className = 'message-time';
+        messageTime.textContent = formatTimestamp(data.timestamp);
+
+        // Create message content
+        const messageContent = document.createElement('div');
+        messageContent.className = 'message-content';
+        messageContent.textContent = data.message;
+
+        // Assemble message
+        messageHeader.appendChild(messageUser);
+        messageHeader.appendChild(messageTime);
+        newMessage.appendChild(messageHeader);
+        newMessage.appendChild(messageContent);
+
+        fragment.appendChild(newMessage);
+      });
+
+      // Prepend all messages at once
+      if (fragment.childNodes.length > 0) {
+        messagesList.prepend(fragment);
       }
+
+      // Limit number of displayed messages for performance
+      const messages = messagesList.querySelectorAll('.message');
+      const maxMessages = 50;
+      if (messages.length > maxMessages) {
+        for (let i = maxMessages; i < messages.length; i++) {
+          messages[i].remove();
+        }
+      }
+
+      // Clear the batch
+      messageBatch.length = 0;
+    }
+
+    // Add message to UI (queues for batch processing)
+    function addMessageToUI(data, key) {
+      // Add to batch
+      messageBatch.push({ data, key });
+
+      // Clear existing timer
+      if (batchTimer) clearTimeout(batchTimer);
+
+      // Process immediately if it's the first message or after delay
+      if (messageBatch.length === 1) {
+        batchTimer = setTimeout(processBatch, BATCH_DELAY);
+      } else if (messageBatch.length >= 10) {
+        // Process immediately if batch is large
+        clearTimeout(batchTimer);
+        processBatch();
+      } else {
+        // Reset timer for batch processing
+        batchTimer = setTimeout(processBatch, BATCH_DELAY);
+      }
+    }
+
+    // Throttle function for handling large message sets
+    function throttle(func, limit) {
+      let inThrottle;
+      let lastArgs;
+      let lastThis;
+      let lastCallTime = 0;
+
+      return function() {
+        const now = Date.now();
+        const args = arguments;
+        const context = this;
+
+        if (!inThrottle) {
+          func.apply(context, args);
+          lastCallTime = now;
+          inThrottle = true;
+        } else {
+          lastArgs = args;
+          lastThis = context;
+
+          const timeSinceLastCall = now - lastCallTime;
+          if (timeSinceLastCall >= limit) {
+            func.apply(context, lastArgs);
+            lastCallTime = now;
+            lastArgs = null;
+            lastThis = null;
+          }
+        }
+      };
+    }
+
+    // Throttled message handler
+    const throttledAddMessage = throttle((data, key) => {
+      if (data) {
+        addMessageToUI(data, key);
+      }
+    }, 50); // 50ms throttle
+
+    // Store Gun listeners for cleanup
+    const gunListeners = [];
+
+    // Listen for new messages with improved error handling and throttling
+    let messagesLoaded = 0;
+    const initialLoadListener = messagesRef.map().once((data, key) => {
+      if (data) {
+        addMessageToUI(data, key);
+        messagesLoaded++;
+
+        // Hide loading indicator after initial messages load
+        if (messagesLoaded >= 1) {
+          loadingIndicator.style.display = 'none';
+        }
+      }
+    });
+    gunListeners.push(initialLoadListener);
+
+    // Set a timeout to hide loading indicator even if no messages are found
+    setTimeout(() => {
+      loadingIndicator.style.display = 'none';
+    }, 3000);
+
+    // Real-time updates for new messages with throttling
+    const realtimeListener = messagesRef.map().on((data, key) => {
+      throttledAddMessage(data, key);
+    });
+    gunListeners.push(realtimeListener);
+
+    // Memory-safe cleanup for Gun listeners
+    window.addEventListener('beforeunload', () => {
+      // Clean up Gun listeners to prevent memory leaks
+      gunListeners.forEach(listener => {
+        if (listener && typeof listener.off === 'function') {
+          listener.off();
+        }
+      });
+
+      // Clear any pending timers
+      if (batchTimer) clearTimeout(batchTimer);
+    });
+
+    // Mobile menu toggle
+    hamburgerMenu.addEventListener('click', function() {
+      this.classList.toggle('active');
+      navMenu.classList.toggle('active');
+    });
+
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('#navMenu a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburgerMenu.classList.remove('active');
+        navMenu.classList.remove('active');
+      });
     });
   </script>
 
@@ -1575,5 +3401,1241 @@ print("Prepare for the Weekend Battle Tournament!")
       });
     });
   </script>
+
+  <!-- Roblox News Agent & Self-Audit Script (Production Ready) -->
+  <script>
+    // DOM Elements for news toggle
+    const staticNewsBtn = document.getElementById('staticNewsBtn');
+    const liveNewsBtn = document.getElementById('liveNewsBtn');
+    const staticPosts = document.getElementById('staticPosts');
+    const livePosts = document.getElementById('livePosts');
+
+    // Toggle between static and live news
+    staticNewsBtn.addEventListener('click', function() {
+      staticNewsBtn.classList.add('active');
+      liveNewsBtn.classList.remove('active');
+      staticPosts.style.display = 'grid';
+      livePosts.style.display = 'none';
+    });
+
+    liveNewsBtn.addEventListener('click', function() {
+      liveNewsBtn.classList.add('active');
+      staticNewsBtn.classList.remove('active');
+      livePosts.style.display = 'grid';
+      staticPosts.style.display = 'none';
+
+      // Refresh news content on click (but not on every click)
+      if (!liveNewsBtn.dataset.loaded || Date.now() - parseInt(liveNewsBtn.dataset.lastLoaded || 0) > 3600000) {
+        rotateBlogPosts();
+        liveNewsBtn.dataset.loaded = 'true';
+        liveNewsBtn.dataset.lastLoaded = Date.now().toString();
+      }
+    });
+
+    // ===== BLOG NEWS AGENT =====
+    // Preloaded Roblox news content (no API needed)
+    const blogPosts = [
+      {
+        title: "Roblox April Update: Particle FX Boost",
+        excerpt: "New rendering enhancements boost VFX performance by 35%. Try them now in Studio!",
+        date: "April 10, 2025",
+        category: "Update",
+        img: "images/aa8d321b-227b-477d-b192-374f826e7b9e.webp",
+        link: "https://blog.roblox.com"
+      },
+      {
+        title: "Top 3 Avatar Customizers You Need",
+        excerpt: "Explore these trending avatar plugins gaining popularity among Roblox creators.",
+        date: "April 5, 2025",
+        category: "Creator Tips",
+        img: "images/ced4e9b2-18ec-4f9a-8571-cf0bf9c86c58.webp",
+        link: "https://blog.roblox.com"
+      },
+      {
+        title: "Game Pass Revenue Hits Record High",
+        excerpt: "Roblox devs earned over $300M in Q1. Learn how to optimize your Game Pass.",
+        date: "April 2, 2025",
+        category: "Economy",
+        img: "images/0c6aafe0-0c9d-4036-9f1f-103127d41199.webp",
+        link: "https://blog.roblox.com"
+      },
+      {
+        title: "Roblox Announces Summer Game Event",
+        excerpt: "Get ready for the biggest Roblox event of the summer with exclusive items and special game modes.",
+        date: "March 28, 2025",
+        category: "Event",
+        img: "images/aa8d321b-227b-477d-b192-374f826e7b9e.webp",
+        link: "https://blog.roblox.com"
+      },
+      {
+        title: "New Roblox Security Features Released",
+        excerpt: "Enhanced account protection and parental controls now available for all users.",
+        date: "March 25, 2025",
+        category: "Security",
+        img: "images/ced4e9b2-18ec-4f9a-8571-cf0bf9c86c58.webp",
+        link: "https://blog.roblox.com"
+      },
+      {
+        title: "Roblox Studio Gets AI-Powered Tools",
+        excerpt: "New AI assistant helps developers create scripts and design game mechanics faster.",
+        date: "March 20, 2025",
+        category: "Development",
+        img: "images/0c6aafe0-0c9d-4036-9f1f-103127d41199.webp",
+        link: "https://blog.roblox.com"
+      }
+    ];
+
+    // Rotate and refresh blog posts
+    function rotateBlogPosts() {
+      const container = document.getElementById('livePosts');
+      const loadingElement = container.querySelector('.loading-news');
+
+      // Show loading indicator
+      if (loadingElement) {
+        loadingElement.style.display = 'flex';
+      }
+
+      // Simulate network delay for realistic effect (300-800ms)
+      setTimeout(() => {
+        try {
+          // Shuffle the posts array to get random posts each time
+          const shuffledPosts = [...blogPosts].sort(() => 0.5 - Math.random());
+
+          // Take the first 3 posts
+          const selectedPosts = shuffledPosts.slice(0, 3);
+
+          // Save to Gun.js for persistence
+          gun.get('roblox-news').put({
+            articles: selectedPosts,
+            timestamp: Date.now()
+          });
+
+          // Render the posts
+          renderBlogPosts(selectedPosts, container, loadingElement);
+
+        } catch (error) {
+          console.error('Error rotating blog posts:', error);
+          // If error, try to get from Gun.js
+          gun.get('roblox-news').once((data) => {
+            if (data && data.articles && Array.isArray(data.articles)) {
+              renderBlogPosts(data.articles, container, loadingElement);
+            } else {
+              // Hide loading indicator
+              if (loadingElement) {
+                loadingElement.style.display = 'none';
+              }
+            }
+          });
+        }
+      }, Math.floor(Math.random() * 500) + 300); // Random delay between 300-800ms
+    }
+
+    // Render blog posts
+    function renderBlogPosts(posts, container, loadingElement) {
+      // Hide loading indicator
+      if (loadingElement) {
+        loadingElement.style.display = 'none';
+      }
+
+      // Clear existing posts except loading indicator
+      Array.from(container.children).forEach(child => {
+        if (!child.classList.contains('loading-news')) {
+          child.remove();
+        }
+      });
+
+      // Create document fragment for better performance
+      const fragment = document.createDocumentFragment();
+
+      // Create cards for each post
+      posts.forEach(post => {
+        const card = document.createElement('div');
+        card.className = 'blog-card';
+
+        // Create card content
+        card.innerHTML = `
+          <div class="blog-img">
+            <img loading="lazy" src="${post.img}" alt="${post.title}" />
+          </div>
+          <div class="blog-content">
+            <div class="blog-meta">
+              <span class="blog-date">${post.date}</span>
+              <span class="blog-category">${post.category}</span>
+            </div>
+            <h3 class="blog-title">${post.title}</h3>
+            <p class="blog-excerpt">${post.excerpt}</p>
+            <a href="${post.link}" target="_blank" class="read-more">Read More →</a>
+          </div>
+        `;
+
+        // Add click handler to open link
+        card.addEventListener('click', () => {
+          window.open(post.link, '_blank');
+        });
+
+        // Prevent link click from triggering card click
+        const readMoreLink = card.querySelector('.read-more');
+        if (readMoreLink) {
+          readMoreLink.addEventListener('click', (e) => {
+            e.stopPropagation();
+          });
+        }
+
+        // Add to fragment
+        fragment.appendChild(card);
+      });
+
+      // Add all cards to container at once
+      container.appendChild(fragment);
+    }
+
+    // ===== SELF-AUDIT FUNCTIONALITY =====
+    // Audit checklist for app health
+    const auditChecklist = [
+      "All navigation links should scroll to matching sections",
+      "All buttons must respond visually on hover and click",
+      "All forms must validate and prevent empty submissions",
+      "Messages must be sanitized, stored, and render with timestamps",
+      "All dynamic sections (blog, chat) should initialize correctly on load",
+      "Gun.js connection must show status",
+      "Mobile view must not overflow or clip important content",
+      "News section must display at least 3 headlines with metadata"
+    ];
+
+    // Self-audit function (can be triggered from console)
+    window.runSelfAudit = function() {
+      console.log("%c🧠 Leo's Insight Self-Audit Starting…", "color: #ff6600; font-weight: bold; font-size: 14px;");
+
+      let allPassed = true;
+
+      // Check navigation links
+      const navLinks = document.querySelectorAll('nav a[href^="#"]');
+      const navSections = Array.from(navLinks).map(link => document.querySelector(link.getAttribute('href')));
+      const navCheck = navLinks.length > 0 && navSections.every(section => section !== null);
+      console.log(`%c${navCheck ? '✅' : '❌'} Navigation links: ${navLinks.length} links, ${navSections.filter(s => s !== null).length} valid targets`,
+        `color: ${navCheck ? 'green' : 'red'}; font-weight: bold;`);
+      if (!navCheck) allPassed = false;
+
+      // Check Gun.js connection
+      const gunCheck = typeof gun !== 'undefined' && gun._.opt.peers && Object.keys(gun._.opt.peers).length > 0;
+      console.log(`%c${gunCheck ? '✅' : '❌'} Gun.js connection: ${gunCheck ? 'Connected to ' + Object.keys(gun._.opt.peers).length + ' peers' : 'Not connected'}`,
+        `color: ${gunCheck ? 'green' : 'red'}; font-weight: bold;`);
+      if (!gunCheck) allPassed = false;
+
+      // Check message board
+      const messagesList = document.getElementById('messagesList');
+      const messageForm = document.getElementById('messageForm');
+      const messageCheck = messagesList && messageForm;
+      console.log(`%c${messageCheck ? '✅' : '❌'} Message board: ${messageCheck ? 'Properly initialized' : 'Missing components'}`,
+        `color: ${messageCheck ? 'green' : 'red'}; font-weight: bold;`);
+      if (!messageCheck) allPassed = false;
+
+      // Check blog posts
+      const blogPostsCheck = document.querySelectorAll('.blog-card').length >= 3;
+      console.log(`%c${blogPostsCheck ? '✅' : '❌'} Blog posts: ${document.querySelectorAll('.blog-card').length} cards found`,
+        `color: ${blogPostsCheck ? 'green' : 'red'}; font-weight: bold;`);
+      if (!blogPostsCheck) allPassed = false;
+
+      // Check mobile responsiveness
+      const viewportMeta = document.querySelector('meta[name="viewport"]');
+      const responsiveCheck = viewportMeta && viewportMeta.content.includes('width=device-width');
+      console.log(`%c${responsiveCheck ? '✅' : '❌'} Mobile viewport: ${responsiveCheck ? 'Properly configured' : 'Missing or misconfigured'}`,
+        `color: ${responsiveCheck ? 'green' : 'red'}; font-weight: bold;`);
+      if (!responsiveCheck) allPassed = false;
+
+      // Final result
+      console.log(`%c${allPassed ? '✅ ALL CHECKS PASSED' : '❌ SOME CHECKS FAILED'} - See details above`,
+        `color: ${allPassed ? 'green' : 'red'}; font-weight: bold; font-size: 14px;`);
+
+      return allPassed;
+    };
+
+    // Run self-audit on load (silent mode)
+    document.addEventListener('DOMContentLoaded', function() {
+      // Wait for everything to initialize
+      setTimeout(() => {
+        const auditResult = window.runSelfAudit();
+        console.log(`%c🧠 Leo's Insight is ${auditResult ? 'healthy' : 'needs attention'}`,
+          `color: ${auditResult ? '#4ee44e' : '#ff4500'}; font-weight: bold;`);
+      }, 2000);
+
+      // Initialize badge system
+      initBadgeSystem();
+    });
+
+    // ===== BADGE SYSTEM FUNCTIONALITY =====
+    // Badge definitions
+    const badges = [
+      {
+        id: "newcomer",
+        title: "Newcomer",
+        desc: "Awarded for joining",
+        icon: "⭐",
+        check: () => true // Always awarded
+      },
+      {
+        id: "active",
+        title: "Active Member",
+        desc: "Awarded for activity",
+        icon: "🛡️",
+        check: () => getVisitCount() >= 5
+      },
+      {
+        id: "chatterbox",
+        title: "Chatterbox",
+        desc: "Awarded for messaging",
+        icon: "💬",
+        check: () => getMessagesSent() >= 3
+      },
+      {
+        id: "topcontributor",
+        title: "Top Contributor",
+        desc: "Awarded for contribution",
+        icon: "🥇",
+        check: () => getVisitCount() + getMessagesSent() >= 10
+      }
+    ];
+
+    // Helper functions for badge system
+    function getVisitCount() {
+      return parseInt(localStorage.getItem("visitCount") || 0);
+    }
+
+    function getMessagesSent() {
+      return parseInt(localStorage.getItem("messagesSent") || 0);
+    }
+
+    function updateVisitCount() {
+      let count = getVisitCount();
+      localStorage.setItem("visitCount", count + 1);
+    }
+
+    function registerMessageSent() {
+      let sent = getMessagesSent();
+      localStorage.setItem("messagesSent", sent + 1);
+    }
+
+    // Initialize badge system
+    function initBadgeSystem() {
+      // Update visit count
+      updateVisitCount();
+
+      // Display badges
+      displayBadges();
+
+      // Display user info in header if available
+      updateUserHeader();
+
+      // Hook into message form submission
+      if (messageForm) {
+        const originalSubmitHandler = messageForm.onsubmit;
+        messageForm.addEventListener("submit", function(e) {
+          // Register message sent
+          registerMessageSent();
+
+          // Update badges display
+          displayBadges();
+          updateUserHeader();
+        });
+      }
+
+      // Setup signup modal
+      setupSignupModal();
+
+      // Update message display to show badges
+      updateMessageBadges();
+
+      // Setup narrator
+      setupNarrator();
+
+      // Initialize Roblox News Feed
+      initRobloxNewsFeed();
+
+      // Initialize Roblox Game Player
+      initRobloxGamePlayer();
+    }
+
+    // Roblox News Feed
+    function initRobloxNewsFeed() {
+      const robloxNewsFeed = document.getElementById('robloxNewsFeed');
+      const fallbackNewsContent = document.getElementById('fallbackNewsContent');
+      const refreshButton = document.getElementById('refreshNewsFeed');
+      const loadingIndicator = document.getElementById('newsLoadingIndicator');
+
+      if (!robloxNewsFeed || !refreshButton) return;
+
+      // Sample news data (in a real app, this would come from an API)
+      const robloxNews = [
+        {
+          title: "Roblox April Update: Particle FX Boost",
+          excerpt: "New rendering enhancements boost VFX performance by 35%. Try them now in Studio!",
+          date: "April 10, 2025",
+          category: "Update",
+          image: "images/aa8d321b-227b-477d-b192-374f826e7b9e.webp",
+          link: "https://blog.roblox.com"
+        },
+        {
+          title: "Top 3 Avatar Customizers You Need",
+          excerpt: "Explore these trending avatar plugins gaining popularity among Roblox creators.",
+          date: "April 5, 2025",
+          category: "Creator Tips",
+          image: "images/ced4e9b2-18ec-4f9a-8571-cf0bf9c86c58.webp",
+          link: "https://blog.roblox.com"
+        },
+        {
+          title: "Game Pass Revenue Hits Record High",
+          excerpt: "Roblox devs earned over $300M in Q1. Learn how to optimize your Game Pass.",
+          date: "April 2, 2025",
+          category: "Economy",
+          image: "images/0c6aafe0-0c9d-4036-9f1f-103127d41199.webp",
+          link: "https://blog.roblox.com"
+        },
+        {
+          title: "New Developer Exchange Rates Announced",
+          excerpt: "Roblox increases DevEx rates by 15% starting May 1st, 2025.",
+          date: "March 28, 2025",
+          category: "Economy",
+          image: "images/hero.webp",
+          link: "https://blog.roblox.com"
+        },
+        {
+          title: "Roblox Studio AI Assistant Now Available",
+          excerpt: "Generate scripts, models, and terrain with the new AI Assistant tool in Studio.",
+          date: "March 25, 2025",
+          category: "Development",
+          image: "images/community-bg.webp",
+          link: "https://blog.roblox.com"
+        },
+        {
+          title: "Voice Chat Coming to All 13+ Users",
+          excerpt: "Spatial voice chat expanding to all eligible users in April update.",
+          date: "March 20, 2025",
+          category: "Social",
+          image: "images/message-bg.webp",
+          link: "https://blog.roblox.com"
+        }
+      ];
+
+      // Function to render news items
+      function renderNewsItems(news) {
+        robloxNewsFeed.innerHTML = '';
+
+        news.forEach(item => {
+          const newsItem = document.createElement('div');
+          newsItem.className = 'news-item';
+
+          newsItem.innerHTML = `
+            <div class="news-item-img">
+              <img src="${item.image}" alt="${item.title}">
+            </div>
+            <div class="news-item-content">
+              <div class="news-item-meta">
+                <span class="news-item-date">${item.date}</span>
+                <span class="news-item-category">${item.category}</span>
+              </div>
+              <h3 class="news-item-title">${item.title}</h3>
+              <p class="news-item-excerpt">${item.excerpt}</p>
+              <a href="${item.link}" class="news-item-link" target="_blank">Read More →</a>
+            </div>
+          `;
+
+          robloxNewsFeed.appendChild(newsItem);
+        });
+
+        // Hide fallback content once we have news
+        if (fallbackNewsContent) {
+          fallbackNewsContent.style.display = 'none';
+        }
+      }
+
+      // Function to fetch news (simulated)
+      function fetchNews() {
+        if (loadingIndicator) {
+          loadingIndicator.style.display = 'flex';
+        }
+
+        // Simulate API delay
+        setTimeout(() => {
+          renderNewsItems(robloxNews);
+          if (loadingIndicator) {
+            loadingIndicator.style.display = 'none';
+          }
+        }, 1000);
+      }
+
+      // Initial news load
+      fetchNews();
+
+      // Refresh button
+      refreshButton.addEventListener('click', () => {
+        fetchNews();
+      });
+    }
+
+    // Roblox Game Player
+    function initRobloxGamePlayer() {
+      const signInButton = document.getElementById('signInRoblox');
+      const gameSelector = document.getElementById('gameSelector');
+      const loadGameButton = document.getElementById('loadGame');
+      const playerContainer = document.getElementById('robloxPlayerContainer');
+
+      if (!signInButton || !gameSelector || !loadGameButton || !playerContainer) return;
+
+      // Simulated user state
+      let userSignedIn = false;
+
+      // Sign in button click handler
+      signInButton.addEventListener('click', () => {
+        if (userSignedIn) {
+          userSignedIn = false;
+          signInButton.innerHTML = '<i class="fas fa-user"></i> Sign In';
+          return;
+        }
+
+        // Simulate sign in process
+        signInButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';
+
+        setTimeout(() => {
+          userSignedIn = true;
+          signInButton.innerHTML = '<i class="fas fa-user-check"></i> Signed In';
+        }, 1500);
+      });
+
+      // Load game button click handler
+      loadGameButton.addEventListener('click', () => {
+        const gameId = gameSelector.value;
+
+        if (!gameId) {
+          alert('Please select a game first!');
+          return;
+        }
+
+        if (!userSignedIn) {
+          alert('Please sign in to your Roblox account first!');
+          return;
+        }
+
+        // Create iframe for the Roblox game
+        playerContainer.innerHTML = `
+          <iframe
+            src="https://www.roblox.com/games/${gameId}/--?isFullscreen=true"
+            allowfullscreen
+            allow="microphone; camera"
+            width="100%"
+            height="100%"
+            frameborder="0"
+            scrolling="no"
+          ></iframe>
+        `;
+      });
+    }
+
+    // Setup narrator functionality with Web Speech API
+    function setupNarrator() {
+      // Elements
+      const playButton = document.getElementById('playNarration');
+      const narratorControls = document.getElementById('narratorControls');
+      const closeNarratorControls = document.getElementById('closeNarratorControls');
+      const voiceSelect = document.getElementById('voiceSelect');
+      const languageSelect = document.getElementById('languageSelect');
+      const startNarration = document.getElementById('startNarration');
+      const stopNarration = document.getElementById('stopNarration');
+      const narratorScript = document.getElementById('narratorScript');
+      const narrationLines = narratorScript.querySelectorAll('.narration-line');
+
+      // Speech synthesis setup
+      const synth = window.speechSynthesis;
+      let voices = [];
+      let currentUtterance = null;
+      let currentLineIndex = 0;
+      let isNarrating = false;
+
+      // Populate voice list
+      function populateVoiceList() {
+        voices = synth.getVoices();
+        voiceSelect.innerHTML = '';
+
+        // Group voices by language
+        const voicesByLang = {};
+        voices.forEach(voice => {
+          const lang = voice.lang.split('-')[0];
+          if (!voicesByLang[lang]) {
+            voicesByLang[lang] = [];
+          }
+          voicesByLang[lang].push(voice);
+        });
+
+        // Add voices to select element
+        Object.keys(voicesByLang).sort().forEach(lang => {
+          const langGroup = document.createElement('optgroup');
+          langGroup.label = lang.toUpperCase();
+
+          voicesByLang[lang].forEach(voice => {
+            const option = document.createElement('option');
+            option.textContent = `${voice.name} (${voice.lang})`;
+            option.setAttribute('data-lang', voice.lang);
+            option.setAttribute('data-name', voice.name);
+            option.value = voices.indexOf(voice);
+            langGroup.appendChild(option);
+          });
+
+          voiceSelect.appendChild(langGroup);
+        });
+
+        // Select a default voice
+        const defaultVoice = voices.findIndex(voice => voice.default) || 0;
+        voiceSelect.selectedIndex = defaultVoice;
+      }
+
+      // Initialize voices
+      populateVoiceList();
+      if (speechSynthesis.onvoiceschanged !== undefined) {
+        speechSynthesis.onvoiceschanged = populateVoiceList;
+      }
+
+      // Create utterance for a line
+      function createUtterance(text) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        const selectedVoice = voices[voiceSelect.value];
+        utterance.voice = selectedVoice;
+        utterance.lang = languageSelect.value;
+        utterance.rate = 1.0;
+        utterance.pitch = 1.0;
+        return utterance;
+      }
+
+      // Speak a line
+      function speakLine(index) {
+        if (index >= narrationLines.length) {
+          isNarrating = false;
+          stopNarration.disabled = true;
+          startNarration.disabled = false;
+          return;
+        }
+
+        currentLineIndex = index;
+        const line = narrationLines[index].textContent;
+        currentUtterance = createUtterance(line);
+
+        currentUtterance.onend = () => {
+          if (isNarrating) {
+            speakLine(index + 1);
+          }
+        };
+
+        synth.speak(currentUtterance);
+      }
+
+      // Start narration button
+      startNarration.addEventListener('click', () => {
+        if (isNarrating) return;
+
+        isNarrating = true;
+        startNarration.disabled = true;
+        stopNarration.disabled = false;
+
+        speakLine(0);
+        narratorControls.style.display = 'none';
+      });
+
+      // Stop narration button
+      stopNarration.addEventListener('click', () => {
+        synth.cancel();
+        isNarrating = false;
+        stopNarration.disabled = true;
+        startNarration.disabled = false;
+      });
+
+      // Close narrator controls
+      closeNarratorControls.addEventListener('click', () => {
+        narratorControls.style.display = 'none';
+      });
+
+      // Open narrator controls when play button is clicked
+      playButton.addEventListener('click', () => {
+        narratorControls.style.display = 'block';
+      });
+    }
+
+    // Display badges in the UI
+    function displayBadges() {
+      const container = document.getElementById("badgeList");
+      if (!container) return;
+
+      // Clear existing badges
+      container.innerHTML = "";
+
+      // Create a fragment for better performance
+      const fragment = document.createDocumentFragment();
+
+      // Add each badge
+      badges.forEach(badge => {
+        const isUnlocked = badge.check();
+        const badgeElement = document.createElement("div");
+        badgeElement.className = `badge-item ${isUnlocked ? '' : 'locked'}`;
+
+        badgeElement.innerHTML = `
+          <div class="badge-icon">${badge.icon}</div>
+          <h3>${badge.title}</h3>
+          <p>${badge.desc}</p>
+          <div class="badge-status">${isUnlocked ? 'Unlocked!' : 'Locked'}</div>
+        `;
+
+        fragment.appendChild(badgeElement);
+      });
+
+      // Add all badges to container
+      container.appendChild(fragment);
+
+      // Update progress in console
+      console.log(`%c🏆 Badge Progress: ${badges.filter(b => b.check()).length}/${badges.length} badges earned`,
+        `color: #ff6600; font-weight: bold;`);
+    }
+
+    // Add CSS for error message
+    const style = document.createElement('style');
+    style.textContent = `
+      .news-error {
+        padding: 30px;
+        background: rgba(0,0,0,0.3);
+        border-radius: 15px;
+        text-align: center;
+        color: #ccc;
+      }
+      .news-retry-btn {
+        margin-top: 15px;
+        background: #ff4500;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      .news-retry-btn:hover {
+        background: #ff6600;
+        transform: translateY(-2px);
+      }
+
+      /* Badge System Styles */
+      .user-badges {
+        padding: 60px 0;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(45deg, #111 0%, #222 100%);
+      }
+      .achievements-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("images/community-bg.webp") center/cover no-repeat;
+        opacity: 0.1;
+        z-index: -1;
+        filter: blur(5px);
+      }
+      .achievements-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        align-items: center;
+      }
+      .achievements-text {
+        background: rgba(0,0,0,0.7);
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        border: 2px solid #444;
+      }
+      .achievements-subtitle {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: #ff6600;
+        text-shadow: 2px 2px 0 #000;
+      }
+      .achievements-desc {
+        margin-bottom: 25px;
+        color: #ddd;
+        font-size: 1.1rem;
+      }
+      .badge-info {
+        background: rgba(255,100,0,0.1);
+        padding: 20px;
+        border-radius: 15px;
+        border: 1px solid rgba(255,100,0,0.3);
+        margin-top: 20px;
+      }
+      .badge-info h3 {
+        color: #ff6600;
+        margin-bottom: 15px;
+        font-size: 1.3rem;
+      }
+      .badge-list-info {
+        list-style: none;
+      }
+      .badge-list-info li {
+        margin-bottom: 10px;
+        color: #ddd;
+      }
+      .badge-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+      .badge-item {
+        background: rgba(0,0,0,0.6);
+        border: 2px solid #444;
+        border-radius: 15px;
+        padding: 20px;
+        text-align: center;
+        transition: 0.3s;
+      }
+      .badge-item:hover {
+        transform: scale(1.05);
+        border-color: #ff6600;
+        box-shadow: 0 10px 20px rgba(255,100,0,0.3);
+      }
+      .badge-icon {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 15px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+      }
+      .badge-item.locked .badge-icon {
+        filter: grayscale(100%);
+        opacity: 0.5;
+      }
+      .badge-item h3 {
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+        color: #ff6600;
+      }
+      .badge-item p {
+        font-size: 0.9rem;
+        color: #ccc;
+      }
+      .badge-item.locked h3,
+      .badge-item.locked p {
+        color: #777;
+      }
+      .badge-status {
+        margin-top: 10px;
+        font-size: 0.8rem;
+        color: #00c8ff;
+      }
+      .badge-item.locked .badge-status {
+        color: #777;
+      }
+
+      /* Learning Center Styles */
+      .learning-center {
+        padding: 60px 0;
+        position: relative;
+        overflow: hidden;
+      }
+      .learning-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("images/blog-bg.webp") center/cover no-repeat;
+        opacity: 0.1;
+        z-index: -1;
+      }
+      .learning-content {
+        background: rgba(0,0,0,0.7);
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        border: 2px solid #444;
+      }
+      .learning-header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      .learning-header h3 {
+        font-size: 2.5rem;
+        color: #ff6600;
+        text-shadow: 2px 2px 0 #000;
+        margin-bottom: 15px;
+      }
+      .learning-header p {
+        color: #ddd;
+        font-size: 1.1rem;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      .tutorial-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
+      }
+      .tutorial-card {
+        background: rgba(20,20,20,0.8);
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        border: 2px solid #444;
+        transition: all 0.3s;
+      }
+      .tutorial-card:hover {
+        transform: translateY(-10px);
+        border-color: #ff6600;
+        box-shadow: 0 20px 40px rgba(255,100,0,0.3);
+      }
+      .tutorial-img {
+        height: 180px;
+        overflow: hidden;
+        position: relative;
+      }
+      .tutorial-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .tutorial-content {
+        padding: 20px;
+      }
+      .tutorial-title {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+        color: #ff6600;
+      }
+      .tutorial-desc {
+        color: #ccc;
+        margin-bottom: 15px;
+        font-size: 0.9rem;
+      }
+      .tutorial-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #aaa;
+        font-size: 0.8rem;
+      }
+      .tutorial-level {
+        background: #00c8ff;
+        color: white;
+        padding: 3px 10px;
+        border-radius: 10px;
+        font-weight: bold;
+      }
+      .tutorial-link {
+        display: inline-block;
+        margin-top: 10px;
+        color: #00c8ff;
+        font-weight: bold;
+        transition: all 0.3s;
+      }
+      .tutorial-link:hover {
+        color: #00e6ff;
+        transform: translateX(5px);
+      }
+
+      @media (max-width: 768px) {
+        .achievements-content,
+        .badge-list {
+          grid-template-columns: 1fr;
+        }
+        .tutorial-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Setup signup modal functionality
+    function setupSignupModal() {
+      const modal = document.getElementById('signupModal');
+      const joinBtn = document.getElementById('joinButton');
+      const closeBtn = document.querySelector('.close-modal');
+      const signupForm = document.getElementById('signupForm');
+      const usernameInput = document.getElementById('signupUsername');
+
+      // Show modal when join button is clicked
+      joinBtn.addEventListener('click', function() {
+        modal.style.display = 'block';
+
+        // Pre-fill username if available
+        if (localStorage.getItem('username')) {
+          usernameInput.value = localStorage.getItem('username');
+        }
+      });
+
+      // Close modal when X is clicked
+      closeBtn.addEventListener('click', function() {
+        modal.style.display = 'none';
+      });
+
+      // Close modal when clicking outside of it
+      window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+
+      // Handle form submission
+      signupForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const username = document.getElementById('signupUsername').value.trim();
+        const email = document.getElementById('signupEmail').value.trim();
+
+        if (!username || !email) return;
+
+        // Save user data to localStorage
+        localStorage.setItem('username', username);
+        localStorage.setItem('userEmail', email);
+        localStorage.setItem('userJoined', 'true');
+
+        // Send data to admin via EmailJS
+        sendUserDataToEmail(username, email);
+
+        // Update UI
+        updateUserHeader();
+
+        // Close modal
+        modal.style.display = 'none';
+      });
+
+      // Check if user is already signed up
+      if (localStorage.getItem('userJoined') === 'true') {
+        joinBtn.style.display = 'none';
+        document.getElementById('userInfo').style.display = 'flex';
+      }
+    }
+
+    // Send user data to admin via EmailJS
+    function sendUserDataToEmail(username, email) {
+      // Get user's badges
+      const userBadges = badges.filter(badge => badge.check()).map(badge => badge.id);
+
+      // Prepare template parameters
+      const templateParams = {
+        username: username,
+        email: email,
+        badges: userBadges.join(', '),
+        visit_count: getVisitCount(),
+        messages_sent: getMessagesSent()
+      };
+
+      // Send email using EmailJS
+      emailjs.send('default_service', 'template_signup', templateParams)
+        .then(function(response) {
+          console.log('Email sent!', response.status, response.text);
+        }, function(error) {
+          console.error('Email failed to send...', error);
+        });
+    }
+
+    // Update user header with username and badges
+    function updateUserHeader() {
+      const userInfo = document.getElementById('userInfo');
+      const joinButton = document.getElementById('joinButton');
+      const userDisplayName = document.getElementById('userDisplayName');
+      const userHeaderBadges = document.getElementById('userHeaderBadges');
+
+      // Check if user is signed up
+      if (localStorage.getItem('userJoined') === 'true') {
+        // Hide join button and show user info
+        joinButton.style.display = 'none';
+        userInfo.style.display = 'flex';
+
+        // Set username
+        const username = localStorage.getItem('username');
+        userDisplayName.textContent = username;
+
+        // Clear existing badges
+        userHeaderBadges.innerHTML = '';
+
+        // Add badges
+        const unlockedBadges = badges.filter(badge => badge.check());
+        unlockedBadges.forEach(badge => {
+          const badgeElement = document.createElement('div');
+          badgeElement.className = 'header-badge';
+          badgeElement.textContent = badge.icon;
+          badgeElement.title = badge.title;
+
+          // Add shimmer effect to newly earned badges
+          if (badge.id === 'newcomer' && !localStorage.getItem('newcomerShown')) {
+            badgeElement.classList.add('shimmer');
+            localStorage.setItem('newcomerShown', 'true');
+
+            // Remove shimmer after animation completes
+            setTimeout(() => {
+              badgeElement.classList.remove('shimmer');
+            }, 2000);
+          }
+
+          userHeaderBadges.appendChild(badgeElement);
+        });
+      }
+    }
+
+    // Update message display to show badges next to usernames
+    function updateMessageBadges() {
+      // Override the addMessageToUI function to include badges
+      const originalAddMessageToUI = addMessageToUI;
+
+      window.addMessageToUI = function(data, key) {
+        // Call the original function first
+        originalAddMessageToUI(data, key);
+
+        // Then add badges to messages
+        setTimeout(() => {
+          const messages = document.querySelectorAll('.message');
+          messages.forEach(message => {
+            const username = message.querySelector('.user-name')?.textContent;
+            if (username && username === localStorage.getItem('username')) {
+              // Check if badges are already added
+              if (!message.querySelector('.message-user-badge')) {
+                const userBadges = badges.filter(badge => badge.check());
+                if (userBadges.length > 0) {
+                  const userElement = message.querySelector('.message-user');
+                  const badgeElement = document.createElement('div');
+                  badgeElement.className = 'message-user-badge';
+                  badgeElement.textContent = userBadges[0].icon; // Show first badge
+                  badgeElement.title = userBadges[0].title;
+                  userElement.appendChild(badgeElement);
+                }
+              }
+            }
+          });
+        }, 100);
+      };
+    }
+  </script>
+  <!-- Signup Modal -->
+  <div id="signupModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Join Leo's Insight</h2>
+      <p>Sign up to track your achievements and join our community!</p>
+      <form id="signupForm">
+        <div class="form-group">
+          <label for="signupUsername">Username</label>
+          <input type="text" id="signupUsername" required placeholder="Enter your username">
+        </div>
+        <div class="form-group">
+          <label for="signupEmail">Email</label>
+          <input type="email" id="signupEmail" required placeholder="Enter your email">
+        </div>
+        <button type="submit" class="signup-btn">JOIN NOW</button>
+      </form>
+    </div>
+  </div>
+
+  <style>
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      overflow: auto;
+    }
+    .modal-content {
+      background: linear-gradient(135deg, #222 0%, #333 100%);
+      margin: 10% auto;
+      padding: 30px;
+      border: 2px solid #ff6600;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+      position: relative;
+      color: #fff;
+    }
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      color: #aaa;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .close-modal:hover {
+      color: #ff6600;
+      transform: scale(1.2);
+    }
+    .modal h2 {
+      font-size: 2rem;
+      margin-bottom: 15px;
+      color: #ff6600;
+      text-align: center;
+    }
+    .modal p {
+      margin-bottom: 20px;
+      text-align: center;
+      color: #ccc;
+    }
+    .modal .form-group {
+      margin-bottom: 20px;
+    }
+    .modal label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #ddd;
+    }
+    .modal input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 2px solid #444;
+      background: rgba(0, 0, 0, 0.3);
+      color: #fff;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    .modal input:focus {
+      border-color: #ff6600;
+      outline: none;
+      box-shadow: 0 0 10px rgba(255, 102, 0, 0.3);
+    }
+    .signup-btn {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(45deg, #ff6600, #ff9500);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 10px;
+    }
+    .signup-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(255, 102, 0, 0.3);
+    }
+    /* Badge in message styles */
+    .message-user-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      margin-left: 5px;
+      font-size: 0.7rem;
+    }
+  </style>
 </body>
 </html>
