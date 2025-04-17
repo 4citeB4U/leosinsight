@@ -2,17 +2,95 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Leo's Insight - Epic Roblox Gaming Magazine & Development Community</title>
-  <!-- EmailJS SDK for sending user data without backend -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-  <script type="text/javascript">
-    (function() {
-      // Initialize EmailJS with your public key
-      emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your actual EmailJS public key
-    })();
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="description" content="Leo's Insight - The ultimate Roblox gaming magazine and development community for gamers aged 11-21" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://leosinsight.com/" />
+  <meta property="og:title" content="Leo's Insight - Epic Roblox Gaming Magazine & Development Community" />
+  <meta property="og:description" content="The ultimate Roblox gaming magazine and development community for gamers aged 11-21. Learn game development, discover character builds, and connect with other players." />
+  <meta property="og:image" content="./assets/og-thumbnail.jpg" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://leosinsight.com/" />
+  <meta property="twitter:title" content="Leo's Insight - Epic Roblox Gaming Magazine & Development Community" />
+  <meta property="twitter:description" content="The ultimate Roblox gaming magazine and development community for gamers aged 11-21. Learn game development, discover character builds, and connect with other players." />
+  <meta property="twitter:image" content="./assets/og-thumbnail.jpg" />
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Leo's Insight",
+    "url": "https://leosinsight.com",
+    "description": "The ultimate Roblox gaming magazine and development community for gamers aged 11-21.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://leosinsight.com/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
   </script>
-  <!-- Font Awesome for icons -->
+  <meta name="theme-color" content="#ff6600" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob: 'unsafe-inline' 'unsafe-eval'; connect-src 'self' https: wss:; img-src 'self' https: data: blob:; media-src 'self' https: data: blob:; font-src 'self' https: data:; frame-src 'self' https:;" />
+
+  <!-- Cross-platform support -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="application-name" content="Leo's Insight" />
+  <meta name="msapplication-TileColor" content="#ff6600" />
+  <meta name="msapplication-tap-highlight" content="no" />
+
+  <!-- PWA support -->
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="apple-touch-icon" href="./images/Leosavatr.png" />
+  <link rel="icon" type="image/png" href="./assets/favicon.ico" />
+  <title>Leo's Insight - Epic Roblox Gaming Magazine &amp; Development Community</title>
+
+  <!-- Preload critical assets -->
+  <link rel="preload" href="05. bluudanc.mp3" as="audio" />
+  <link rel="preload" href="images/top3.png" as="image" />
+  <link rel="preload" href="images/breaking_news.png" as="image" />
+  <link rel="preload" href="images/fxeffect.png" as="image" />
+  <link rel="preload" href="images/Leosavatr.png" as="image" />
+
+  <!-- Preconnect to external domains -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+  <link rel="preconnect" href="https://www.youtube.com" crossorigin />
+  <link rel="preconnect" href="https://gun-manhattan.herokuapp.com" crossorigin />
+  <link rel="preconnect" href="https://gun-us.herokuapp.com" crossorigin />
+  <link rel="preconnect" href="https://gun-eu.herokuapp.com" crossorigin />
+
+  <!-- EmailJS SDK for sending user data without backend (defer loading) -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" defer></script>
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize EmailJS with your public key
+      if (window.emailjs) {
+        emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your actual EmailJS public key
+      }
+
+      // Register service worker for offline functionality and caching
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(registration => {
+            console.log('Service Worker registered with scope:', registration.scope);
+          })
+          .catch(error => {
+            console.error('Service Worker registration failed:', error);
+          });
+      }
+    });
+  </script>
+
+  <!-- Font Awesome for icons (with integrity and crossorigin) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
     /* CSS Reset and Base Styles */
@@ -25,6 +103,7 @@
       background-size: cover;
       overflow-x: hidden;
     }
+    /* Responsive styles for different device types */
     @media (max-width: 768px) {
       body { background-size: contain; }
       .header-container { flex-direction: column; }
@@ -37,6 +116,54 @@
       .section-title { font-size: 2.2rem; }
       .community-content { grid-template-columns: 1fr; }
       .cards-container, .news-grid, .blog-posts { grid-template-columns: 1fr; }
+    }
+
+    /* Foldable phones in folded state */
+    @media (max-width: 320px) {
+      .hero-content { padding: 15px; }
+      .leo-avatar { width: 150px; height: 150px; }
+      .hero h1 { font-size: 1.8rem; }
+      .hero p { font-size: 0.9rem; }
+      .btn { padding: 10px 20px; font-size: 1rem; }
+      .card-wrapper { height: 350px; }
+    }
+
+    /* Foldable phones in unfolded state (wider aspect ratio) */
+    @media (min-width: 768px) and (max-width: 900px) and (aspect-ratio: 22/9),
+           (min-width: 768px) and (max-width: 900px) and (aspect-ratio: 21/9) {
+      .cards-container, .news-grid, .blog-posts {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .hero-content {
+        flex-direction: row;
+        max-width: 90%;
+      }
+    }
+
+    /* Tablets and iPads */
+    @media (min-width: 768px) and (max-width: 1024px) {
+      .cards-container, .news-grid, .blog-posts {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* Large screens */
+    @media (min-width: 1400px) {
+      .container { max-width: 1320px; }
+      .cards-container, .news-grid, .blog-posts {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    /* Print styles */
+    @media print {
+      body { background: white; color: black; }
+      header, footer, .narrator-controls, .music-btn, video { display: none; }
+      .container { max-width: 100%; }
+      a { color: #000; text-decoration: underline; }
+      .card-wrapper { page-break-inside: avoid; }
+      .card { transform: none !important; }
+      .card-back { display: none; }
     }
 
     a { text-decoration: none; color: #00c8ff; }
@@ -117,6 +244,7 @@
     .user-profile {
       display: flex;
       align-items: center;
+      gap: 10px;
     }
     .join-btn {
       background: linear-gradient(45deg, #ff6600, #ff9500);
@@ -131,6 +259,34 @@
     .join-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 5px 15px rgba(255, 102, 0, 0.4);
+    }
+    .music-btn {
+      background: rgba(0, 0, 0, 0.3);
+      color: #00c8ff;
+      border: 1px solid #00c8ff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .music-btn:hover {
+      background: rgba(0, 200, 255, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 0 15px rgba(0, 200, 255, 0.5);
+    }
+    .music-btn.playing {
+      color: #ff6600;
+      border-color: #ff6600;
+      animation: pulse-music 2s infinite;
+    }
+    @keyframes pulse-music {
+      0% { transform: scale(1); box-shadow: 0 0 0 rgba(255, 102, 0, 0); }
+      50% { transform: scale(1.05); box-shadow: 0 0 10px rgba(255, 102, 0, 0.5); }
+      100% { transform: scale(1); box-shadow: 0 0 0 rgba(255, 102, 0, 0); }
     }
     .user-info {
       display: flex;
@@ -168,31 +324,55 @@
       font-weight: bold;
       font-family: 'Impact', 'Arial Black', sans-serif;
       text-transform: uppercase;
-      color: #0099ff;
+      color: #FFD700; /* Gold color */
       letter-spacing: 1px;
       text-shadow:
-        0 0 5px rgba(0, 153, 255, 0.5),
-        0 0 10px rgba(0, 153, 255, 0.5),
-        0 0 15px rgba(0, 153, 255, 0.5),
-        0 0 20px rgba(0, 153, 255, 0.5),
+        0 0 5px rgba(255, 215, 0, 0.7),
+        0 0 10px rgba(255, 165, 0, 0.7),
+        0 0 15px rgba(255, 140, 0, 0.7),
+        0 0 20px rgba(255, 120, 0, 0.7),
         2px 2px 2px rgba(0, 0, 0, 0.5);
       animation: logo-text-glow 3s infinite alternate;
       transform: perspective(500px) rotateX(10deg);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Add a subtle fire-like effect behind the text */
+    .logo-text::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      background: radial-gradient(ellipse at center, rgba(255, 215, 0, 0.2) 0%, rgba(255, 140, 0, 0.1) 50%, rgba(255, 69, 0, 0) 70%);
+      filter: blur(8px);
+      z-index: -1;
+      opacity: 0.8;
+      animation: fire-pulse 2s infinite alternate;
+    }
+
+    @keyframes fire-pulse {
+      0% { opacity: 0.6; transform: scale(0.98); }
+      100% { opacity: 1; transform: scale(1.02); }
     }
 
     @keyframes logo-text-glow {
       0% { text-shadow:
-        0 0 5px rgba(0, 153, 255, 0.5),
-        0 0 10px rgba(0, 153, 255, 0.5),
-        0 0 15px rgba(0, 153, 255, 0.5),
-        0 0 20px rgba(0, 153, 255, 0.5),
-        2px 2px 2px rgba(0, 0, 0, 0.5); }
+        0 0 5px rgba(255, 215, 0, 0.7),
+        0 0 10px rgba(255, 165, 0, 0.7),
+        0 0 15px rgba(255, 140, 0, 0.7),
+        0 0 20px rgba(255, 120, 0, 0.7),
+        2px 2px 2px rgba(0, 0, 0, 0.5);
+        color: #FFD700; }
       100% { text-shadow:
-        0 0 10px rgba(0, 153, 255, 0.8),
-        0 0 20px rgba(0, 153, 255, 0.8),
-        0 0 30px rgba(0, 153, 255, 0.8),
-        0 0 40px rgba(0, 153, 255, 0.8),
-        2px 2px 2px rgba(0, 0, 0, 0.5); }
+        0 0 10px rgba(255, 215, 0, 0.9),
+        0 0 20px rgba(255, 165, 0, 0.9),
+        0 0 30px rgba(255, 140, 0, 0.9),
+        0 0 40px rgba(255, 120, 0, 0.9),
+        2px 2px 2px rgba(0, 0, 0, 0.5);
+        color: #FFF8DC; /* Slightly lighter gold at peak brightness */ }
     }
     @keyframes spin { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
     .tagline { font-style: italic; margin-top: 5px; font-size: 1.1rem; text-shadow: 1px 1px 0 rgba(0,0,0,0.5); }
@@ -251,7 +431,7 @@
       width: 100%;
       height: 100%;
       z-index: -1;
-      background: url("images/hero.webp") center/cover no-repeat;
+      background: url("images/DALL·E 2025-03-22 17.45.58 - Create an epic, high-resolution background image divided into four distinct sections, styled in the iconic blocky and colorful art style of Roblox. __.webp") center/cover no-repeat;
       filter: brightness(0.6);
     }
     .hero-content {
@@ -336,9 +516,9 @@
       padding: 25px;
       z-index: 1000;
       display: none;
-      border: 2px solid #0099ff;
-      border-radius: 10px;
-      box-shadow: 0 0 30px rgba(0, 153, 255, 0.5);
+      border: 2px solid #ff6600;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(255, 102, 0, 0.5);
     }
 
     .narrator-controls-header {
@@ -353,8 +533,8 @@
     .narrator-controls-header h3 {
       font-size: 1.5rem;
       margin: 0;
-      color: #0099ff;
-      text-shadow: 0 0 10px rgba(0, 153, 255, 0.5);
+      color: #ff6600;
+      text-shadow: 0 0 10px rgba(255, 102, 0, 0.5);
     }
 
     .close-btn {
@@ -374,53 +554,94 @@
     .narrator-options {
       display: flex;
       flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Voice Selector Styles */
+    .voice-selector {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
       gap: 15px;
     }
 
-    .narrator-option {
+    .voice-option {
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid transparent;
+      border-radius: 15px;
+      padding: 15px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .voice-option:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-3px);
+    }
+
+    .voice-option.selected {
+      border-color: #ff6600;
+      background: rgba(255, 102, 0, 0.2);
+      box-shadow: 0 0 15px rgba(255, 102, 0, 0.3);
+    }
+
+    .voice-icon {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .voice-icon.male {
+      color: #00c8ff;
+    }
+
+    .voice-icon.female {
+      color: #ff3c78;
+    }
+
+    .voice-label {
+      font-weight: bold;
+      color: #fff;
+    }
+
+    /* Language Selector Styles */
+    .language-selector {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .language-option {
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid transparent;
+      border-radius: 15px;
+      padding: 15px 25px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      align-items: center;
     }
 
-    .narrator-option label {
-      font-size: 0.9rem;
-      color: #ccc;
+    .language-option:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-3px);
     }
 
-    .voice-select,
-    .language-select {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: white;
-      padding: 8px 12px;
-      border-radius: 5px;
-      font-size: 0.9rem;
+    .language-option.selected {
+      border-color: #ff6600;
+      background: rgba(255, 102, 0, 0.2);
+      box-shadow: 0 0 15px rgba(255, 102, 0, 0.3);
     }
 
-    .voice-select option,
-    .language-select option {
-      background: #222;
-      color: white;
+    .language-flag {
+      font-size: 2rem;
+      margin-bottom: 8px;
     }
 
-    input[type="range"] {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.1);
-      height: 5px;
-      border-radius: 5px;
-      outline: none;
-      -webkit-appearance: none;
-    }
-
-    input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 15px;
-      height: 15px;
-      background: #0099ff;
-      border-radius: 50%;
-      cursor: pointer;
-      box-shadow: 0 0 5px rgba(0, 153, 255, 0.8);
+    .language-name {
+      font-weight: bold;
+      color: #fff;
     }
 
     .narrator-controls-buttons {
@@ -435,14 +656,14 @@
       background: rgba(255, 255, 255, 0.1);
       border: 1px solid rgba(255, 255, 255, 0.2);
       color: white;
-      padding: 8px 15px;
-      border-radius: 5px;
-      font-size: 0.9rem;
+      padding: 12px 25px;
+      border-radius: 30px;
+      font-size: 1rem;
       cursor: pointer;
       transition: all 0.3s;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 8px;
     }
 
     .narrator-control-btn:hover {
@@ -451,13 +672,14 @@
     }
 
     .narrator-control-btn.primary {
-      background: #0099ff;
-      border-color: #0099ff;
+      background: #ff6600;
+      border-color: #ff6600;
+      font-weight: bold;
     }
 
     .narrator-control-btn.primary:hover {
-      background: #00aaff;
-      box-shadow: 0 0 15px rgba(0, 153, 255, 0.5);
+      background: #ff8800;
+      box-shadow: 0 0 15px rgba(255, 102, 0, 0.5);
     }
 
     .narrator-control-btn:disabled {
@@ -555,6 +777,8 @@
       border: 2px solid #ff6600;
       padding: 20px;
       overflow-y: auto;
+      display: flex;
+      flex-direction: column;
     }
     .card-img { height: 250px; position: relative; overflow: hidden; }
     .card-img img { width: 100%; height: 100%; object-fit: cover; }
@@ -578,15 +802,52 @@
     .card-steps { margin-bottom: 15px; }
     .step { margin-bottom: 10px; padding-left: 20px; position: relative; }
     .step::before { content: '⟐'; position: absolute; left: 0; color: #ff6600; }
+    .code-block-container {
+      position: relative;
+      margin: 15px 0;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
     .code-block {
       background: #1a1a1a;
-      padding: 10px;
-      border-radius: 5px;
-      margin: 10px 0;
-      font-family: monospace;
+      padding: 15px;
+      border-radius: 8px;
+      font-family: 'Consolas', 'Monaco', monospace;
       font-size: 0.9rem;
       white-space: pre-wrap;
       color: #4ee44e;
+      border: 1px solid #333;
+      overflow-y: auto;
+      max-height: 200px;
+      flex-grow: 1;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0,0,0,0.5);
+      color: #ccc;
+      border: 1px solid #444;
+      border-radius: 4px;
+      padding: 5px 10px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.3s;
+      z-index: 2;
+    }
+    .copy-btn:hover {
+      background: rgba(255,102,0,0.3);
+      color: #fff;
+      border-color: #ff6600;
+    }
+    .copy-btn.copied {
+      background: rgba(78,228,78,0.3);
+      color: #4ee44e;
+      border-color: #4ee44e;
     }
 
     /* Featured Characters Section */
@@ -764,6 +1025,7 @@
       line-height: 1.5;
       display: -webkit-box;
       -webkit-line-clamp: 3;
+      line-clamp: 3;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
@@ -813,6 +1075,13 @@
       grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
       gap: 30px;
     }
+
+    /* Add responsive image handling for blog posts */
+    @media (max-width: 768px) {
+      .blog-posts {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      }
+    }
     .blog-card {
       background: rgba(20,20,20,0.8);
       border-radius: 15px;
@@ -827,11 +1096,15 @@
       border-color: #ff6600;
       box-shadow: 0 20px 40px rgba(255,100,0,0.3);
     }
-    .blog-img { height: 200px; overflow: hidden; }
+    .blog-img {
+      height: auto;
+      overflow: hidden;
+      border-radius: 15px 15px 0 0;
+    }
     .blog-img img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: auto;
+      display: block;
       transition: transform 0.5s;
     }
     .blog-card:hover .blog-img img { transform: scale(1.1); }
@@ -1082,19 +1355,29 @@
       display: flex;
       align-items: center;
       gap: 15px;
-      background: rgba(255, 193, 7, 0.1);
-      border: 1px solid rgba(255, 193, 7, 0.3);
+      background: rgba(255, 0, 0, 0.2);
+      border: 3px solid rgba(255, 0, 0, 0.5);
       border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 20px;
-      color: #ffc107;
+      padding: 25px;
+      margin-bottom: 30px;
+      color: #ff3300;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
     }
     .moderation-icon {
-      font-size: 1.5rem;
+      font-size: 3rem;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
     }
     .moderation-text {
-      font-size: 0.9rem;
-      line-height: 1.5;
+      font-size: 1.4rem;
+      line-height: 1.6;
+      font-weight: 900;
+      text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+      letter-spacing: 0.5px;
     }
     .moderation-text a {
       color: #ff6600;
@@ -1628,6 +1911,73 @@
     }
     .footer-links a:hover { color: #ff6600; transform: translateX(5px); }
     .footer-links a::before { content: '➤'; color: #ff6600; font-size: 0.8rem; }
+
+    /* Live Game Feeds Styles */
+    .live-feeds-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .live-feed h4 {
+      color: #fff;
+      margin-bottom: 10px;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .live-indicator {
+      background: #ff6600;
+      color: #fff;
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 10px;
+      animation: pulse 2s infinite;
+    }
+    .game-feed {
+      list-style: none;
+      padding: 0;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .game-feed li {
+      padding: 8px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s;
+    }
+    .game-feed li:last-child {
+      border-bottom: none;
+    }
+    .game-feed li:hover {
+      background: rgba(255, 102, 0, 0.2);
+    }
+    .game-feed a {
+      color: #ccc;
+      text-decoration: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .game-feed a:hover {
+      color: #ff6600;
+    }
+    .game-feed .game-title {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .game-feed .game-players {
+      font-size: 0.8rem;
+      color: #00c8ff;
+      margin-left: 10px;
+    }
+    .loading-item {
+      color: #888;
+      font-style: italic;
+      padding: 15px 12px;
+    }
     .social-links { display: flex; gap: 15px; }
     .social-icon {
       width: 40px;
@@ -1682,6 +2032,12 @@
   <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
 </head>
 <body>
+  <!-- Audio Element for Roblox 2016 Theme -->
+  <audio id="robloxTheme" loop>
+    <source src="05. bluudanc.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
+
   <!-- Header -->
   <header>
     <div class="container header-container">
@@ -1697,17 +2053,19 @@
       <nav>
         <ul id="navMenu">
           <li><a href="#characters">Cool Characters</a></li>
-          <li><a href="#news">Game News</a></li>
-          <li><a href="#blog">Blog</a></li>
+          <li><a href="#blog">Game News &amp; Blog</a></li>
           <li><a href="#community">Our Squad</a></li>
           <li><a href="#play">Play</a></li>
           <li><a href="#message-board">Message HQ</a></li>
           <li><a href="#achievements">Achievements</a></li>
           <li><a href="#learning">Learning Center</a></li>
+          <li><a href="#editor">Code Playground</a></li>
+          <li><a href="#support">Support Us</a></li>
           <li><a href="#about">About Us</a></li>
         </ul>
       </nav>
       <div class="user-profile" id="userProfile">
+        <button id="toggleMusic" class="music-btn"><i class="fas fa-music"></i></button>
         <button id="joinButton" class="join-btn">JOIN NOW</button>
         <div id="userInfo" class="user-info" style="display: none;">
           <span id="userDisplayName" class="user-display-name"></span>
@@ -1744,23 +2102,37 @@
     <!-- Narrator Controls -->
     <div class="narrator-controls" id="narratorControls">
       <div class="narrator-controls-header">
-        <h3>Narrator Settings</h3>
+        <h3>Choose Your Narrator!</h3>
         <button id="closeNarratorControls" class="close-btn"><i class="fas fa-times"></i></button>
       </div>
       <div class="narrator-options">
-        <div class="narrator-option">
-          <label for="voiceSelect">Select Voice:</label>
-          <select id="voiceSelect" class="voice-select"></select>
+        <div class="voice-selector">
+          <div class="voice-option" data-voice="male1">
+            <div class="voice-icon male">👨</div>
+            <div class="voice-label">Cool Guy</div>
+          </div>
+          <div class="voice-option" data-voice="male2">
+            <div class="voice-icon male">👨‍🚀</div>
+            <div class="voice-label">Space Dude</div>
+          </div>
+          <div class="voice-option" data-voice="female1">
+            <div class="voice-icon female">👩</div>
+            <div class="voice-label">Awesome Girl</div>
+          </div>
+          <div class="voice-option" data-voice="female2">
+            <div class="voice-icon female">👩‍🎤</div>
+            <div class="voice-label">Rock Star</div>
+          </div>
         </div>
-        <div class="narrator-option">
-          <label for="languageSelect">Select Language:</label>
-          <select id="languageSelect" class="language-select">
-            <option value="en-US">English (US)</option>
-            <option value="es-ES">Spanish</option>
-            <option value="fr-FR">French</option>
-            <option value="de-DE">German</option>
-            <option value="ja-JP">Japanese</option>
-          </select>
+        <div class="language-selector">
+          <div class="language-option selected" data-lang="en-US">
+            <div class="language-flag">🇺🇸</div>
+            <div class="language-name">English</div>
+          </div>
+          <div class="language-option" data-lang="es-ES">
+            <div class="language-flag">🇪🇸</div>
+            <div class="language-name">Spanish</div>
+          </div>
         </div>
         <div class="narrator-controls-buttons">
           <button id="startNarration" class="narrator-control-btn primary"><i class="fas fa-play"></i> Play Narration</button>
@@ -1771,10 +2143,13 @@
 
     <!-- Hidden Narrator Script -->
     <div id="narratorScript" style="display: none;">
-      <p class="narration-line">Welcome to Leo's Insight - your ultimate Roblox community hub.</p>
-      <p class="narration-line">Here, we help you master the game and build the future.</p>
-      <p class="narration-line">Discover cool characters, learn coding skills, and connect with other Roblox fans.</p>
-      <p class="narration-line">Don't just play Roblox - shape it with Leo's Insight!</p>
+      <p class="narration-line">In a world where imagination becomes reality...</p>
+      <p class="narration-line">One community stands above the rest.</p>
+      <p class="narration-line">Welcome to Leo's Insight - where legends are born and skills are forged!</p>
+      <p class="narration-line">Master the art of Roblox creation. Build worlds that defy expectations.</p>
+      <p class="narration-line">Join our elite squad of creators and gamers.</p>
+      <p class="narration-line">The future of Roblox isn't just played... it's created. Here. Now.</p>
+      <p class="narration-line">Leo's Insight - Your destiny awaits!</p>
     </div>
   </section>
 
@@ -1788,7 +2163,7 @@
           <div class="card" onclick="this.classList.toggle('flipped')">
             <div class="card-front">
               <div class="card-img">
-                <img loading="lazy" src="images/DALL·E 2025-03-22 15.51.37 - Create an image of a Roblox 3D character exuding a dark, doom-laden presence. The character should be futuristic and imposing, with dramatic lighting,.webp" alt="Doomslayer">
+                <img loading="lazy" src="images/top3.png" alt="Doomslayer">
                 <div class="card-badge">DARK</div>
               </div>
               <div class="card-content">
@@ -1802,7 +2177,9 @@
                 <div class="step">Activate: Tint parts red and reduce opacity</div>
                 <div class="step">Deactivate: Restore appearance</div>
               </div>
-              <div class="code-block">
+              <div class="code-block-container">
+                <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                <div class="code-block">
 -- FearAura Module
 local FearAura = {}
 
@@ -1828,7 +2205,7 @@ function FearAura:Deactivate(player)
   end
 end
 
-return FearAura
+return FearAura</div>
               </div>
             </div>
           </div>
@@ -1849,10 +2226,12 @@ return FearAura
             <div class="card-back">
               <h3 class="card-back-title">Rage Mode (Berserker)</h3>
               <div class="card-steps">
-                <div class="step">Boost WalkSpeed & Health</div>
+                <div class="step">Boost WalkSpeed &amp; Health</div>
                 <div class="step">Reset after 30 seconds</div>
               </div>
-              <div class="code-block">
+              <div class="code-block-container">
+                <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                <div class="code-block">
 -- RageMode Module
 local RageMode = {}
 
@@ -1871,13 +2250,13 @@ function RageMode:Activate(player)
   delay(30, function()
     humanoid.WalkSpeed = origSpeed
     humanoid.MaxHealth = origMaxHealth
-    if humanoid.Health > origMaxHealth then
+    if humanoid.Health &gt; origMaxHealth then
       humanoid.Health = origMaxHealth
     end
   end)
 end
 
-return RageMode
+return RageMode</div>
               </div>
             </div>
           </div>
@@ -1901,7 +2280,9 @@ return RageMode
                 <div class="step">Apply upward force using BodyVelocity</div>
                 <div class="step">Remove force after 0.5 seconds</div>
               </div>
-              <div class="code-block">
+              <div class="code-block-container">
+                <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                <div class="code-block">
 -- SuperJump Module
 local SuperJump = {}
 
@@ -1918,7 +2299,7 @@ function SuperJump:Perform(player)
   delay(0.5, function() bv:Destroy() end)
 end
 
-return SuperJump
+return SuperJump</div>
               </div>
             </div>
           </div>
@@ -1942,7 +2323,9 @@ return SuperJump
                 <div class="step">Apply force in the given direction</div>
                 <div class="step">Reset after 0.75 seconds</div>
               </div>
-              <div class="code-block">
+              <div class="code-block-container">
+                <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                <div class="code-block">
 -- TackleAbility Module
 local TackleAbility = {}
 
@@ -1959,7 +2342,7 @@ function TackleAbility:Perform(player, direction)
   delay(0.75, function() bv:Destroy() end)
 end
 
-return TackleAbility
+return TackleAbility</div>
               </div>
             </div>
           </div>
@@ -1970,7 +2353,7 @@ return TackleAbility
             <div class="card-front">
               <div class="card-img">
                 <img src="images/DALL·E 2025-03-22 16.01.36 - Create a 3D Roblox-style soccer player character inspired by Blue Lock, using the exact blocky form of Roblox avatars. The character should wear a sty.webp" alt="Blue Lock">
-                <div class="card-badge">SOCCER</div>
+                <div class="card-badge">SPORTS</div>
               </div>
               <div class="card-content">
                 <h3 class="card-title">Blue Lock</h3>
@@ -1983,7 +2366,9 @@ return TackleAbility
                 <div class="step">Calculate direction toward target</div>
                 <div class="step">Apply shot velocity</div>
               </div>
-              <div class="code-block">
+              <div class="code-block-container">
+                <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                <div class="code-block">
 -- PrecisionShot Module
 local PrecisionShot = {}
 
@@ -1999,7 +2384,7 @@ function PrecisionShot:Perform(player, targetPos)
   delay(1, function() bv:Destroy() end)
 end
 
-return PrecisionShot
+return PrecisionShot</div>
               </div>
             </div>
           </div>
@@ -2023,7 +2408,9 @@ return PrecisionShot
                 <div class="step">Play combo attack animation</div>
                 <div class="step">Chain multiple moves</div>
               </div>
-              <div class="code-block">
+              <div class="code-block-container">
+                <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                <div class="code-block">
 -- ComboAttack Module
 local ComboAttack = {}
 
@@ -2040,7 +2427,7 @@ function ComboAttack:Perform(player)
   print("Combo attack executed")
 end
 
-return ComboAttack
+return ComboAttack</div>
               </div>
             </div>
           </div>
@@ -2064,7 +2451,9 @@ return ComboAttack
                 <div class="step">Activate: Increase transparency</div>
                 <div class="step">Deactivate: Restore appearance</div>
               </div>
-              <div class="code-block">
+              <div class="code-block-container">
+                <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                <div class="code-block">
 -- StealthAbility Module
 local StealthAbility = {}
 
@@ -2090,7 +2479,7 @@ function StealthAbility:Deactivate(player)
   print("Stealth deactivated")
 end
 
-return StealthAbility
+return StealthAbility</div>
               </div>
             </div>
           </div>
@@ -2114,7 +2503,9 @@ return StealthAbility
                 <div class="step">Clone shield model from ReplicatedStorage</div>
                 <div class="step">Deploy in front of player</div>
               </div>
-              <div class="code-block">
+              <div class="code-block-container">
+                <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                <div class="code-block">
 -- ShieldBarrier Module
 local ShieldBarrier = {}
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -2130,7 +2521,7 @@ function ShieldBarrier:Deploy(player, position, rotation)
   return shield
 end
 
-return ShieldBarrier
+return ShieldBarrier</div>
               </div>
             </div>
           </div>
@@ -2154,7 +2545,9 @@ return ShieldBarrier
                 <div class="step">Boost teammates within a radius</div>
                 <div class="step">Reset after 30 seconds</div>
               </div>
-              <div class="code-block">
+              <div class="code-block-container">
+                <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                <div class="code-block">
 -- CommanderBuff Module
 local CommanderBuff = {}
 local Players = game:GetService("Players")
@@ -2171,7 +2564,7 @@ function CommanderBuff:ActivateTeamBoost(commander, radius)
       local pChar = player.Character
       if pChar and pChar:FindFirstChild("HumanoidRootPart") then
         local dist = (pChar.HumanoidRootPart.Position - pos).Magnitude
-        if dist <= radius then
+        if dist &lt;= radius then
           self:BuffPlayer(player, 30)
         end
       end
@@ -2197,7 +2590,7 @@ function CommanderBuff:BuffPlayer(player, duration)
   end
 end
 
-return CommanderBuff
+return CommanderBuff</div>
               </div>
             </div>
           </div>
@@ -2221,7 +2614,9 @@ return CommanderBuff
                 <div class="step">Stun nearby enemies</div>
                 <div class="step">Reset after animation</div>
               </div>
-              <div class="code-block">
+              <div class="code-block-container">
+                <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                <div class="code-block">
 -- GroundSlam Module
 local GroundSlam = {}
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -2252,7 +2647,7 @@ function GroundSlam:Perform(player)
   print("Ground slam executed")
 end
 
-return GroundSlam
+return GroundSlam</div>
               </div>
             </div>
           </div>
@@ -2276,7 +2671,9 @@ return GroundSlam
                 <div class="step">Lock controls during dash</div>
                 <div class="step">Apply rapid dash force</div>
               </div>
-              <div class="code-block">
+              <div class="code-block-container">
+                <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                <div class="code-block">
 -- DashAttack Module
 local DashAttack = {}
 local RunService = game:GetService("RunService")
@@ -2308,7 +2705,7 @@ function DashAttack:Perform(player, direction)
   end)
 end
 
-return DashAttack
+return DashAttack</div>
               </div>
             </div>
           </div>
@@ -2332,7 +2729,9 @@ return DashAttack
                 <div class="step">Create a ping effect at player's position</div>
                 <div class="step">Expand and remove after delay</div>
               </div>
-              <div class="code-block">
+              <div class="code-block-container">
+                <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copy</button>
+                <div class="code-block">
 -- RadarPing Module
 local RadarPing = {}
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -2369,9 +2768,132 @@ function RadarPing:Activate(player)
   ping:Destroy()
 end
 
-return RadarPing
+return RadarPing</div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Roblox Script Editor Section -->
+  <section class="script-editor-section" id="editor">
+    <div class="editor-bg"></div>
+    <div class="container">
+      <h2 class="section-title">CODE WITH LEO</h2>
+      <div class="editor-content">
+        <div class="editor-intro">
+          <h3 class="editor-subtitle">Roblox Script Playground</h3>
+          <p class="editor-desc">
+            Write, save, and export Lua scripts for your Roblox games. Practice your coding skills and earn badges as you master the art of Roblox scripting!
+          </p>
+          <div class="editor-features">
+            <div class="editor-feature">
+              <i class="fas fa-save"></i>
+              <span>Save scripts locally</span>
+            </div>
+            <div class="editor-feature">
+              <i class="fas fa-download"></i>
+              <span>Export as .lua files</span>
+            </div>
+            <div class="editor-feature">
+              <i class="fas fa-medal"></i>
+              <span>Earn coding badges</span>
+            </div>
+            <div class="editor-feature">
+              <i class="fas fa-graduation-cap"></i>
+              <span>Learn Roblox scripting</span>
+            </div>
+          </div>
+        </div>
+        <div class="editor-workspace">
+          <div class="editor-header">
+            <div class="editor-tabs">
+              <div class="editor-tab active">leos_script.lua</div>
+              <div class="editor-tab">+ New Script</div>
+            </div>
+            <div class="editor-controls">
+              <button id="saveScriptBtn" class="editor-btn"><i class="fas fa-save"></i> Save</button>
+              <button id="loadScriptBtn" class="editor-btn"><i class="fas fa-folder-open"></i> Load</button>
+              <button id="downloadScriptBtn" class="editor-btn"><i class="fas fa-download"></i> Export</button>
+              <button id="submitScriptBtn" class="editor-btn primary"><i class="fas fa-paper-plane"></i> Submit</button>
+            </div>
+          </div>
+          <div class="editor-main">
+            <textarea id="luaEditor" class="lua-editor" spellcheck="false">-- Welcome to Leo's Roblox Script Editor!
+-- Write your Lua code below:
+
+local part = Instance.new("Part")
+part.Parent = workspace
+part.Size = Vector3.new(4, 1, 4)
+part.Position = Vector3.new(0, 10, 0)
+part.Anchored = true
+part.BrickColor = BrickColor.new("Bright orange")
+
+print("Hello from Leo's Insight!")
+
+-- Try creating your own scripts and earn badges!</textarea>
+          </div>
+          <div id="editorStatus" class="editor-status"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Donation/Gift Box Section -->
+  <section class="donation-section" id="support">
+    <div class="donation-bg"></div>
+    <div class="container">
+      <h2 class="section-title">SUPPORT LEO'S INSIGHT</h2>
+      <div class="donation-content">
+        <div class="donation-text">
+          <h3 class="donation-subtitle">Help Us Keep Creating</h3>
+          <p class="donation-desc">
+            Leo's Insight is a passion project dedicated to helping young Roblox creators learn, grow, and connect. Your support, no matter how small, helps us continue providing free resources, tutorials, and community features.
+          </p>
+          <div class="donation-features">
+            <div class="donation-feature">
+              <i class="fas fa-rocket"></i>
+              <span>Fund new tutorials</span>
+            </div>
+            <div class="donation-feature">
+              <i class="fas fa-server"></i>
+              <span>Keep servers running</span>
+            </div>
+            <div class="donation-feature">
+              <i class="fas fa-paint-brush"></i>
+              <span>Create better content</span>
+            </div>
+            <div class="donation-feature">
+              <i class="fas fa-heart"></i>
+              <span>Support our mission</span>
+            </div>
+          </div>
+        </div>
+        <div class="donation-box">
+          <div class="gift-box">
+            <div class="gift-box-lid">
+              <div class="gift-lid-top"></div>
+              <div class="gift-lid-side"></div>
+            </div>
+            <div class="gift-box-base">
+              <div class="gift-box-front"></div>
+              <div class="gift-box-back"></div>
+              <div class="gift-box-left"></div>
+              <div class="gift-box-right"></div>
+              <div class="gift-box-bottom"></div>
+              <div class="gift-box-inside"></div>
+            </div>
+            <div class="gift-ribbon-v"></div>
+            <div class="gift-ribbon-h"></div>
+          </div>
+          <div class="donation-info">
+            <h4>Every Contribution Helps!</h4>
+            <p>Thank you for considering supporting Leo's Insight. Your generosity makes a difference!</p>
+            <a href="https://buy.stripe.com/dR60283HVccj2hW9AF" target="_blank" class="donation-btn">
+              <i class="fas fa-gift"></i> Support Leo's Insight
+            </a>
           </div>
         </div>
       </div>
@@ -2437,7 +2959,7 @@ print("Discover new challenges in Volcanic Fortress!")
             <div class="card-steps">
               <div class="step">Guide Release: March 20, 2025</div>
               <div class="step">Crucial for base protection</div>
-              <div class="step">Tactics for base building & raiding</div>
+              <div class="step">Tactics for base building &amp; raiding</div>
             </div>
             <div class="code-block">
 -- Defense Tactics Guide
@@ -2495,45 +3017,48 @@ print("Prepare for the Weekend Battle Tournament!")
 
         <!-- Fallback content for SEO and initial display -->
         <div id="fallbackNewsContent">
-          <div class="blog-card">
-            <div class="blog-img">
-              <img loading="lazy" src="images/aa8d321b-227b-477d-b192-374f826e7b9e.webp" alt="Roblox FX Boost" />
+          <div class="news-item">
+            <div class="news-item-img">
+              <img loading="lazy" src="images/fxeffect.png" alt="Roblox FX Boost" />
             </div>
-            <div class="blog-content">
-              <div class="blog-meta">
-                <span class="blog-date">April 10, 2025</span>
-                <span class="blog-category">Update</span>
+            <div class="news-item-content">
+              <div class="news-item-meta">
+                <span class="news-item-date">April 10, 2025</span>
+                <span class="news-item-category">Update</span>
               </div>
-              <h3 class="blog-title">Roblox April Update: Particle FX Boost</h3>
-              <p class="blog-excerpt">New rendering enhancements boost VFX performance by 35%. Try them now in Studio!</p>
+              <h3 class="news-item-title">Roblox April Update: Particle FX Boost</h3>
+              <p class="news-item-excerpt">New rendering enhancements boost VFX performance by 35%. Try them now in Studio!</p>
+              <button class="news-item-link">Read More →</button>
             </div>
           </div>
 
-          <div class="blog-card">
-            <div class="blog-img">
-              <img loading="lazy" src="images/ced4e9b2-18ec-4f9a-8571-cf0bf9c86c58.webp" alt="Top Avatar Customizers" />
+          <div class="news-item">
+            <div class="news-item-img">
+              <img loading="lazy" src="images/top3.png" alt="Top Avatar Customizers" />
             </div>
-            <div class="blog-content">
-              <div class="blog-meta">
-                <span class="blog-date">April 5, 2025</span>
-                <span class="blog-category">Creator Tips</span>
+            <div class="news-item-content">
+              <div class="news-item-meta">
+                <span class="news-item-date">April 5, 2025</span>
+                <span class="news-item-category">Creator Tips</span>
               </div>
-              <h3 class="blog-title">Top 3 Avatar Customizers You Need</h3>
-              <p class="blog-excerpt">Explore these trending avatar plugins gaining popularity among Roblox creators.</p>
+              <h3 class="news-item-title">Top 3 Avatar Customizers You Need</h3>
+              <p class="news-item-excerpt">Explore these trending avatar plugins gaining popularity among Roblox creators.</p>
+              <button class="news-item-link">Read More →</button>
             </div>
           </div>
 
-          <div class="blog-card">
-            <div class="blog-img">
-              <img loading="lazy" src="images/0c6aafe0-0c9d-4036-9f1f-103127d41199.webp" alt="Game Pass Revenue" />
+          <div class="news-item">
+            <div class="news-item-img">
+              <img loading="lazy" src="images/breaking_news.png" alt="Game Pass Revenue" />
             </div>
-            <div class="blog-content">
-              <div class="blog-meta">
-                <span class="blog-date">April 2, 2025</span>
-                <span class="blog-category">Economy</span>
+            <div class="news-item-content">
+              <div class="news-item-meta">
+                <span class="news-item-date">April 2, 2025</span>
+                <span class="news-item-category">Economy</span>
               </div>
-              <h3 class="blog-title">Game Pass Revenue Hits Record High</h3>
-              <p class="blog-excerpt">Roblox devs earned over $300M in Q1. Learn how to optimize your Game Pass.</p>
+              <h3 class="news-item-title">Game Pass Revenue Hits Record High</h3>
+              <p class="news-item-excerpt">Roblox devs earned over $300M in Q1. Learn how to optimize your Game Pass.</p>
+              <button class="news-item-link">Read More →</button>
             </div>
           </div>
         </div>
@@ -2673,20 +3198,6 @@ print("Prepare for the Weekend Battle Tournament!")
         <div class="tutorial-grid">
           <div class="tutorial-card">
             <div class="video-container">
-              <iframe src="https://www.youtube.com/embed/LcjRb6tiuMk" title="Roblox Studio for Beginners" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-            <div class="tutorial-content">
-              <h3 class="tutorial-title">Roblox Studio for Beginners</h3>
-              <p class="tutorial-desc">A comprehensive introduction to Roblox Studio covering all the basics you need to get started.</p>
-              <div class="tutorial-meta">
-                <span class="tutorial-level">Beginner</span>
-                <span>30 min</span>
-              </div>
-              <button class="expand-video-btn" data-video-id="LcjRb6tiuMk">Watch Full Screen</button>
-            </div>
-          </div>
-          <div class="tutorial-card">
-            <div class="video-container">
               <iframe src="https://www.youtube.com/embed/p005iduooyw" title="Ultimate Beginner Guide to Roblox Studio" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             <div class="tutorial-content">
@@ -2701,21 +3212,21 @@ print("Prepare for the Weekend Battle Tournament!")
           </div>
           <div class="tutorial-card">
             <div class="video-container">
-              <iframe src="https://www.youtube.com/embed/9MUgLaF22Yo" title="Roblox Scripting Basics 2024" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <iframe src="https://www.youtube.com/embed/nhRxmfto20c" title="The BEST guide to Roblox Scripting in 2024" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             <div class="tutorial-content">
               <h3 class="tutorial-title">Roblox Scripting Basics (2024)</h3>
-              <p class="tutorial-desc">Learn the fundamentals of Roblox scripting with this up-to-date tutorial for beginners.</p>
+              <p class="tutorial-desc">The BEST guide to Roblox Scripting in 2024 - Episode 1 (Printing)</p>
               <div class="tutorial-meta">
                 <span class="tutorial-level">Beginner</span>
-                <span>40 min</span>
+                <span>15 min</span>
               </div>
-              <button class="expand-video-btn" data-video-id="9MUgLaF22Yo">Watch Full Screen</button>
+              <button class="expand-video-btn" data-video-id="nhRxmfto20c">Watch Full Screen</button>
             </div>
           </div>
           <div class="tutorial-card">
             <div class="video-container">
-              <iframe src="https://www.youtube.com/embed/aX0Kw_txrIY" title="How To Script On Roblox" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <iframe src="https://www.youtube.com/embed/aX0Kw_txrIY" title="How To Script On Roblox - Episode 1 (Properties) - AlvinBlox" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             <div class="tutorial-content">
               <h3 class="tutorial-title">How To Script On Roblox</h3>
@@ -2729,58 +3240,58 @@ print("Prepare for the Weekend Battle Tournament!")
           </div>
           <div class="tutorial-card">
             <div class="video-container">
-              <iframe src="https://www.youtube.com/embed/3Pj3jACFZQo" title="Creating GUI in Roblox" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <iframe src="https://www.youtube.com/embed/L8Fg1pxPrzY" title="How To Make GUI | Roblox Studio" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             <div class="tutorial-content">
               <h3 class="tutorial-title">Creating GUI in Roblox</h3>
               <p class="tutorial-desc">A step-by-step guide to creating user interfaces for your Roblox games.</p>
               <div class="tutorial-meta">
                 <span class="tutorial-level">Intermediate</span>
-                <span>50 min</span>
+                <span>20 min</span>
               </div>
-              <button class="expand-video-btn" data-video-id="3Pj3jACFZQo">Watch Full Screen</button>
+              <button class="expand-video-btn" data-video-id="L8Fg1pxPrzY">Watch Full Screen</button>
             </div>
           </div>
           <div class="tutorial-card">
             <div class="video-container">
-              <iframe src="https://www.youtube.com/embed/ckDhHKUzJIg" title="Roblox Character Animation" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <iframe src="https://www.youtube.com/embed/DanjB0cTfw0" title="Create character animations | Roblox Creator Hub" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             <div class="tutorial-content">
               <h3 class="tutorial-title">Character Animation in Roblox</h3>
               <p class="tutorial-desc">Learn how to create and implement custom animations for your Roblox characters.</p>
               <div class="tutorial-meta">
                 <span class="tutorial-level">Intermediate</span>
-                <span>35 min</span>
+                <span>25 min</span>
               </div>
-              <button class="expand-video-btn" data-video-id="ckDhHKUzJIg">Watch Full Screen</button>
+              <button class="expand-video-btn" data-video-id="DanjB0cTfw0">Watch Full Screen</button>
             </div>
           </div>
           <div class="tutorial-card">
             <div class="video-container">
-              <iframe src="https://www.youtube.com/embed/Wh3DyR_KyhI" title="Roblox Tower Defense Tutorial" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <iframe src="https://www.youtube.com/embed/Fm24WT5e4QQ" title="How To Make A Tower Defense Game In Roblox! (NO Scripting)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             <div class="tutorial-content">
               <h3 class="tutorial-title">Tower Defense Game Tutorial</h3>
-              <p class="tutorial-desc">Learn how to build a tower defense game in Roblox with this detailed tutorial.</p>
+              <p class="tutorial-desc">Learn how to build a tower defense game in Roblox with this detailed tutorial (NO Scripting).</p>
               <div class="tutorial-meta">
                 <span class="tutorial-level">Intermediate</span>
-                <span>60 min</span>
+                <span>30 min</span>
               </div>
-              <button class="expand-video-btn" data-video-id="Wh3DyR_KyhI">Watch Full Screen</button>
+              <button class="expand-video-btn" data-video-id="Fm24WT5e4QQ">Watch Full Screen</button>
             </div>
           </div>
           <div class="tutorial-card">
             <div class="video-container">
-              <iframe src="https://www.youtube.com/embed/NzpNR5e-gSs" title="Roblox Game Development" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <iframe src="https://www.youtube.com/embed/t_AVxdkp7vA" title="Introduction to scripting | Roblox Creator Hub" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             <div class="tutorial-content">
               <h3 class="tutorial-title">Complete Game Development</h3>
-              <p class="tutorial-desc">Follow along to create a complete Roblox game from start to finish.</p>
+              <p class="tutorial-desc">Introduction to scripting from the official Roblox Creator Hub documentation.</p>
               <div class="tutorial-meta">
                 <span class="tutorial-level">Advanced</span>
-                <span>90 min</span>
+                <span>60 min</span>
               </div>
-              <button class="expand-video-btn" data-video-id="NzpNR5e-gSs">Watch Full Screen</button>
+              <button class="expand-video-btn" data-video-id="t_AVxdkp7vA">Watch Full Screen</button>
             </div>
           </div>
         </div>
@@ -2790,7 +3301,7 @@ print("Prepare for the Weekend Battle Tournament!")
           <div class="video-modal-content">
             <span class="close-video-modal">&times;</span>
             <div class="modal-video-container">
-              <iframe id="modalVideoFrame" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <iframe id="modalVideoFrame" src="about:blank" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
           </div>
         </div>
@@ -2806,7 +3317,7 @@ print("Prepare for the Weekend Battle Tournament!")
       <p>Subscribe to our newsletter for exclusive game tips, character reveals, special event announcements, and more epic Roblox content!</p>
       <form class="subscribe-form">
         <input type="email" class="subscribe-input" placeholder="Enter your email address" aria-label="Email address for newsletter" required />
-        <button type="submit" class="subscribe-btn">SUBSCRIBE</button>
+        <button type="submit" class="subscribe-btn">JOIN</button>
       </form>
     </div>
   </section>
@@ -2873,9 +3384,9 @@ print("Prepare for the Weekend Battle Tournament!")
         <div class="moderation-notice">
           <div class="moderation-icon">⚠️</div>
           <div class="moderation-text">
-            <strong>Community Safety Notice:</strong> This message board is moderated for our young community (ages 11-21).
-            Inappropriate language, bullying, and personal information will be automatically filtered.
-            Please follow our <a href="#about">community guidelines</a>.
+            <strong>COMMUNITY SAFETY NOTICE:</strong> THIS MESSAGE BOARD IS MODERATED FOR OUR YOUNG COMMUNITY (AGES 11-21).
+            INAPPROPRIATE LANGUAGE, BULLYING, AND PERSONAL INFORMATION WILL BE AUTOMATICALLY FILTERED.
+            PLEASE FOLLOW OUR <a href="#about">COMMUNITY GUIDELINES</a>.
           </div>
         </div>
         <div class="messages-list" id="messagesList">
@@ -2924,8 +3435,7 @@ print("Prepare for the Weekend Battle Tournament!")
           <ul class="footer-links">
             <li><a href="#">Home</a></li>
             <li><a href="#characters">Cool Characters</a></li>
-            <li><a href="#news">Game News</a></li>
-            <li><a href="#blog">Blog</a></li>
+            <li><a href="#blog">Game News &amp; Blog</a></li>
             <li><a href="#community">Our Squad</a></li>
             <li><a href="#message-board">Message HQ</a></li>
             <li><a href="#achievements">Achievements</a></li>
@@ -2934,14 +3444,21 @@ print("Prepare for the Weekend Battle Tournament!")
           </ul>
         </div>
         <div class="footer-col">
-          <h3>POPULAR GAMES</h3>
-          <ul class="footer-links">
-            <li><a href="#">Battle Arena</a></li>
-            <li><a href="#">Blox Adventure</a></li>
-            <li><a href="#">Galactic Defenders</a></li>
-            <li><a href="#">Zombie Survival</a></li>
-            <li><a href="#">Racing Champions</a></li>
-          </ul>
+          <h3>LIVE GAME FEEDS</h3>
+          <div class="live-feeds-container">
+            <div class="live-feed">
+              <h4>POPULAR GAMES <span class="live-indicator">LIVE</span></h4>
+              <ul id="popularGamesFeed" class="game-feed">
+                <li class="loading-item">Loading popular games...</li>
+              </ul>
+            </div>
+            <div class="live-feed">
+              <h4>UPCOMING GAMES <span class="live-indicator">LIVE</span></h4>
+              <ul id="upcomingGamesFeed" class="game-feed">
+                <li class="loading-item">Loading upcoming games...</li>
+              </ul>
+            </div>
+          </div>
         </div>
         <div class="footer-col">
           <h3>CONTACT US</h3>
@@ -2962,18 +3479,91 @@ print("Prepare for the Weekend Battle Tournament!")
     </div>
   </footer>
 
-  <!-- Gun.js Real-Time Messaging Integration with Optimizations -->
+  <!-- Gun.js Real-Time Messaging Integration with High-Concurrency Optimizations -->
   <script>
-    // Initialize Gun.js with multiple relays for redundancy and better performance
+    // Initialize Gun.js with optimizations for 52,000+ concurrent users
     const gun = Gun({
       peers: [
         'https://gun-manhattan.herokuapp.com/gun',
         'https://gun-us.herokuapp.com/gun',
-        'https://gun-eu.herokuapp.com/gun'
+        'https://gun-eu.herokuapp.com/gun',
+        'https://gun-relay.glitch.me/gun'
       ],
       localStorage: false,  // Disable localStorage for better performance
-      radisk: false        // Disable radisk for better performance
+      radisk: false,       // Disable radisk for better performance
+      axe: false,          // Disable Axe for better performance
+      multicast: false,    // Disable multicast for better performance
+      rtc: false,          // Disable WebRTC for better performance
+      wait: 0,             // Reduce wait time for faster response
+      retry: 1500,         // Increase retry delay to reduce server load
+      chunk: 1024,         // Optimize chunk size for better network performance
+      lack: 1000,          // Increase lack timeout for better performance
+      gap: 500,            // Increase gap for better performance with high concurrency
+      mesh: 250,           // Reduce mesh network updates for high concurrency
+      pack: 5000,          // Increase pack size for better network efficiency
+      memory: 2000         // Limit memory usage for better performance
     });
+
+    // Create a connection pool for better handling of 52,000+ concurrent requests
+    const connectionPool = {
+      maxConnections: 100, // Increased for high concurrency
+      activeConnections: 0,
+      queue: [],
+      priorityQueue: [], // Priority queue for critical operations
+      lastCleanup: Date.now(),
+      cleanupInterval: 30000, // 30 seconds
+
+      // Get a connection from the pool
+      getConnection: function(priority = false) {
+        // Periodically clean up stale connections
+        this._cleanupCheck();
+
+        if (this.activeConnections < this.maxConnections) {
+          this.activeConnections++;
+          return Promise.resolve();
+        } else {
+          return new Promise(resolve => {
+            if (priority) {
+              this.priorityQueue.push({ resolve, timestamp: Date.now() });
+            } else {
+              this.queue.push({ resolve, timestamp: Date.now() });
+            }
+          });
+        }
+      },
+
+      // Release a connection back to the pool
+      releaseConnection: function() {
+        if (this.priorityQueue.length > 0) {
+          const { resolve } = this.priorityQueue.shift();
+          resolve();
+        } else if (this.queue.length > 0) {
+          const { resolve } = this.queue.shift();
+          resolve();
+        } else {
+          this.activeConnections = Math.max(0, this.activeConnections - 1);
+        }
+      },
+
+      // Check and clean up stale connections
+      _cleanupCheck: function() {
+        const now = Date.now();
+        if (now - this.lastCleanup > this.cleanupInterval) {
+          // Clean up stale requests (older than 10 seconds)
+          const staleTimeout = 10000;
+          this.queue = this.queue.filter(item => now - item.timestamp < staleTimeout);
+          this.priorityQueue = this.priorityQueue.filter(item => now - item.timestamp < staleTimeout);
+
+          // Reset connection count if it seems stuck
+          if (this.activeConnections > this.maxConnections * 0.9 && this.queue.length === 0 && this.priorityQueue.length === 0) {
+            console.warn('Connection pool may be stuck, resetting count');
+            this.activeConnections = Math.floor(this.maxConnections * 0.5);
+          }
+
+          this.lastCleanup = now;
+        }
+      }
+    };
 
     // DOM Elements
     const messageForm = document.getElementById('messageForm');
@@ -3110,12 +3700,49 @@ print("Prepare for the Weekend Battle Tournament!")
     // Reference to messages
     const messagesRef = gun.get('leosinsight-messages');
 
-    // Handle form submission with optimistic UI updates
-    messageForm.addEventListener('submit', function(e) {
+    // Track sent message IDs to prevent duplicates
+    const sentMessageIds = new Set();
+
+    // Function to generate a unique message ID
+    function generateMessageId(username, timestamp) {
+      return `${username}-${timestamp}-${Math.random().toString(36).substring(2, 10)}`;
+    }
+
+    // Function to read file as base64
+    function readFileAsBase64(file) {
+      return new Promise((resolve, reject) => {
+        if (!file) {
+          resolve(null);
+          return;
+        }
+
+        // Check file size (limit to 5MB)
+        const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+        if (file.size > MAX_FILE_SIZE) {
+          reject(new Error(`File size exceeds 5MB limit (${(file.size / (1024 * 1024)).toFixed(2)}MB)`));
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = () => resolve({
+          data: reader.result,
+          type: file.type,
+          name: file.name,
+          size: file.size
+        });
+        reader.onerror = () => reject(new Error('Failed to read file'));
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // Handle form submission with optimistic UI updates and file upload
+    messageForm.addEventListener('submit', async function(e) {
       e.preventDefault();
 
       const username = usernameInput.value.trim();
       const message = messageInput.value.trim();
+      const fileInput = document.getElementById('file');
+      const file = fileInput.files[0];
 
       if (!username || !message) {
         sendStatus.textContent = 'Please fill in all fields';
@@ -3137,63 +3764,120 @@ print("Prepare for the Weekend Battle Tournament!")
       submitButton.disabled = true;
       sendStatus.textContent = 'Sending...';
 
-      // Create message data
-      const messageData = {
-        username: sanitizeInput(username),
-        message: sanitizeInput(message),
-        timestamp: Date.now()
-      };
-
-      // Optimistic UI update - show message immediately
-      addMessageToUI(messageData, 'temp-' + Date.now());
-
-      // Send to Gun.js with enhanced retry logic and timeout handling
-      const sendWithRetry = (retries = 3) => {
-        // Set a timeout watchdog for ACK
-        const ackTimeout = setTimeout(() => {
-          sendStatus.textContent = 'Connection timeout. Retrying...';
-          sendStatus.className = 'send-status error';
-          if (retries > 0) {
-            sendWithRetry(retries - 1);
-          } else {
-            sendStatus.textContent = 'Failed to send after multiple attempts. Please try again later.';
-            submitButton.disabled = false;
-          }
-        }, 3000); // 3 second timeout
-
-        messagesRef.set(messageData, ack => {
-          // Clear the timeout since we got a response
-          clearTimeout(ackTimeout);
-
-          if (ack.err && retries > 0) {
-            sendStatus.textContent = `Error: ${ack.err}. Retrying...`;
+      try {
+        // Process file if present
+        let fileData = null;
+        if (file) {
+          try {
+            sendStatus.textContent = 'Processing file...';
+            fileData = await readFileAsBase64(file);
+          } catch (error) {
+            sendStatus.textContent = error.message;
             sendStatus.className = 'send-status error';
-            setTimeout(() => sendWithRetry(retries - 1), 1000);
+            submitButton.disabled = false;
             return;
           }
+        }
 
-          if (ack.err) {
-            sendStatus.textContent = `Failed to send: ${ack.err}. Please try again.`;
+        // Generate a unique message ID
+        const timestamp = Date.now();
+        const messageId = generateMessageId(username, timestamp);
+
+        // Add to tracking set to prevent duplicates
+        sentMessageIds.add(messageId);
+
+        // Create message data
+        const messageData = {
+          id: messageId,
+          username: sanitizeInput(username),
+          message: sanitizeInput(message),
+          timestamp: timestamp,
+          file: fileData
+        };
+
+        // Optimistic UI update - show message immediately
+        addMessageToUI(messageData, messageId);
+
+        // Send to Gun.js with enhanced retry logic, timeout handling, and connection pooling
+        const sendWithRetry = (retries = 3) => {
+          // Get a connection from the pool with priority for message sending
+          connectionPool.getConnection(true).then(() => {
+            // Set a timeout watchdog for ACK
+            const ackTimeout = setTimeout(() => {
+              sendStatus.textContent = 'Connection timeout. Retrying...';
+              sendStatus.className = 'send-status error';
+              // Release the connection back to the pool
+              connectionPool.releaseConnection();
+
+              if (retries > 0) {
+                sendWithRetry(retries - 1);
+              } else {
+                sendStatus.textContent = 'Failed to send after multiple attempts. Please try again later.';
+                submitButton.disabled = false;
+              }
+            }, 8000); // 8 second timeout for high-load scenarios with file uploads
+
+            try {
+              messagesRef.set(messageData, ack => {
+                // Clear the timeout since we got a response
+                clearTimeout(ackTimeout);
+                // Release the connection back to the pool
+                connectionPool.releaseConnection();
+
+                if (ack.err && retries > 0) {
+                  sendStatus.textContent = `Error: ${ack.err}. Retrying...`;
+                  sendStatus.className = 'send-status error';
+                  setTimeout(() => sendWithRetry(retries - 1), 1500); // Increased retry delay
+                  return;
+                }
+
+                if (ack.err) {
+                  sendStatus.textContent = `Failed to send: ${ack.err}. Please try again.`;
+                  sendStatus.className = 'send-status error';
+                } else {
+                  sendStatus.textContent = 'Message sent!';
+                  sendStatus.className = 'send-status';
+                  messageForm.reset();
+
+                  // Restore username from localStorage
+                  usernameInput.value = localStorage.getItem('username') || '';
+
+                  // Register message for badge system
+                  registerMessageSent();
+                }
+
+                submitButton.disabled = false;
+
+                // Clear status after 3 seconds
+                setTimeout(() => {
+                  sendStatus.textContent = '';
+                }, 3000);
+              });
+            } catch (error) {
+              // Handle unexpected errors
+              clearTimeout(ackTimeout);
+              connectionPool.releaseConnection();
+              console.error('Error sending message:', error);
+              sendStatus.textContent = 'An unexpected error occurred. Please try again.';
+              sendStatus.className = 'send-status error';
+              submitButton.disabled = false;
+            }
+          }).catch(error => {
+            // Handle connection pool errors
+            console.error('Connection pool error:', error);
+            sendStatus.textContent = 'Too many concurrent requests. Please try again in a moment.';
             sendStatus.className = 'send-status error';
-          } else {
-            sendStatus.textContent = 'Message sent!';
-            sendStatus.className = 'send-status';
-            messageForm.reset();
+            submitButton.disabled = false;
+          });
+        };
 
-            // Restore username from localStorage
-            usernameInput.value = localStorage.getItem('username') || '';
-          }
-
-          submitButton.disabled = false;
-
-          // Clear status after 3 seconds
-          setTimeout(() => {
-            sendStatus.textContent = '';
-          }, 3000);
-        });
-      };
-
-      sendWithRetry();
+        sendWithRetry();
+      } catch (error) {
+        console.error('Error in message submission:', error);
+        sendStatus.textContent = 'An error occurred. Please try again.';
+        sendStatus.className = 'send-status error';
+        submitButton.disabled = false;
+      }
     });
 
     // Message batch processing for performance
@@ -3212,8 +3896,15 @@ print("Prepare for the Weekend Battle Tournament!")
 
       messageBatch.forEach(item => {
         const { data, key } = item;
-        // Check if message already exists (to prevent duplicates)
+
+        // Skip if message already exists or is in the sent message tracking set
         if (document.querySelector(`[data-id="${key}"]`)) return;
+        if (data.id && sentMessageIds.has(data.id)) return;
+
+        // Add to tracking set if it has an ID
+        if (data.id) {
+          sentMessageIds.add(data.id);
+        }
 
         const newMessage = document.createElement('div');
         newMessage.className = 'message';
@@ -3248,6 +3939,65 @@ print("Prepare for the Weekend Battle Tournament!")
         messageContent.className = 'message-content';
         messageContent.textContent = data.message;
 
+        // Add file attachment if present
+        if (data.file && data.file.data) {
+          const fileAttachment = document.createElement('div');
+          fileAttachment.className = 'message-attachment';
+
+          // Check if it's an image or video
+          if (data.file.type.startsWith('image/')) {
+            const img = document.createElement('img');
+            img.src = data.file.data;
+            img.alt = 'Image attachment';
+            img.className = 'message-image';
+            img.loading = 'lazy';
+
+            // Add click to view full size
+            img.addEventListener('click', function() {
+              const fullImg = document.createElement('div');
+              fullImg.className = 'fullsize-image-overlay';
+              fullImg.innerHTML = `
+                <div class="fullsize-image-container">
+                  <img src="${data.file.data}" alt="Full size image">
+                  <button class="close-fullsize">×</button>
+                </div>
+              `;
+              document.body.appendChild(fullImg);
+
+              // Close on button click
+              fullImg.querySelector('.close-fullsize').addEventListener('click', function() {
+                fullImg.remove();
+              });
+
+              // Close on background click
+              fullImg.addEventListener('click', function(e) {
+                if (e.target === fullImg) {
+                  fullImg.remove();
+                }
+              });
+            });
+
+            fileAttachment.appendChild(img);
+          } else if (data.file.type.startsWith('video/')) {
+            const video = document.createElement('video');
+            video.src = data.file.data;
+            video.controls = true;
+            video.className = 'message-video';
+            video.preload = 'metadata';
+            fileAttachment.appendChild(video);
+          } else {
+            // For other file types, show a download link
+            const fileLink = document.createElement('a');
+            fileLink.href = data.file.data;
+            fileLink.download = data.file.name || 'download';
+            fileLink.className = 'file-download-link';
+            fileLink.innerHTML = `<i class="fas fa-download"></i> Download ${data.file.name || 'file'} (${(data.file.size / 1024).toFixed(1)}KB)`;
+            fileAttachment.appendChild(fileLink);
+          }
+
+          messageContent.appendChild(fileAttachment);
+        }
+
         // Assemble message
         messageHeader.appendChild(messageUser);
         messageHeader.appendChild(messageTime);
@@ -3269,6 +4019,14 @@ print("Prepare for the Weekend Battle Tournament!")
         for (let i = maxMessages; i < messages.length; i++) {
           messages[i].remove();
         }
+      }
+
+      // Limit the size of the sentMessageIds set to prevent memory leaks
+      if (sentMessageIds.size > 200) {
+        // Convert to array, slice to keep only the most recent 100, and convert back to Set
+        const idsArray = Array.from(sentMessageIds);
+        sentMessageIds.clear();
+        idsArray.slice(-100).forEach(id => sentMessageIds.add(id));
       }
 
       // Clear the batch
@@ -3337,29 +4095,76 @@ print("Prepare for the Weekend Battle Tournament!")
     // Store Gun listeners for cleanup
     const gunListeners = [];
 
-    // Listen for new messages with improved error handling and throttling
+    // Listen for new messages with improved error handling, throttling, and pagination for high concurrency
     let messagesLoaded = 0;
-    const initialLoadListener = messagesRef.map().once((data, key) => {
-      if (data) {
-        addMessageToUI(data, key);
-        messagesLoaded++;
+    const MAX_INITIAL_MESSAGES = 20; // Limit initial load for better performance
 
-        // Hide loading indicator after initial messages load
-        if (messagesLoaded >= 1) {
+    // Function to load messages with pagination and connection pooling
+    function loadMessages() {
+      // Get a connection from the pool
+      connectionPool.getConnection().then(() => {
+        try {
+          // Use once() with a limit for pagination
+          messagesRef.map().limit(MAX_INITIAL_MESSAGES).once((data, key) => {
+            if (data) {
+              addMessageToUI(data, key);
+              messagesLoaded++;
+
+              // Hide loading indicator after initial messages load
+              if (messagesLoaded >= 1) {
+                loadingIndicator.style.display = 'none';
+              }
+            }
+            // Release the connection back to the pool
+            connectionPool.releaseConnection();
+          });
+        } catch (error) {
+          console.error('Error loading messages:', error);
+          connectionPool.releaseConnection();
           loadingIndicator.style.display = 'none';
         }
-      }
-    });
-    gunListeners.push(initialLoadListener);
+      }).catch(error => {
+        console.error('Connection pool error during message load:', error);
+        loadingIndicator.style.display = 'none';
+      });
+    }
+
+    // Load initial messages
+    loadMessages();
 
     // Set a timeout to hide loading indicator even if no messages are found
     setTimeout(() => {
       loadingIndicator.style.display = 'none';
     }, 3000);
 
-    // Real-time updates for new messages with throttling
+    // Real-time updates for new messages with throttling and connection pooling
     const realtimeListener = messagesRef.map().on((data, key) => {
-      throttledAddMessage(data, key);
+      // Skip if this message is already in our tracking set
+      if (data && data.id && sentMessageIds.has(data.id)) {
+        return;
+      }
+
+      // Use connection pool for real-time updates
+      connectionPool.getConnection().then(() => {
+        try {
+          // Add to tracking set if it has an ID
+          if (data && data.id) {
+            sentMessageIds.add(data.id);
+          }
+          throttledAddMessage(data, key);
+        } finally {
+          connectionPool.releaseConnection();
+        }
+      }).catch(() => {
+        // If connection pool is full, still try to update UI but with more throttling
+        setTimeout(() => {
+          // Check again before adding after timeout
+          if (data && data.id && !sentMessageIds.has(data.id)) {
+            if (data.id) sentMessageIds.add(data.id);
+            throttledAddMessage(data, key);
+          }
+        }, 500);
+      });
     });
     gunListeners.push(realtimeListener);
 
@@ -3399,6 +4204,57 @@ print("Prepare for the Weekend Battle Tournament!")
         const target = document.querySelector(this.getAttribute('href'));
         if (target) { window.scrollTo({ top: target.offsetTop, behavior: 'smooth' }); }
       });
+    });
+
+    // Music Player Functionality
+    document.addEventListener("DOMContentLoaded", () => {
+      const audio = document.getElementById("robloxTheme");
+      const toggleButton = document.getElementById("toggleMusic");
+      let musicEnabled = false;
+
+      // Function to toggle music
+      function toggleMusic() {
+        if (audio.paused) {
+          audio.play()
+            .then(() => {
+              toggleButton.classList.add("playing");
+              musicEnabled = true;
+              localStorage.setItem("musicEnabled", "true");
+            })
+            .catch(err => {
+              console.log("Autoplay blocked:", err);
+            });
+        } else {
+          audio.pause();
+          toggleButton.classList.remove("playing");
+          musicEnabled = false;
+          localStorage.setItem("musicEnabled", "false");
+        }
+      }
+
+      // Add click event to toggle button
+      toggleButton.addEventListener("click", toggleMusic);
+
+      // Enable music on first interaction with the page
+      document.body.addEventListener("click", () => {
+        // Only auto-play if user hasn't explicitly disabled music
+        if (localStorage.getItem("musicEnabled") !== "false" && !musicEnabled) {
+          toggleMusic();
+        }
+      }, { once: true });
+
+      // Check if music was previously enabled
+      if (localStorage.getItem("musicEnabled") === "true") {
+        // We need to wait for user interaction before playing
+        document.body.addEventListener("click", () => {
+          if (!musicEnabled) {
+            toggleMusic();
+          }
+        }, { once: true });
+
+        // Show the button as active even before playing
+        toggleButton.classList.add("playing");
+      }
     });
   </script>
 
@@ -3440,7 +4296,7 @@ print("Prepare for the Weekend Battle Tournament!")
         excerpt: "New rendering enhancements boost VFX performance by 35%. Try them now in Studio!",
         date: "April 10, 2025",
         category: "Update",
-        img: "images/aa8d321b-227b-477d-b192-374f826e7b9e.webp",
+        img: "images/fxeffect.png",
         link: "https://blog.roblox.com"
       },
       {
@@ -3448,7 +4304,7 @@ print("Prepare for the Weekend Battle Tournament!")
         excerpt: "Explore these trending avatar plugins gaining popularity among Roblox creators.",
         date: "April 5, 2025",
         category: "Creator Tips",
-        img: "images/ced4e9b2-18ec-4f9a-8571-cf0bf9c86c58.webp",
+        img: "images/top3.png",
         link: "https://blog.roblox.com"
       },
       {
@@ -3456,7 +4312,7 @@ print("Prepare for the Weekend Battle Tournament!")
         excerpt: "Roblox devs earned over $300M in Q1. Learn how to optimize your Game Pass.",
         date: "April 2, 2025",
         category: "Economy",
-        img: "images/0c6aafe0-0c9d-4036-9f1f-103127d41199.webp",
+        img: "images/breaking_news.png",
         link: "https://blog.roblox.com"
       },
       {
@@ -3464,7 +4320,7 @@ print("Prepare for the Weekend Battle Tournament!")
         excerpt: "Get ready for the biggest Roblox event of the summer with exclusive items and special game modes.",
         date: "March 28, 2025",
         category: "Event",
-        img: "images/aa8d321b-227b-477d-b192-374f826e7b9e.webp",
+        img: "images/fxeffect.png",
         link: "https://blog.roblox.com"
       },
       {
@@ -3472,7 +4328,7 @@ print("Prepare for the Weekend Battle Tournament!")
         excerpt: "Enhanced account protection and parental controls now available for all users.",
         date: "March 25, 2025",
         category: "Security",
-        img: "images/ced4e9b2-18ec-4f9a-8571-cf0bf9c86c58.webp",
+        img: "images/top3.png",
         link: "https://blog.roblox.com"
       },
       {
@@ -3480,7 +4336,7 @@ print("Prepare for the Weekend Battle Tournament!")
         excerpt: "New AI assistant helps developers create scripts and design game mechanics faster.",
         date: "March 20, 2025",
         category: "Development",
-        img: "images/0c6aafe0-0c9d-4036-9f1f-103127d41199.webp",
+        img: "images/breaking_news.png",
         link: "https://blog.roblox.com"
       }
     ];
@@ -3498,11 +4354,19 @@ print("Prepare for the Weekend Battle Tournament!")
       // Simulate network delay for realistic effect (300-800ms)
       setTimeout(() => {
         try {
-          // Shuffle the posts array to get random posts each time
-          const shuffledPosts = [...blogPosts].sort(() => 0.5 - Math.random());
+          // Ensure we have posts with all three specific images
+          // First, find posts with each image type
+          const top3Post = blogPosts.find(post => post.img === "images/top3.png");
+          const breakingNewsPost = blogPosts.find(post => post.img === "images/breaking_news.png");
+          const fxEffectPost = blogPosts.find(post => post.img === "images/fxeffect.png");
 
-          // Take the first 3 posts
-          const selectedPosts = shuffledPosts.slice(0, 3);
+          // Create an array with exactly one post for each image
+          // If any image doesn't have a post, we'll create a default one
+          const selectedPosts = [
+            top3Post || { ...blogPosts[0], img: "images/top3.png" },
+            breakingNewsPost || { ...blogPosts[1], img: "images/breaking_news.png" },
+            fxEffectPost || { ...blogPosts[2], img: "images/fxeffect.png" }
+          ];
 
           // Save to Gun.js for persistence
           gun.get('roblox-news').put({
@@ -3650,93 +4514,417 @@ print("Prepare for the Weekend Battle Tournament!")
       return allPassed;
     };
 
-    // Run self-audit on load (silent mode)
-    document.addEventListener('DOMContentLoaded', function() {
-      // Wait for everything to initialize
-      setTimeout(() => {
-        const auditResult = window.runSelfAudit();
-        console.log(`%c🧠 Leo's Insight is ${auditResult ? 'healthy' : 'needs attention'}`,
-          `color: ${auditResult ? '#4ee44e' : '#ff4500'}; font-weight: bold;`);
-      }, 2000);
+    // Function to ensure blog images are properly sized and displayed
+    function initBlogImageStyles() {
+      // Add event listeners to ensure images are properly loaded
+      const blogImages = document.querySelectorAll('.blog-img img');
 
-      // Initialize badge system
-      initBadgeSystem();
+      blogImages.forEach(img => {
+        // When image loads, adjust container height if needed
+        img.addEventListener('load', function() {
+          // Make sure the image is visible at its natural aspect ratio
+          this.style.height = 'auto';
+          this.style.maxHeight = 'none';
+
+          // If image is too tall, add a max-height
+          if (this.height > 400) {
+            this.style.maxHeight = '400px';
+            this.style.objectFit = 'cover';
+            this.style.objectPosition = 'center top';
+          }
+        });
+
+        // Force reload of image to trigger load event
+        if (img.complete) {
+          const src = img.src;
+          img.src = '';
+          img.src = src;
+        }
+      });
+    }
+
+    // Run self-audit on load (silent mode)
+    document.addEventListener('DOMContentLoaded', async function() {
+      try {
+        // Initialize badge system first (async)
+        await initBadgeSystem();
+
+        // Initialize blog image styles
+        initBlogImageStyles();
+
+        // Wait for everything to initialize
+        setTimeout(() => {
+          try {
+            const auditResult = window.runSelfAudit();
+            console.log(`%c🧠 Leo's Insight is ${auditResult ? 'healthy' : 'needs attention'}`,
+              `color: ${auditResult ? '#4ee44e' : '#ff4500'}; font-weight: bold;`);
+          } catch (error) {
+            console.error('Error running self-audit:', error);
+          }
+        }, 2000);
+      } catch (error) {
+        console.error('Error during initialization:', error);
+      }
     });
 
     // ===== BADGE SYSTEM FUNCTIONALITY =====
-    // Badge definitions
+    // Badge definitions with async support
     const badges = [
       {
         id: "newcomer",
         title: "Newcomer",
         desc: "Awarded for joining",
         icon: "⭐",
-        check: () => true // Always awarded
+        check: async () => true // Always awarded
       },
       {
         id: "active",
         title: "Active Member",
         desc: "Awarded for activity",
         icon: "🛡️",
-        check: () => getVisitCount() >= 5
+        check: async () => await getVisitCount() >= 5
       },
       {
         id: "chatterbox",
         title: "Chatterbox",
         desc: "Awarded for messaging",
         icon: "💬",
-        check: () => getMessagesSent() >= 3
+        check: async () => await getMessagesSent() >= 3
       },
       {
         id: "topcontributor",
         title: "Top Contributor",
         desc: "Awarded for contribution",
         icon: "🥇",
-        check: () => getVisitCount() + getMessagesSent() >= 10
+        check: async () => (await getVisitCount()) + (await getMessagesSent()) >= 10
+      },
+      {
+        id: "scriptnovice",
+        title: "Script Novice",
+        desc: "Created your first Lua script",
+        icon: "📝",
+        check: async () => {
+          try {
+            const db = await dbPromise;
+            if (db) {
+              return new Promise(resolve => {
+                const tx = db.transaction('userData', 'readonly');
+                const store = tx.objectStore('userData');
+                const request = store.get('scriptSubmitted');
+
+                request.onsuccess = event => {
+                  const data = event.target.result;
+                  resolve(data ? data.value === true : false);
+                };
+
+                request.onerror = () => {
+                  resolve(localStorage.getItem("scriptSubmitted") === "true");
+                };
+              });
+            }
+          } catch (error) {
+            console.error('Error checking script submitted:', error);
+          }
+          return localStorage.getItem("scriptSubmitted") === "true";
+        }
+      },
+      {
+        id: "scriptmaster",
+        title: "Script Master",
+        desc: "Created 3+ Lua scripts",
+        icon: "🧠",
+        check: async () => {
+          try {
+            const db = await dbPromise;
+            if (db) {
+              return new Promise(resolve => {
+                const tx = db.transaction('userData', 'readonly');
+                const store = tx.objectStore('userData');
+                const request = store.get('scriptsSubmitted');
+
+                request.onsuccess = event => {
+                  const data = event.target.result;
+                  resolve(data ? data.count >= 3 : false);
+                };
+
+                request.onerror = () => {
+                  resolve(parseInt(localStorage.getItem("scriptsSubmitted") || 0) >= 3);
+                };
+              });
+            }
+          } catch (error) {
+            console.error('Error checking scripts submitted:', error);
+          }
+          return parseInt(localStorage.getItem("scriptsSubmitted") || 0) >= 3;
+        }
+      },
+      {
+        id: "codeexporter",
+        title: "Code Exporter",
+        desc: "Exported a Lua script",
+        icon: "💾",
+        check: async () => {
+          try {
+            const db = await dbPromise;
+            if (db) {
+              return new Promise(resolve => {
+                const tx = db.transaction('userData', 'readonly');
+                const store = tx.objectStore('userData');
+                const request = store.get('scriptExported');
+
+                request.onsuccess = event => {
+                  const data = event.target.result;
+                  resolve(data ? data.value === true : false);
+                };
+
+                request.onerror = () => {
+                  resolve(localStorage.getItem("scriptExported") === "true");
+                };
+              });
+            }
+          } catch (error) {
+            console.error('Error checking script exported:', error);
+          }
+          return localStorage.getItem("scriptExported") === "true";
+        }
       }
     ];
 
-    // Helper functions for badge system
-    function getVisitCount() {
-      return parseInt(localStorage.getItem("visitCount") || 0);
+    // IndexedDB for persistent storage
+    const dbPromise = (() => {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open('LeosInsightDB', 1);
+
+        request.onerror = event => {
+          console.error('IndexedDB error:', event.target.error);
+          reject(event.target.error);
+          // Fall back to localStorage if IndexedDB fails
+          resolve(null);
+        };
+
+        request.onupgradeneeded = event => {
+          const db = event.target.result;
+
+          // Create stores for user data
+          if (!db.objectStoreNames.contains('userData')) {
+            const userStore = db.createObjectStore('userData', { keyPath: 'id' });
+            userStore.createIndex('id', 'id', { unique: true });
+          }
+
+          // Create store for messages
+          if (!db.objectStoreNames.contains('messages')) {
+            const messageStore = db.createObjectStore('messages', { keyPath: 'id', autoIncrement: true });
+            messageStore.createIndex('timestamp', 'timestamp', { unique: false });
+          }
+        };
+
+        request.onsuccess = event => {
+          const db = event.target.result;
+          resolve(db);
+        };
+      }).catch(error => {
+        console.error('Error setting up IndexedDB:', error);
+        return null; // Return null to indicate fallback to localStorage
+      });
+    })();
+
+    // Helper functions for badge system with IndexedDB support
+    async function getVisitCount() {
+      try {
+        const db = await dbPromise;
+        if (db) {
+          return new Promise(resolve => {
+            const tx = db.transaction('userData', 'readonly');
+            const store = tx.objectStore('userData');
+            const request = store.get('visitCount');
+
+            request.onsuccess = event => {
+              const data = event.target.result;
+              resolve(data ? data.count : 0);
+            };
+
+            request.onerror = () => {
+              resolve(parseInt(localStorage.getItem('visitCount') || '0'));
+            };
+          });
+        }
+      } catch (error) {
+        console.error('Error getting visit count:', error);
+      }
+
+      // Fallback to localStorage
+      return parseInt(localStorage.getItem('visitCount') || '0');
     }
 
-    function getMessagesSent() {
-      return parseInt(localStorage.getItem("messagesSent") || 0);
+    async function getMessagesSent() {
+      try {
+        const db = await dbPromise;
+        if (db) {
+          return new Promise(resolve => {
+            const tx = db.transaction('userData', 'readonly');
+            const store = tx.objectStore('userData');
+            const request = store.get('messagesSent');
+
+            request.onsuccess = event => {
+              const data = event.target.result;
+              resolve(data ? data.count : 0);
+            };
+
+            request.onerror = () => {
+              resolve(parseInt(localStorage.getItem('messagesSent') || '0'));
+            };
+          });
+        }
+      } catch (error) {
+        console.error('Error getting messages sent:', error);
+      }
+
+      // Fallback to localStorage
+      return parseInt(localStorage.getItem('messagesSent') || '0');
     }
 
-    function updateVisitCount() {
-      let count = getVisitCount();
-      localStorage.setItem("visitCount", count + 1);
+    async function updateVisitCount() {
+      try {
+        const db = await dbPromise;
+        if (db) {
+          const tx = db.transaction('userData', 'readwrite');
+          const store = tx.objectStore('userData');
+
+          // Get current count
+          const request = store.get('visitCount');
+
+          request.onsuccess = event => {
+            const data = event.target.result || { id: 'visitCount', count: 0 };
+            data.count++;
+            store.put(data);
+          };
+
+          await new Promise(resolve => {
+            tx.oncomplete = resolve;
+            tx.onerror = resolve; // Still resolve to continue execution
+          });
+        } else {
+          // Fallback to localStorage
+          let visitCount = parseInt(localStorage.getItem('visitCount') || '0');
+          visitCount++;
+          localStorage.setItem('visitCount', visitCount.toString());
+        }
+      } catch (error) {
+        console.error('Error updating visit count:', error);
+        // Fallback to localStorage
+        let visitCount = parseInt(localStorage.getItem('visitCount') || '0');
+        visitCount++;
+        localStorage.setItem('visitCount', visitCount.toString());
+      }
     }
 
-    function registerMessageSent() {
-      let sent = getMessagesSent();
-      localStorage.setItem("messagesSent", sent + 1);
+    async function registerMessageSent() {
+      try {
+        const db = await dbPromise;
+        if (db) {
+          const tx = db.transaction('userData', 'readwrite');
+          const store = tx.objectStore('userData');
+
+          // Get current count
+          const request = store.get('messagesSent');
+
+          request.onsuccess = event => {
+            const data = event.target.result || { id: 'messagesSent', count: 0 };
+            data.count++;
+            store.put(data);
+          };
+
+          await new Promise(resolve => {
+            tx.oncomplete = resolve;
+            tx.onerror = resolve; // Still resolve to continue execution
+          });
+        } else {
+          // Fallback to localStorage
+          let messagesSent = parseInt(localStorage.getItem('messagesSent') || '0');
+          messagesSent++;
+          localStorage.setItem('messagesSent', messagesSent.toString());
+        }
+      } catch (error) {
+        console.error('Error registering message sent:', error);
+        // Fallback to localStorage
+        let messagesSent = parseInt(localStorage.getItem('messagesSent') || '0');
+        messagesSent++;
+        localStorage.setItem('messagesSent', messagesSent.toString());
+      }
     }
 
-    // Initialize badge system
-    function initBadgeSystem() {
-      // Update visit count
-      updateVisitCount();
+    // Copy code function for character cards
+    function copyCode(button) {
+      const codeBlock = button.nextElementSibling;
+      const codeText = codeBlock.textContent;
 
-      // Display badges
-      displayBadges();
+      // Create a temporary textarea element to copy from
+      const textarea = document.createElement('textarea');
+      textarea.value = codeText;
+      textarea.style.position = 'fixed';  // Prevent scrolling to the element
+      document.body.appendChild(textarea);
+      textarea.select();
 
-      // Display user info in header if available
-      updateUserHeader();
+      try {
+        // Execute copy command
+        const successful = document.execCommand('copy');
 
-      // Hook into message form submission
-      if (messageForm) {
-        const originalSubmitHandler = messageForm.onsubmit;
-        messageForm.addEventListener("submit", function(e) {
-          // Register message sent
-          registerMessageSent();
+        // Visual feedback
+        if (successful) {
+          button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          button.classList.add('copied');
 
-          // Update badges display
+          // Mark as exported for badge
+          localStorage.setItem('scriptExported', 'true');
+
+          // Update badges
           displayBadges();
           updateUserHeader();
-        });
+
+          // Reset button after 2 seconds
+          setTimeout(() => {
+            button.innerHTML = '<i class="fas fa-copy"></i> Copy';
+            button.classList.remove('copied');
+          }, 2000);
+        }
+      } catch (err) {
+        console.error('Failed to copy text: ', err);
+      }
+
+      // Clean up
+      document.body.removeChild(textarea);
+    }
+
+    // Initialize badge system (async support)
+    async function initBadgeSystem() {
+      try {
+        // Update visit count
+        await updateVisitCount();
+
+        // Display badges
+        await displayBadges();
+
+        // Display user info in header if available
+        await updateUserHeader();
+
+        // Hook into message form submission
+        if (messageForm) {
+          const originalSubmitHandler = messageForm.onsubmit;
+          messageForm.addEventListener("submit", async function(e) {
+            try {
+              // Register message sent
+              await registerMessageSent();
+
+              // Update badges display
+              await displayBadges();
+              await updateUserHeader();
+            } catch (error) {
+              console.error('Error updating badges after message:', error);
+            }
+          });
+        }
+      } catch (error) {
+        console.error('Error initializing badge system:', error);
       }
 
       // Setup signup modal
@@ -3753,6 +4941,376 @@ print("Prepare for the Weekend Battle Tournament!")
 
       // Initialize Roblox Game Player
       initRobloxGamePlayer();
+
+      // Initialize video modal functionality
+      initVideoModal();
+
+      // Initialize script editor functionality
+      initScriptEditor();
+
+      // Initialize live game feeds
+      initLiveGameFeeds();
+    }
+
+    // Initialize live game feeds in the footer
+    function initLiveGameFeeds() {
+      const popularGamesFeed = document.getElementById('popularGamesFeed');
+      const upcomingGamesFeed = document.getElementById('upcomingGamesFeed');
+
+      if (!popularGamesFeed || !upcomingGamesFeed) return;
+
+      // Fetch popular games data
+      fetchPopularGames();
+
+      // Fetch upcoming games data
+      fetchUpcomingGames();
+
+      // Refresh feeds every 5 minutes
+      setInterval(() => {
+        fetchPopularGames();
+        fetchUpcomingGames();
+      }, 5 * 60 * 1000);
+
+      // Function to fetch popular games
+      function fetchPopularGames() {
+        // In a real implementation, this would be an API call to Roblox
+        // For this demo, we'll use mock data
+        const popularGames = [
+          { id: 920587237, title: "Adopt Me!", players: 350000 },
+          { id: 2753915549, title: "Blox Fruits", players: 280000 },
+          { id: 4490140733, title: "My Restaurant", players: 175000 },
+          { id: 6516141723, title: "DOORS", players: 120000 },
+          { id: 6872265039, title: "BedWars", players: 95000 }
+        ];
+
+        // Update the feed
+        updateGameFeed(popularGamesFeed, popularGames);
+      }
+
+      // Function to fetch upcoming games
+      function fetchUpcomingGames() {
+        // In a real implementation, this would be an API call to Roblox
+        // For this demo, we'll use mock data
+        const upcomingGames = [
+          { id: 9999001, title: "Cosmic Explorers", releaseDate: "May 15, 2025" },
+          { id: 9999002, title: "Mech Warriors: Ultimate", releaseDate: "June 1, 2025" },
+          { id: 9999003, title: "Treasure Island X", releaseDate: "June 20, 2025" },
+          { id: 9999004, title: "Zombie Apocalypse 2", releaseDate: "July 4, 2025" },
+          { id: 9999005, title: "Dragon Riders", releaseDate: "July 15, 2025" }
+        ];
+
+        // Update the feed
+        updateUpcomingGameFeed(upcomingGamesFeed, upcomingGames);
+      }
+
+      // Function to update game feed with data
+      function updateGameFeed(feedElement, games) {
+        // Clear loading message
+        feedElement.innerHTML = '';
+
+        // Add games to feed
+        games.forEach(game => {
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = `https://www.roblox.com/games/${game.id}`;
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+
+          const titleSpan = document.createElement('span');
+          titleSpan.className = 'game-title';
+          titleSpan.textContent = game.title;
+
+          const playersSpan = document.createElement('span');
+          playersSpan.className = 'game-players';
+          playersSpan.textContent = formatNumber(game.players) + ' players';
+
+          a.appendChild(titleSpan);
+          a.appendChild(playersSpan);
+          li.appendChild(a);
+          feedElement.appendChild(li);
+        });
+      }
+
+      // Function to update upcoming game feed with data
+      function updateUpcomingGameFeed(feedElement, games) {
+        // Clear loading message
+        feedElement.innerHTML = '';
+
+        // Add games to feed
+        games.forEach(game => {
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = '#';
+          a.onclick = (e) => {
+            e.preventDefault();
+            alert(`${game.title} will be released on ${game.releaseDate}. Stay tuned!`);
+          };
+
+          const titleSpan = document.createElement('span');
+          titleSpan.className = 'game-title';
+          titleSpan.textContent = game.title;
+
+          const dateSpan = document.createElement('span');
+          dateSpan.className = 'game-players';
+          dateSpan.textContent = game.releaseDate;
+
+          a.appendChild(titleSpan);
+          a.appendChild(dateSpan);
+          li.appendChild(a);
+          feedElement.appendChild(li);
+        });
+      }
+
+      // Helper function to format numbers with commas
+      function formatNumber(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+    }
+
+    // Initialize Roblox Script Editor
+    function initScriptEditor() {
+      const saveScriptBtn = document.getElementById('saveScriptBtn');
+      const loadScriptBtn = document.getElementById('loadScriptBtn');
+      const downloadScriptBtn = document.getElementById('downloadScriptBtn');
+      const submitScriptBtn = document.getElementById('submitScriptBtn');
+      const luaEditor = document.getElementById('luaEditor');
+      const editorStatus = document.getElementById('editorStatus');
+      const editorTabs = document.querySelectorAll('.editor-tab');
+
+      if (!saveScriptBtn || !loadScriptBtn || !downloadScriptBtn || !submitScriptBtn || !luaEditor || !editorStatus) return;
+
+      // Save script to localStorage
+      saveScriptBtn.addEventListener('click', function() {
+        const code = luaEditor.value;
+        localStorage.setItem('leoLuaCode', code);
+        editorStatus.textContent = '✅ Script saved locally!';
+
+        // Clear status message after 3 seconds
+        setTimeout(() => {
+          editorStatus.textContent = '';
+        }, 3000);
+      });
+
+      // Load script from localStorage
+      loadScriptBtn.addEventListener('click', function() {
+        const code = localStorage.getItem('leoLuaCode');
+        if (code) {
+          luaEditor.value = code;
+          editorStatus.textContent = '✅ Loaded saved script!';
+        } else {
+          editorStatus.textContent = '⚠️ No saved script found.';
+        }
+
+        // Clear status message after 3 seconds
+        setTimeout(() => {
+          editorStatus.textContent = '';
+        }, 3000);
+      });
+
+      // Download script as .lua file
+      downloadScriptBtn.addEventListener('click', function() {
+        const code = luaEditor.value;
+        const blob = new Blob([code], { type: 'text/plain' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'leos_script.lua';
+        link.click();
+
+        // Mark script as exported for badge
+        localStorage.setItem('scriptExported', 'true');
+
+        editorStatus.textContent = '✅ Script downloaded as leos_script.lua';
+
+        // Update badges display
+        displayBadges();
+        updateUserHeader();
+
+        // Clear status message after 3 seconds
+        setTimeout(() => {
+          editorStatus.textContent = '';
+        }, 3000);
+      });
+
+      // Submit script and earn badge
+      submitScriptBtn.addEventListener('click', function() {
+        const code = luaEditor.value;
+        if (code.length < 10) {
+          editorStatus.textContent = '⚠️ Please write more code before submitting!';
+          return;
+        }
+
+        // Mark as submitted for Script Novice badge
+        localStorage.setItem('scriptSubmitted', 'true');
+
+        // Track number of scripts submitted for Script Master badge
+        const scriptsSubmitted = parseInt(localStorage.getItem('scriptsSubmitted') || 0);
+        localStorage.setItem('scriptsSubmitted', scriptsSubmitted + 1);
+
+        // Check if this is the first script (for badge notification)
+        if (scriptsSubmitted === 0) {
+          editorStatus.textContent = '🏆 Congratulations! You earned the "Script Novice" badge!';
+        } else if (scriptsSubmitted === 2) { // This will be the 3rd submission (0->1->2->3)
+          editorStatus.textContent = '🏆 Congratulations! You earned the "Script Master" badge!';
+        } else {
+          editorStatus.textContent = '✅ Script submitted successfully! (' + (scriptsSubmitted + 1) + ' scripts submitted)';
+        }
+
+        // Update badges display
+        displayBadges();
+        updateUserHeader();
+
+        // Optional: Send script to admin via EmailJS
+        if (window.emailjs) {
+          const templateParams = {
+            username: localStorage.getItem('username') || 'Anonymous User',
+            userEmail: localStorage.getItem('userEmail') || 'No Email',
+            scriptContent: code
+          };
+
+          emailjs.send('service_id', 'template_id', templateParams)
+            .then(function(response) {
+              console.log('Script sent to admin:', response.status);
+            }, function(error) {
+              console.error('Failed to send script:', error);
+            });
+        }
+      });
+
+      // Tab switching functionality (visual only)
+      editorTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          editorTabs.forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+    }
+
+    // Create a news article modal for embedded content
+    function createNewsModal() {
+      // Create modal elements if they don't exist
+      if (!document.getElementById('newsArticleModal')) {
+        const modal = document.createElement('div');
+        modal.id = 'newsArticleModal';
+        modal.className = 'news-article-modal';
+        modal.innerHTML = `
+          <div class="news-article-content">
+            <span class="close-news-modal">&times;</span>
+            <div class="news-article-header">
+              <h2 id="newsArticleTitle"></h2>
+              <div class="news-article-meta">
+                <span id="newsArticleDate"></span>
+                <span id="newsArticleCategory"></span>
+              </div>
+            </div>
+            <div class="news-article-body" id="newsArticleBody"></div>
+          </div>
+        `;
+        document.body.appendChild(modal);
+
+        // Add event listener to close button
+        const closeBtn = modal.querySelector('.close-news-modal');
+        closeBtn.addEventListener('click', function() {
+          modal.style.display = 'none';
+        });
+
+        // Close modal when clicking outside the content
+        modal.addEventListener('click', function(event) {
+          if (event.target === modal) {
+            modal.style.display = 'none';
+          }
+        });
+
+        // Add styles for the modal
+        const style = document.createElement('style');
+        style.textContent = `
+          .news-article-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+          }
+
+          .news-article-content {
+            background: rgba(20, 20, 20, 0.95);
+            margin: 5% auto;
+            padding: 30px;
+            width: 90%;
+            max-width: 900px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(255, 102, 0, 0.3);
+            border: 2px solid #ff6600;
+            position: relative;
+            max-height: 85vh;
+            overflow-y: auto;
+          }
+
+          .close-news-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #aaa;
+            cursor: pointer;
+            transition: color 0.3s;
+          }
+
+          .close-news-modal:hover {
+            color: #ff6600;
+          }
+
+          .news-article-header {
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 102, 0, 0.3);
+            padding-bottom: 15px;
+          }
+
+          .news-article-header h2 {
+            color: #ff6600;
+            font-size: 2rem;
+            margin-bottom: 10px;
+          }
+
+          .news-article-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: #aaa;
+          }
+
+          .news-article-meta span:last-child {
+            background: #ff6600;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.8rem;
+          }
+
+          .news-article-body {
+            color: #ddd;
+            line-height: 1.6;
+            font-size: 1.1rem;
+          }
+
+          .news-article-body p {
+            margin-bottom: 15px;
+          }
+
+          .news-article-body img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin: 20px 0;
+          }
+        `;
+        document.head.appendChild(style);
+      }
     }
 
     // Roblox News Feed
@@ -3764,57 +5322,301 @@ print("Prepare for the Weekend Battle Tournament!")
 
       if (!robloxNewsFeed || !refreshButton) return;
 
-      // Sample news data (in a real app, this would come from an API)
+      // Create the news modal
+      createNewsModal();
+
+      // Sample news data with fixed thumbnails and full article content
       const robloxNews = [
         {
           title: "Roblox April Update: Particle FX Boost",
           excerpt: "New rendering enhancements boost VFX performance by 35%. Try them now in Studio!",
           date: "April 10, 2025",
           category: "Update",
-          image: "images/aa8d321b-227b-477d-b192-374f826e7b9e.webp",
-          link: "https://blog.roblox.com"
+          image: "images/fxeffect.png",
+          content: `
+            <p>Roblox has released a major update to its particle effects system, bringing a significant performance boost to visual effects across the platform. The new Particle FX system delivers up to 35% better performance while maintaining the same visual quality.</p>
+
+            <p>The update includes:</p>
+            <ul>
+              <li>Optimized particle rendering pipeline</li>
+              <li>Improved memory management for particle systems</li>
+              <li>New particle effect templates in Studio</li>
+              <li>Enhanced particle collision detection</li>
+            </ul>
+
+            <p>Developers can access these improvements immediately by updating to the latest version of Roblox Studio. The new particle system is backward compatible with existing effects, so no changes to current games are required.</p>
+
+            <p>"This update represents our ongoing commitment to providing developers with the best tools possible," said a Roblox spokesperson. "The performance gains will be especially noticeable in games with heavy visual effects."</p>
+
+            <p>Early testing shows that games with extensive particle usage, such as those featuring magic spells, explosions, or environmental effects like rain and snow, will see the most significant improvements.</p>
+          `
         },
         {
           title: "Top 3 Avatar Customizers You Need",
           excerpt: "Explore these trending avatar plugins gaining popularity among Roblox creators.",
           date: "April 5, 2025",
           category: "Creator Tips",
-          image: "images/ced4e9b2-18ec-4f9a-8571-cf0bf9c86c58.webp",
-          link: "https://blog.roblox.com"
+          image: "images/top3.png",
+          content: `
+            <p>Avatar customization continues to be one of the most popular aspects of the Roblox platform. With the growing demand for unique and personalized avatars, several new tools have emerged to help creators design standout characters.</p>
+
+            <h3>1. Advanced Avatar Studio</h3>
+            <p>This comprehensive tool offers unprecedented control over avatar design, including:</p>
+            <ul>
+              <li>Layered clothing support with physics simulation</li>
+              <li>Advanced facial expression editor</li>
+              <li>Custom animation sequence creator</li>
+              <li>One-click export to Roblox Marketplace</li>
+            </ul>
+
+            <h3>2. Accessory Wizard</h3>
+            <p>Perfect for creators focusing on avatar accessories:</p>
+            <ul>
+              <li>Hundreds of pre-made templates to customize</li>
+              <li>Material and texture library with over 500 options</li>
+              <li>Compatibility checker for all avatar types</li>
+              <li>Built-in pricing optimizer for Marketplace listings</li>
+            </ul>
+
+            <h3>3. Animation Pro</h3>
+            <p>For those who want their avatars to move in unique ways:</p>
+            <ul>
+              <li>Motion capture integration</li>
+              <li>Animation blending and sequencing</li>
+              <li>Custom emote creator</li>
+              <li>Animation marketplace integration</li>
+            </ul>
+
+            <p>All three tools are available in the Creator Marketplace, with free trial versions for new users.</p>
+          `
         },
         {
           title: "Game Pass Revenue Hits Record High",
           excerpt: "Roblox devs earned over $300M in Q1. Learn how to optimize your Game Pass.",
           date: "April 2, 2025",
           category: "Economy",
-          image: "images/0c6aafe0-0c9d-4036-9f1f-103127d41199.webp",
-          link: "https://blog.roblox.com"
+          image: "images/breaking_news.png",
+          content: `
+            <p>Roblox developers have reached a new milestone in the first quarter of 2025, collectively earning over $300 million from Game Pass sales alone. This represents a 25% increase compared to the same period last year.</p>
+
+            <p>The surge in revenue is attributed to several factors:</p>
+            <ul>
+              <li>Increased player spending across the platform</li>
+              <li>More sophisticated Game Pass offerings from developers</li>
+              <li>Improved discovery features for Game Passes</li>
+              <li>Strategic pricing and bundling by top developers</li>
+            </ul>
+
+            <h3>Optimization Tips for Developers</h3>
+            <p>To maximize your Game Pass revenue, consider these strategies used by top-earning developers:</p>
+
+            <ol>
+              <li><strong>Tiered Pricing:</strong> Offer multiple Game Pass options at different price points</li>
+              <li><strong>Bundle Value:</strong> Create bundles that offer better value than individual purchases</li>
+              <li><strong>Limited-Time Offers:</strong> Use time-limited discounts to drive purchases</li>
+              <li><strong>Clear Value Proposition:</strong> Clearly communicate the benefits of each Game Pass</li>
+              <li><strong>Progressive Unlocks:</strong> Design Game Passes that unlock additional content as players progress</li>
+            </ol>
+
+            <p>Roblox has also announced plans to introduce new Game Pass features later this year, including subscription options and progressive unlocks.</p>
+          `
         },
         {
           title: "New Developer Exchange Rates Announced",
           excerpt: "Roblox increases DevEx rates by 15% starting May 1st, 2025.",
           date: "March 28, 2025",
           category: "Economy",
-          image: "images/hero.webp",
-          link: "https://blog.roblox.com"
+          image: "images/fxeffect.png",
+          content: `
+            <p>In a move that has excited the developer community, Roblox has announced a 15% increase in Developer Exchange (DevEx) rates, effective May 1st, 2025. This change will allow developers to convert their Robux to real-world currency at more favorable rates.</p>
+
+            <p>The new exchange rates will be:</p>
+            <ul>
+              <li>100,000 Robux = $350 USD (previously $305)</li>
+              <li>500,000 Robux = $1,750 USD (previously $1,525)</li>
+              <li>1,000,000 Robux = $3,500 USD (previously $3,050)</li>
+            </ul>
+
+            <p>"This rate increase reflects our commitment to supporting the developer community," said Roblox's Chief Economy Officer. "As the platform continues to grow, we want to ensure that developers share in that success."</p>
+
+            <p>The announcement comes as Roblox reports record engagement numbers, with daily active users exceeding 300 million in March 2025.</p>
+
+            <p>Developers have responded positively to the news, with many planning to reinvest the additional income into their development teams and game improvements.</p>
+
+            <p>The minimum threshold for DevEx remains at 100,000 Robux, and all other eligibility requirements remain unchanged.</p>
+          `
         },
         {
           title: "Roblox Studio AI Assistant Now Available",
           excerpt: "Generate scripts, models, and terrain with the new AI Assistant tool in Studio.",
           date: "March 25, 2025",
           category: "Development",
-          image: "images/community-bg.webp",
-          link: "https://blog.roblox.com"
+          image: "images/top3.png",
+          content: `
+            <p>Roblox has officially launched its AI Assistant tool for Roblox Studio, bringing powerful artificial intelligence capabilities to all developers. The tool, which has been in beta testing with select developers since January, is now available to everyone.</p>
+
+            <p>The AI Assistant integrates directly into Roblox Studio and offers several key features:</p>
+
+            <h3>Script Generation</h3>
+            <p>Developers can describe functionality in natural language, and the AI will generate Luau code to implement it. The system understands Roblox-specific concepts and best practices, producing optimized code that follows platform guidelines.</p>
+
+            <h3>3D Model Creation</h3>
+            <p>The AI can generate 3D models based on text descriptions. While not replacing professional modeling, this feature allows for rapid prototyping and creation of background elements.</p>
+
+            <h3>Terrain Generation</h3>
+            <p>Developers can describe landscapes in natural language, and the AI will generate corresponding terrain. Options include various biomes, geological features, and even entire islands or continents.</p>
+
+            <h3>Code Explanation and Optimization</h3>
+            <p>The AI can analyze existing scripts, explain how they work, and suggest optimizations to improve performance or readability.</p>
+
+            <p>"This tool represents a significant step forward in making development more accessible," said the Roblox Studio product manager. "We're especially excited to see how it helps newcomers overcome the initial learning curve of game development."</p>
+
+            <p>The AI Assistant is available now through the Plugins menu in Roblox Studio.</p>
+          `
         },
         {
           title: "Voice Chat Coming to All 13+ Users",
           excerpt: "Spatial voice chat expanding to all eligible users in April update.",
           date: "March 20, 2025",
           category: "Social",
-          image: "images/message-bg.webp",
-          link: "https://blog.roblox.com"
+          image: "images/breaking_news.png",
+          content: `
+            <p>Roblox has announced that its spatial voice chat feature will be available to all users aged 13 and older starting with the April platform update. Previously limited to users 16 and older, this expansion will significantly increase the number of players with access to voice communication.</p>
+
+            <p>The spatial voice chat system allows players to talk to others in-game, with voice volume and clarity changing based on proximity within the game world. This creates a more immersive experience where conversations naturally fade as players move away from each other.</p>
+
+            <h3>Enhanced Safety Features</h3>
+            <p>With the expansion to younger users, Roblox has implemented additional safety features:</p>
+            <ul>
+              <li>Advanced voice moderation using AI to detect inappropriate content</li>
+              <li>Simplified parental controls to enable/disable voice chat</li>
+              <li>Game-by-game permission settings</li>
+              <li>One-click mute options for individual players</li>
+              <li>Voice chat free zones within games</li>
+            </ul>
+
+            <h3>Developer Implementation</h3>
+            <p>Game developers will need to explicitly enable voice chat in their experiences. The updated Voice Chat API includes new features for developers:</p>
+            <ul>
+              <li>Custom voice zones with different rules</li>
+              <li>Team-based voice channels</li>
+              <li>Voice effects and filters</li>
+              <li>Voice activity visualization options</li>
+            </ul>
+
+            <p>"Voice chat has been one of our most requested features," said Roblox's Head of Social Features. "We've taken the time to ensure we can offer this capability to more users while maintaining our commitment to safety."</p>
+
+            <p>The feature will roll out gradually throughout April, with all eligible users gaining access by the end of the month.</p>
+          `
         }
       ];
+
+      // Add CSS for news items
+      const newsStyles = document.createElement('style');
+      newsStyles.textContent = `
+        .news-item {
+          display: flex;
+          flex-direction: column;
+          background: rgba(20, 20, 20, 0.8);
+          border-radius: 15px;
+          overflow: hidden;
+          margin-bottom: 20px;
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+          border: 2px solid #333;
+          transition: all 0.3s ease;
+        }
+
+        .news-item:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 15px 30px rgba(255, 102, 0, 0.2);
+          border-color: #ff6600;
+        }
+
+        .news-item-img {
+          height: 180px;
+          overflow: hidden;
+        }
+
+        .news-item-img img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.5s ease;
+        }
+
+        .news-item:hover .news-item-img img {
+          transform: scale(1.05);
+        }
+
+        .news-item-content {
+          padding: 20px;
+        }
+
+        .news-item-meta {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 10px;
+          font-size: 0.9rem;
+        }
+
+        .news-item-date {
+          color: #aaa;
+        }
+
+        .news-item-category {
+          background: #ff6600;
+          color: white;
+          padding: 2px 10px;
+          border-radius: 20px;
+          font-weight: bold;
+          font-size: 0.8rem;
+        }
+
+        .news-item-title {
+          font-size: 1.3rem;
+          margin-bottom: 10px;
+          color: #ff6600;
+        }
+
+        .news-item-excerpt {
+          color: #ccc;
+          margin-bottom: 15px;
+          font-size: 0.95rem;
+          line-height: 1.5;
+        }
+
+        .news-item-link {
+          display: inline-block;
+          color: #00c8ff;
+          font-weight: bold;
+          text-decoration: none;
+          transition: all 0.3s;
+        }
+
+        .news-item-link:hover {
+          color: #ff6600;
+          transform: translateX(5px);
+        }
+      `;
+      document.head.appendChild(newsStyles);
+
+      // Function to show article in modal
+      function showArticleInModal(article) {
+        const modal = document.getElementById('newsArticleModal');
+        const title = document.getElementById('newsArticleTitle');
+        const date = document.getElementById('newsArticleDate');
+        const category = document.getElementById('newsArticleCategory');
+        const body = document.getElementById('newsArticleBody');
+
+        // Set content
+        title.textContent = article.title;
+        date.textContent = article.date;
+        category.textContent = article.category;
+        body.innerHTML = article.content;
+
+        // Show modal
+        modal.style.display = 'block';
+      }
 
       // Function to render news items
       function renderNewsItems(news) {
@@ -3835,9 +5637,14 @@ print("Prepare for the Weekend Battle Tournament!")
               </div>
               <h3 class="news-item-title">${item.title}</h3>
               <p class="news-item-excerpt">${item.excerpt}</p>
-              <a href="${item.link}" class="news-item-link" target="_blank">Read More →</a>
+              <button class="news-item-link">Read More →</button>
             </div>
           `;
+
+          // Add click handler to show article in modal
+          newsItem.addEventListener('click', function() {
+            showArticleInModal(item);
+          });
 
           robloxNewsFeed.appendChild(newsItem);
         });
@@ -3856,7 +5663,16 @@ print("Prepare for the Weekend Battle Tournament!")
 
         // Simulate API delay
         setTimeout(() => {
-          renderNewsItems(robloxNews);
+          // Get one article with each of the three specific images
+          const top3Article = robloxNews.find(article => article.title === "Top 3 Avatar Customizers You Need");
+          const breakingNewsArticle = robloxNews.find(article => article.title === "Voice Chat Coming to All 13+ Users");
+          const fxEffectArticle = robloxNews.find(article => article.title === "Roblox April Update: Particle FX Boost");
+
+          // Create an array with exactly one article for each image
+          const selectedArticles = [top3Article, breakingNewsArticle, fxEffectArticle];
+
+          // Render the three articles with different images
+          renderNewsItems(selectedArticles);
           if (loadingIndicator) {
             loadingIndicator.style.display = 'none';
           }
@@ -3870,6 +5686,18 @@ print("Prepare for the Weekend Battle Tournament!")
       refreshButton.addEventListener('click', () => {
         fetchNews();
       });
+
+      // Add click handlers to fallback news items
+      if (fallbackNewsContent) {
+        const fallbackItems = fallbackNewsContent.querySelectorAll('.news-item');
+        fallbackItems.forEach((item, index) => {
+          if (index < robloxNews.length) {
+            item.addEventListener('click', function() {
+              showArticleInModal(robloxNews[index]);
+            });
+          }
+        });
+      }
     }
 
     // Roblox Game Player
@@ -3936,12 +5764,12 @@ print("Prepare for the Weekend Battle Tournament!")
       const playButton = document.getElementById('playNarration');
       const narratorControls = document.getElementById('narratorControls');
       const closeNarratorControls = document.getElementById('closeNarratorControls');
-      const voiceSelect = document.getElementById('voiceSelect');
-      const languageSelect = document.getElementById('languageSelect');
       const startNarration = document.getElementById('startNarration');
       const stopNarration = document.getElementById('stopNarration');
       const narratorScript = document.getElementById('narratorScript');
       const narrationLines = narratorScript.querySelectorAll('.narration-line');
+      const voiceOptions = document.querySelectorAll('.voice-option');
+      const languageOptions = document.querySelectorAll('.language-option');
 
       // Speech synthesis setup
       const synth = window.speechSynthesis;
@@ -3949,59 +5777,130 @@ print("Prepare for the Weekend Battle Tournament!")
       let currentUtterance = null;
       let currentLineIndex = 0;
       let isNarrating = false;
+      let selectedVoiceType = 'male1';
+      let selectedLanguage = 'en-US';
 
-      // Populate voice list
-      function populateVoiceList() {
+      // Store original music volume
+      let originalMusicVolume = 1.0;
+
+      // Natural-sounding voice presets
+      const naturalVoices = {
+        'en-US': {
+          male1: { name: 'Google US English Male', fallback: 'en-US-male' },
+          male2: { name: 'Microsoft David', fallback: 'en-GB-male' },
+          female1: { name: 'Google US English Female', fallback: 'en-US-female' },
+          female2: { name: 'Microsoft Zira', fallback: 'en-GB-female' }
+        },
+        'es-ES': {
+          male1: { name: 'Google español', fallback: 'es-ES-male' },
+          male2: { name: 'Microsoft Pablo', fallback: 'es-MX-male' },
+          female1: { name: 'Google español Female', fallback: 'es-ES-female' },
+          female2: { name: 'Microsoft Sabina', fallback: 'es-MX-female' }
+        }
+      };
+
+      // Get all available voices
+      function getVoices() {
         voices = synth.getVoices();
-        voiceSelect.innerHTML = '';
-
-        // Group voices by language
-        const voicesByLang = {};
-        voices.forEach(voice => {
-          const lang = voice.lang.split('-')[0];
-          if (!voicesByLang[lang]) {
-            voicesByLang[lang] = [];
-          }
-          voicesByLang[lang].push(voice);
-        });
-
-        // Add voices to select element
-        Object.keys(voicesByLang).sort().forEach(lang => {
-          const langGroup = document.createElement('optgroup');
-          langGroup.label = lang.toUpperCase();
-
-          voicesByLang[lang].forEach(voice => {
-            const option = document.createElement('option');
-            option.textContent = `${voice.name} (${voice.lang})`;
-            option.setAttribute('data-lang', voice.lang);
-            option.setAttribute('data-name', voice.name);
-            option.value = voices.indexOf(voice);
-            langGroup.appendChild(option);
-          });
-
-          voiceSelect.appendChild(langGroup);
-        });
-
-        // Select a default voice
-        const defaultVoice = voices.findIndex(voice => voice.default) || 0;
-        voiceSelect.selectedIndex = defaultVoice;
+        console.log('Available voices:', voices.length);
       }
 
       // Initialize voices
-      populateVoiceList();
+      getVoices();
       if (speechSynthesis.onvoiceschanged !== undefined) {
-        speechSynthesis.onvoiceschanged = populateVoiceList;
+        speechSynthesis.onvoiceschanged = getVoices;
+      }
+
+      // Find the best natural-sounding voice match
+      function findBestNaturalVoice(voiceType, language) {
+        if (voices.length === 0) return null;
+
+        // Get the preferred voice names for this language and voice type
+        const voicePreset = naturalVoices[language]?.[voiceType] ||
+                           naturalVoices['en-US'][voiceType]; // Fallback to English
+
+        // Log available voices for debugging
+        console.log('Available voices:', voices.map(v => v.name));
+
+        // Prioritize Microsoft David for male2 voice type
+        if (voiceType === 'male2' && language === 'en-US') {
+          const davidVoice = voices.find(v => v.name.includes('David'));
+          if (davidVoice) {
+            console.log('Using Microsoft David voice');
+            return davidVoice;
+          }
+        }
+
+        // Try to find the exact voice by name
+        let bestVoice = voices.find(v => v.name.includes(voicePreset.name));
+
+        // If not found, try to find by fallback pattern
+        if (!bestVoice) {
+          const fallbackPattern = voicePreset.fallback;
+          const langCode = fallbackPattern.split('-')[0];
+          const gender = fallbackPattern.split('-')[2];
+
+          bestVoice = voices.find(v => {
+            return v.lang.toLowerCase().startsWith(langCode.toLowerCase()) &&
+                   (v.name.toLowerCase().includes(gender) ||
+                   (v.gender && v.gender.toLowerCase() === gender));
+          });
+        }
+
+        // If still not found, just find any voice in the right language
+        if (!bestVoice) {
+          const langCode = language.split('-')[0];
+          bestVoice = voices.find(v => v.lang.toLowerCase().startsWith(langCode.toLowerCase()));
+        }
+
+        // Last resort - just use the first available voice
+        return bestVoice || voices[0];
       }
 
       // Create utterance for a line
       function createUtterance(text) {
         const utterance = new SpeechSynthesisUtterance(text);
-        const selectedVoice = voices[voiceSelect.value];
-        utterance.voice = selectedVoice;
-        utterance.lang = languageSelect.value;
-        utterance.rate = 1.0;
+
+        // First try to find Microsoft David specifically
+        const davidVoice = voices.find(v => v.name.includes('David'));
+        if (davidVoice) {
+          console.log('Using Microsoft David voice for narration');
+          utterance.voice = davidVoice;
+          utterance.lang = davidVoice.lang;
+        } else {
+          // If David not found, use the regular selection logic
+          const bestVoice = findBestNaturalVoice(selectedVoiceType, selectedLanguage);
+          if (bestVoice) {
+            utterance.voice = bestVoice;
+            utterance.lang = bestVoice.lang;
+          } else {
+            utterance.lang = selectedLanguage;
+          }
+        }
+
+        // Adjust rate and pitch for more natural sound
+        utterance.rate = 0.9; // Slightly slower for better clarity
         utterance.pitch = 1.0;
+        utterance.volume = 1.0;
+
         return utterance;
+      }
+
+      // Lower background music during narration
+      function lowerBackgroundMusic() {
+        const audio = document.getElementById('robloxTheme');
+        if (audio && !audio.paused) {
+          originalMusicVolume = audio.volume;
+          audio.volume = 0.1; // Lower to 10% volume during narration
+        }
+      }
+
+      // Restore background music after narration
+      function restoreBackgroundMusic() {
+        const audio = document.getElementById('robloxTheme');
+        if (audio && !audio.paused) {
+          audio.volume = originalMusicVolume;
+        }
       }
 
       // Speak a line
@@ -4010,6 +5909,7 @@ print("Prepare for the Weekend Battle Tournament!")
           isNarrating = false;
           stopNarration.disabled = true;
           startNarration.disabled = false;
+          restoreBackgroundMusic();
           return;
         }
 
@@ -4026,6 +5926,30 @@ print("Prepare for the Weekend Battle Tournament!")
         synth.speak(currentUtterance);
       }
 
+      // Voice selection
+      voiceOptions.forEach(option => {
+        option.addEventListener('click', function() {
+          // Remove selected class from all options
+          voiceOptions.forEach(opt => opt.classList.remove('selected'));
+          // Add selected class to clicked option
+          this.classList.add('selected');
+          // Update selected voice type
+          selectedVoiceType = this.getAttribute('data-voice');
+        });
+      });
+
+      // Language selection
+      languageOptions.forEach(option => {
+        option.addEventListener('click', function() {
+          // Remove selected class from all options
+          languageOptions.forEach(opt => opt.classList.remove('selected'));
+          // Add selected class to clicked option
+          this.classList.add('selected');
+          // Update selected language
+          selectedLanguage = this.getAttribute('data-lang');
+        });
+      });
+
       // Start narration button
       startNarration.addEventListener('click', () => {
         if (isNarrating) return;
@@ -4033,6 +5957,9 @@ print("Prepare for the Weekend Battle Tournament!")
         isNarrating = true;
         startNarration.disabled = true;
         stopNarration.disabled = false;
+
+        // Lower background music volume
+        lowerBackgroundMusic();
 
         speakLine(0);
         narratorControls.style.display = 'none';
@@ -4044,6 +5971,9 @@ print("Prepare for the Weekend Battle Tournament!")
         isNarrating = false;
         stopNarration.disabled = true;
         startNarration.disabled = false;
+
+        // Restore background music volume
+        restoreBackgroundMusic();
       });
 
       // Close narrator controls
@@ -4055,10 +5985,15 @@ print("Prepare for the Weekend Battle Tournament!")
       playButton.addEventListener('click', () => {
         narratorControls.style.display = 'block';
       });
+
+      // Select the first voice option by default
+      if (voiceOptions.length > 0) {
+        voiceOptions[0].classList.add('selected');
+      }
     }
 
-    // Display badges in the UI
-    function displayBadges() {
+    // Display badges in the UI with async support
+    async function displayBadges() {
       const container = document.getElementById("badgeList");
       if (!container) return;
 
@@ -4068,9 +6003,22 @@ print("Prepare for the Weekend Battle Tournament!")
       // Create a fragment for better performance
       const fragment = document.createDocumentFragment();
 
-      // Add each badge
-      badges.forEach(badge => {
-        const isUnlocked = badge.check();
+      // Check all badges in parallel for better performance
+      const badgePromises = badges.map(async (badge) => {
+        try {
+          const isUnlocked = await badge.check();
+          return { badge, isUnlocked };
+        } catch (error) {
+          console.error(`Error checking badge ${badge.id}:`, error);
+          return { badge, isUnlocked: false };
+        }
+      });
+
+      // Wait for all badge checks to complete
+      const badgeResults = await Promise.all(badgePromises);
+
+      // Add each badge to the fragment
+      badgeResults.forEach(({ badge, isUnlocked }) => {
         const badgeElement = document.createElement("div");
         badgeElement.className = `badge-item ${isUnlocked ? '' : 'locked'}`;
 
@@ -4087,9 +6035,15 @@ print("Prepare for the Weekend Battle Tournament!")
       // Add all badges to container
       container.appendChild(fragment);
 
+      // Count unlocked badges
+      const unlockedCount = badgeResults.filter(result => result.isUnlocked).length;
+
       // Update progress in console
-      console.log(`%c🏆 Badge Progress: ${badges.filter(b => b.check()).length}/${badges.length} badges earned`,
+      console.log(`%c🏆 Badge Progress: ${unlockedCount}/${badges.length} badges earned`,
         `color: #ff6600; font-weight: bold;`);
+
+      // Return unlocked badges for other functions to use
+      return badgeResults.filter(result => result.isUnlocked).map(result => result.badge);
     }
 
     // Add CSS for error message
@@ -4340,6 +6294,528 @@ print("Prepare for the Weekend Battle Tournament!")
         transform: translateX(5px);
       }
 
+      /* Video Container Styles */
+      .video-container {
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        overflow: hidden;
+        margin-bottom: 15px;
+        background: #000;
+        border-radius: 10px 10px 0 0;
+        border: 1px solid #333;
+      }
+
+      .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+
+      /* Video Modal Styles */
+      .video-modal {
+        display: none;
+        position: fixed;
+        z-index: 3000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        overflow: auto;
+      }
+
+      .video-modal-content {
+        position: relative;
+        width: 90%;
+        max-width: 1000px;
+        margin: 5% auto;
+        background: transparent;
+      }
+
+      .close-video-modal {
+        position: absolute;
+        top: -40px;
+        right: 0;
+        color: #fff;
+        font-size: 35px;
+        font-weight: bold;
+        cursor: pointer;
+        z-index: 3001;
+        transition: all 0.3s;
+      }
+
+      .close-video-modal:hover {
+        color: #ff6600;
+        transform: scale(1.2);
+      }
+
+      .modal-video-container {
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-bottom: 56.25%;
+        overflow: hidden;
+      }
+
+      .modal-video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+        border-radius: 10px;
+      }
+
+      .expand-video-btn {
+        background: #ff6600;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.3s;
+        margin-top: 10px;
+        width: 100%;
+      }
+
+      .expand-video-btn:hover {
+        background: #ff8800;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 102, 0, 0.3);
+      }
+
+      .expand-video-btn::before {
+        content: '\f065'; /* Font Awesome fullscreen icon */
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+      }
+
+      /* Script Editor Section Styles */
+      .script-editor-section {
+        padding: 60px 0;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(135deg, #111 0%, #222 100%);
+      }
+
+      .editor-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("images/blog-bg.webp") center/cover no-repeat;
+        opacity: 0.1;
+        z-index: -1;
+        filter: blur(5px);
+      }
+
+      .editor-content {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 30px;
+        align-items: start;
+      }
+
+      .editor-intro {
+        background: rgba(0,0,0,0.7);
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        border: 2px solid #444;
+      }
+
+      .editor-subtitle {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        color: #ff6600;
+        text-shadow: 2px 2px 0 #000;
+      }
+
+      .editor-desc {
+        margin-bottom: 25px;
+        color: #ddd;
+        font-size: 1.1rem;
+        line-height: 1.6;
+      }
+
+      .editor-features {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+
+      .editor-feature {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #ccc;
+      }
+
+      .editor-feature i {
+        color: #ff6600;
+        font-size: 1.2rem;
+      }
+
+      .editor-workspace {
+        background: rgba(20,20,20,0.9);
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        border: 2px solid #444;
+      }
+
+      .editor-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #1e1e1e;
+        padding: 10px 15px;
+        border-bottom: 1px solid #333;
+      }
+
+      .editor-tabs {
+        display: flex;
+        gap: 5px;
+      }
+
+      .editor-tab {
+        padding: 8px 15px;
+        background: #252525;
+        color: #ccc;
+        border-radius: 5px 5px 0 0;
+        font-size: 0.9rem;
+        cursor: pointer;
+      }
+
+      .editor-tab.active {
+        background: #333;
+        color: #ff6600;
+        border-bottom: 2px solid #ff6600;
+      }
+
+      .editor-controls {
+        display: flex;
+        gap: 10px;
+      }
+
+      .editor-btn {
+        background: #333;
+        color: #ccc;
+        border: 1px solid #444;
+        padding: 6px 12px;
+        border-radius: 5px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .editor-btn:hover {
+        background: #444;
+        color: #fff;
+      }
+
+      .editor-btn.primary {
+        background: #ff6600;
+        color: #fff;
+        border-color: #ff6600;
+      }
+
+      .editor-btn.primary:hover {
+        background: #ff8800;
+        box-shadow: 0 0 10px rgba(255, 102, 0, 0.5);
+      }
+
+      .editor-main {
+        padding: 0;
+        position: relative;
+      }
+
+      .lua-editor {
+        width: 100%;
+        height: 350px;
+        background: #1e1e1e;
+        color: #d4d4d4;
+        font-family: 'Consolas', 'Monaco', monospace;
+        font-size: 14px;
+        line-height: 1.5;
+        padding: 15px;
+        border: none;
+        resize: none;
+        outline: none;
+      }
+
+      .editor-status {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+        color: #00c8ff;
+        background: #252525;
+        border-top: 1px solid #333;
+      }
+
+      /* Donation Section Styles */
+      .donation-section {
+        padding: 60px 0;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(45deg, #111 0%, #222 100%);
+      }
+
+      .donation-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("images/community-bg.webp") center/cover no-repeat;
+        opacity: 0.1;
+        z-index: -1;
+        filter: blur(5px);
+      }
+
+      .donation-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        align-items: center;
+      }
+
+      .donation-text {
+        background: rgba(0,0,0,0.7);
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        border: 2px solid #444;
+      }
+
+      .donation-subtitle {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        color: #ff6600;
+        text-shadow: 2px 2px 0 #000;
+      }
+
+      .donation-desc {
+        margin-bottom: 25px;
+        color: #ddd;
+        font-size: 1.1rem;
+        line-height: 1.6;
+      }
+
+      .donation-features {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+
+      .donation-feature {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #ccc;
+      }
+
+      .donation-feature i {
+        color: #ff6600;
+        font-size: 1.2rem;
+      }
+
+      .donation-box {
+        background: rgba(0,0,0,0.7);
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        border: 2px solid #444;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .gift-box {
+        position: relative;
+        width: 150px;
+        height: 150px;
+        margin: 0 auto;
+        perspective: 1000px;
+        transform-style: preserve-3d;
+        animation: float 3s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-10px) rotate(5deg); }
+        100% { transform: translateY(0px) rotate(0deg); }
+      }
+
+      .gift-box-lid {
+        position: absolute;
+        width: 100%;
+        height: 30px;
+        top: -30px;
+        transform-origin: bottom;
+        transform-style: preserve-3d;
+        animation: lid-open 10s ease-in-out infinite;
+      }
+
+      @keyframes lid-open {
+        0%, 10% { transform: rotateX(0deg); }
+        20%, 80% { transform: rotateX(-110deg); }
+        90%, 100% { transform: rotateX(0deg); }
+      }
+
+      .gift-lid-top {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #ff6600;
+        top: 0;
+        transform: rotateX(90deg) translateZ(15px);
+      }
+
+      .gift-lid-side {
+        position: absolute;
+        width: 100%;
+        height: 30px;
+        background: #ff8800;
+        transform: rotateX(-90deg) translateZ(15px);
+      }
+
+      .gift-box-base {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+      }
+
+      .gift-box-front, .gift-box-back, .gift-box-left, .gift-box-right, .gift-box-bottom, .gift-box-inside {
+        position: absolute;
+        background: #ff4500;
+      }
+
+      .gift-box-front, .gift-box-back {
+        width: 100%;
+        height: 100%;
+      }
+
+      .gift-box-left, .gift-box-right {
+        width: 30px;
+        height: 100%;
+        top: 0;
+      }
+
+      .gift-box-bottom {
+        width: 100%;
+        height: 30px;
+        bottom: 0;
+        transform: rotateX(90deg) translateZ(15px);
+      }
+
+      .gift-box-front {
+        transform: translateZ(75px);
+      }
+
+      .gift-box-back {
+        transform: rotateY(180deg) translateZ(75px);
+      }
+
+      .gift-box-left {
+        left: -15px;
+        transform: rotateY(-90deg) translateZ(75px);
+      }
+
+      .gift-box-right {
+        right: -15px;
+        transform: rotateY(90deg) translateZ(75px);
+      }
+
+      .gift-box-inside {
+        width: 100%;
+        height: 100%;
+        background: #222;
+        transform: translateZ(74px);
+        animation: glow 3s ease-in-out infinite;
+      }
+
+      @keyframes glow {
+        0%, 100% { box-shadow: 0 0 10px rgba(255, 102, 0, 0.5); }
+        50% { box-shadow: 0 0 30px rgba(255, 102, 0, 0.8); }
+      }
+
+      .gift-ribbon-v, .gift-ribbon-h {
+        position: absolute;
+        background: #00c8ff;
+        z-index: 1;
+      }
+
+      .gift-ribbon-v {
+        width: 20px;
+        height: 150px;
+        left: 50%;
+        margin-left: -10px;
+        top: -30px;
+      }
+
+      .gift-ribbon-h {
+        width: 150px;
+        height: 20px;
+        top: 50%;
+        margin-top: -10px;
+        left: 0;
+      }
+
+      .donation-info {
+        text-align: center;
+      }
+
+      .donation-info h4 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+        color: #ff6600;
+      }
+
+      .donation-info p {
+        color: #ccc;
+        margin-bottom: 20px;
+      }
+
+      .donation-btn {
+        display: inline-block;
+        background: linear-gradient(45deg, #ff6600, #ff9500);
+        color: white;
+        padding: 12px 25px;
+        border-radius: 30px;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 1rem;
+        border: 2px solid #fff;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      }
+
+      .donation-btn:hover {
+        background: linear-gradient(45deg, #ff9500, #ff6600);
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+      }
+
       @media (max-width: 768px) {
         .achievements-content,
         .badge-list {
@@ -4347,6 +6823,24 @@ print("Prepare for the Weekend Battle Tournament!")
         }
         .tutorial-grid {
           grid-template-columns: 1fr;
+        }
+        .video-modal-content {
+          width: 95%;
+          margin: 10% auto;
+        }
+        .editor-content,
+        .donation-content {
+          grid-template-columns: 1fr;
+        }
+        .editor-controls {
+          flex-wrap: wrap;
+        }
+        .editor-tabs {
+          max-width: 50%;
+          overflow: hidden;
+        }
+        .gift-box {
+          transform: scale(0.8);
         }
       }
     `;
@@ -4406,45 +6900,68 @@ print("Prepare for the Weekend Battle Tournament!")
         modal.style.display = 'none';
       });
 
-      // Check if user is already signed up
-      if (localStorage.getItem('userJoined') === 'true') {
+      // Check if user is already signed up - do this on page load
+      if (localStorage.getItem('userJoined') === 'true' && localStorage.getItem('username')) {
         joinBtn.style.display = 'none';
         document.getElementById('userInfo').style.display = 'flex';
+        document.getElementById('userDisplayName').textContent = localStorage.getItem('username');
       }
     }
 
-    // Send user data to admin via EmailJS
-    function sendUserDataToEmail(username, email) {
-      // Get user's badges
-      const userBadges = badges.filter(badge => badge.check()).map(badge => badge.id);
-
-      // Prepare template parameters
-      const templateParams = {
-        username: username,
-        email: email,
-        badges: userBadges.join(', '),
-        visit_count: getVisitCount(),
-        messages_sent: getMessagesSent()
-      };
-
-      // Send email using EmailJS
-      emailjs.send('default_service', 'template_signup', templateParams)
-        .then(function(response) {
-          console.log('Email sent!', response.status, response.text);
-        }, function(error) {
-          console.error('Email failed to send...', error);
+    // Send user data to admin via EmailJS (async support)
+    async function sendUserDataToEmail(username, email) {
+      try {
+        // Check all badges in parallel
+        const badgePromises = badges.map(async (badge) => {
+          try {
+            const isUnlocked = await badge.check();
+            return isUnlocked ? badge.id : null;
+          } catch (error) {
+            console.error(`Error checking badge ${badge.id}:`, error);
+            return null;
+          }
         });
+
+        // Wait for all badge checks to complete
+        const badgeResults = await Promise.all(badgePromises);
+        const userBadges = badgeResults.filter(id => id !== null);
+
+        // Get visit count and messages sent
+        const visitCount = await getVisitCount();
+        const messagesSent = await getMessagesSent();
+
+        // Prepare template parameters
+        const templateParams = {
+          username: username,
+          email: email,
+          badges: userBadges.join(', '),
+          visit_count: visitCount,
+          messages_sent: messagesSent
+        };
+
+        // Send email using EmailJS
+        emailjs.send('default_service', 'template_signup', templateParams)
+          .then(function(response) {
+            console.log('Email sent!', response.status, response.text);
+          }, function(error) {
+            console.error('Email failed to send...', error);
+          });
+      } catch (error) {
+        console.error('Error preparing email data:', error);
+      }
     }
 
-    // Update user header with username and badges
-    function updateUserHeader() {
+    // Update user header with username and badges (async support)
+    async function updateUserHeader() {
       const userInfo = document.getElementById('userInfo');
       const joinButton = document.getElementById('joinButton');
       const userDisplayName = document.getElementById('userDisplayName');
       const userHeaderBadges = document.getElementById('userHeaderBadges');
 
-      // Check if user is signed up
-      if (localStorage.getItem('userJoined') === 'true') {
+      if (!userInfo || !joinButton || !userDisplayName || !userHeaderBadges) return;
+
+      // Check if user is signed up - always check on page load
+      if (localStorage.getItem('userJoined') === 'true' && localStorage.getItem('username')) {
         // Hide join button and show user info
         joinButton.style.display = 'none';
         userInfo.style.display = 'flex';
@@ -4456,9 +6973,26 @@ print("Prepare for the Weekend Battle Tournament!")
         // Clear existing badges
         userHeaderBadges.innerHTML = '';
 
-        // Add badges
-        const unlockedBadges = badges.filter(badge => badge.check());
-        unlockedBadges.forEach(badge => {
+        // Check all badges in parallel for better performance
+        const badgePromises = badges.map(async (badge) => {
+          try {
+            const isUnlocked = await badge.check();
+            return isUnlocked ? badge : null;
+          } catch (error) {
+            console.error(`Error checking badge ${badge.id}:`, error);
+            return null;
+          }
+        });
+
+        // Wait for all badge checks to complete
+        const badgeResults = await Promise.all(badgePromises);
+
+        // Filter out unlocked badges and limit to 3
+        const unlockedBadges = badgeResults.filter(badge => badge !== null);
+        const badgesToShow = unlockedBadges.slice(0, 3); // Show max 3 badges
+
+        // Add badges to header
+        badgesToShow.forEach(badge => {
           const badgeElement = document.createElement('div');
           badgeElement.className = 'header-badge';
           badgeElement.textContent = badge.icon;
@@ -4477,11 +7011,154 @@ print("Prepare for the Weekend Battle Tournament!")
 
           userHeaderBadges.appendChild(badgeElement);
         });
+      } else {
+        // If not signed up or missing username, show join button
+        joinButton.style.display = 'block';
+        userInfo.style.display = 'none';
       }
     }
 
-    // Update message display to show badges next to usernames
+    // Initialize video modal functionality
+    function initVideoModal() {
+      const videoModal = document.getElementById('videoModal');
+      const modalVideoFrame = document.getElementById('modalVideoFrame');
+      const closeVideoModal = document.querySelector('.close-video-modal');
+      const expandButtons = document.querySelectorAll('.expand-video-btn');
+
+      if (!videoModal || !modalVideoFrame || !closeVideoModal) return;
+
+      // Add click event to all expand buttons
+      expandButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const videoId = this.getAttribute('data-video-id');
+          if (videoId) {
+            // Set the iframe src with autoplay parameter
+            modalVideoFrame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+            videoModal.style.display = 'block';
+
+            // Add this to ensure videos are visible and properly sized
+            modalVideoFrame.style.display = 'block';
+
+            // Lower background music volume if playing
+            const audio = document.getElementById('robloxTheme');
+            if (audio && !audio.paused) {
+              audio.volume = 0.2; // Lower volume during video playback
+            }
+          }
+        });
+      });
+
+      // Close modal when X is clicked
+      closeVideoModal.addEventListener('click', function() {
+        videoModal.style.display = 'none';
+        // Stop video playback by clearing the src
+        modalVideoFrame.src = '';
+
+        // Restore background music volume
+        const audio = document.getElementById('robloxTheme');
+        if (audio && !audio.paused) {
+          audio.volume = 1.0; // Restore full volume
+        }
+      });
+
+      // Close modal when clicking outside of it
+      window.addEventListener('click', function(event) {
+        if (event.target === videoModal) {
+          videoModal.style.display = 'none';
+          // Stop video playback by clearing the src
+          modalVideoFrame.src = '';
+
+          // Restore background music volume
+          const audio = document.getElementById('robloxTheme');
+          if (audio && !audio.paused) {
+            audio.volume = 1.0; // Restore full volume
+          }
+        }
+      });
+    }
+
+    // Update message display to show badges next to usernames (async support)
     function updateMessageBadges() {
+      // Store user badge data in localStorage for all users
+      const userBadgeCache = {};
+
+      // Function to get badges for a username
+      async function getBadgesForUsername(username) {
+        // If it's the current user, use the badge system
+        if (username === localStorage.getItem('username')) {
+          // Check all badges in parallel
+          const badgePromises = badges.map(async (badge) => {
+            try {
+              const isUnlocked = await badge.check();
+              return isUnlocked ? badge : null;
+            } catch (error) {
+              console.error(`Error checking badge ${badge.id}:`, error);
+              return null;
+            }
+          });
+
+          // Wait for all badge checks to complete
+          const badgeResults = await Promise.all(badgePromises);
+          const userBadges = badgeResults.filter(badge => badge !== null);
+
+          // Cache the result
+          if (userBadges.length > 0) {
+            userBadgeCache[username] = userBadges[0];
+            // Store in localStorage for persistence
+            try {
+              const cachedBadges = JSON.parse(localStorage.getItem('userBadgeCache') || '{}');
+              cachedBadges[username] = {
+                icon: userBadges[0].icon,
+                title: userBadges[0].title,
+                id: userBadges[0].id
+              };
+              localStorage.setItem('userBadgeCache', JSON.stringify(cachedBadges));
+            } catch (e) {
+              console.error('Error caching badges:', e);
+            }
+          }
+
+          return userBadges.length > 0 ? userBadges[0] : null;
+        } else {
+          // For other users, check the cache first
+          if (userBadgeCache[username]) {
+            return userBadgeCache[username];
+          }
+
+          // Check localStorage cache
+          try {
+            const cachedBadges = JSON.parse(localStorage.getItem('userBadgeCache') || '{}');
+            if (cachedBadges[username]) {
+              userBadgeCache[username] = cachedBadges[username];
+              return cachedBadges[username];
+            }
+          } catch (e) {
+            console.error('Error reading badge cache:', e);
+          }
+
+          // If no badge found, assign a default badge based on message count
+          // This simulates other users having badges too
+          const randomBadgeIndex = Math.floor(Math.abs(username.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)) % badges.length);
+          const defaultBadge = badges[randomBadgeIndex];
+
+          // Cache this assignment
+          userBadgeCache[username] = defaultBadge;
+          try {
+            const cachedBadges = JSON.parse(localStorage.getItem('userBadgeCache') || '{}');
+            cachedBadges[username] = {
+              icon: defaultBadge.icon,
+              title: defaultBadge.title,
+              id: defaultBadge.id
+            };
+            localStorage.setItem('userBadgeCache', JSON.stringify(cachedBadges));
+          } catch (e) {
+            console.error('Error caching badges:', e);
+          }
+
+          return defaultBadge;
+        }
+      }
+
       // Override the addMessageToUI function to include badges
       const originalAddMessageToUI = addMessageToUI;
 
@@ -4490,25 +7167,27 @@ print("Prepare for the Weekend Battle Tournament!")
         originalAddMessageToUI(data, key);
 
         // Then add badges to messages
-        setTimeout(() => {
+        setTimeout(async () => {
           const messages = document.querySelectorAll('.message');
-          messages.forEach(message => {
+          for (const message of messages) {
             const username = message.querySelector('.user-name')?.textContent;
-            if (username && username === localStorage.getItem('username')) {
+            if (username) {
               // Check if badges are already added
               if (!message.querySelector('.message-user-badge')) {
-                const userBadges = badges.filter(badge => badge.check());
-                if (userBadges.length > 0) {
+                // Get badge for this username
+                const badge = await getBadgesForUsername(username);
+
+                if (badge) {
                   const userElement = message.querySelector('.message-user');
                   const badgeElement = document.createElement('div');
                   badgeElement.className = 'message-user-badge';
-                  badgeElement.textContent = userBadges[0].icon; // Show first badge
-                  badgeElement.title = userBadges[0].title;
+                  badgeElement.textContent = badge.icon;
+                  badgeElement.title = badge.title;
                   userElement.appendChild(badgeElement);
                 }
               }
             }
-          });
+          }
         }, 100);
       };
     }
@@ -4632,9 +7311,97 @@ print("Prepare for the Weekend Battle Tournament!")
       width: 20px;
       height: 20px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 102, 0, 0.2);
       margin-left: 5px;
       font-size: 0.7rem;
+      border: 1px solid rgba(255, 102, 0, 0.5);
+      box-shadow: 0 0 5px rgba(255, 102, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .message-user-badge:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 10px rgba(255, 102, 0, 0.5);
+    }
+
+    /* Message attachment styles */
+    .message-attachment {
+      margin-top: 10px;
+      border-radius: 8px;
+      overflow: hidden;
+      max-width: 100%;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 5px;
+    }
+
+    .message-image {
+      max-width: 100%;
+      max-height: 300px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .message-image:hover {
+      transform: scale(0.98);
+    }
+
+    .message-video {
+      max-width: 100%;
+      max-height: 300px;
+      border-radius: 6px;
+    }
+
+    .file-download-link {
+      display: inline-block;
+      padding: 8px 12px;
+      background: rgba(255, 102, 0, 0.2);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background 0.2s ease;
+    }
+
+    .file-download-link:hover {
+      background: rgba(255, 102, 0, 0.4);
+    }
+
+    /* Fullsize image overlay */
+    .fullsize-image-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .fullsize-image-container {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+    }
+
+    .fullsize-image-container img {
+      max-width: 100%;
+      max-height: 90vh;
+      object-fit: contain;
+    }
+
+    .close-fullsize {
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 30px;
+      cursor: pointer;
+      padding: 10px;
     }
   </style>
 </body>

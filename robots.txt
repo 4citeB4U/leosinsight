@@ -1,0 +1,25 @@
+# Leo's Insight - Robots.txt
+User-agent: *
+Allow: /
+Disallow: /service-worker.js
+
+# Sitemap location
+Sitemap: https://leosinsight.com/sitemap.xml
+
+# Crawl delay to prevent server overload
+Crawl-delay: 1
+
+# Mobile-specific crawlers
+User-agent: Googlebot-Mobile
+Allow: /
+
+# Image crawlers
+User-agent: Googlebot-Image
+Allow: /images/
+
+# Social media crawlers
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /

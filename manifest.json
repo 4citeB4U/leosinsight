@@ -1,0 +1,41 @@
+{
+  "name": "Leo's Insight – Roblox Gaming, Dev Tutorials & Live Community Hub",
+  "short_name": "Leo's Insight",
+  "description": "Join Leo's Insight – the ultimate destination for Roblox players and young game developers. Explore characters, learn Luau code, and connect live with others in a safe, fun community.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#1f1f1f",
+  "theme_color": "#1f1f1f",
+  "icons": [
+    {
+      "src": "./assets/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "./assets/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "./images/Leosavatr.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "orientation": "any",
+  "categories": ["games", "education", "entertainment"],
+  "screenshots": [
+    {
+      "src": "./images/top3.png",
+      "sizes": "1280x720",
+      "type": "image/png"
+    },
+    {
+      "src": "./images/breaking_news.png",
+      "sizes": "1280x720",
+      "type": "image/png"
+    }
+  ]
+}

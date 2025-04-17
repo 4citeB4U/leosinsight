@@ -1,0 +1,18 @@
+{
+  "name": "leosinsight",
+  "version": "1.0.0",
+  "description": "Leo's Insight - Epic Roblox Gaming Magazine & Development Community",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "roblox",
+    "gaming",
+    "community",
+    "development"
+  ],
+  "author": "Leo",
+  "license": "MIT",
+  "dependencies": {}
+}
