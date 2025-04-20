@@ -1,0 +1,2650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roblox-Style Message HQ Center</title>
+  <style>
+    /* Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background: #1a1a1a url('/api/placeholder/1200/800') center/cover no-repeat fixed;
+      color: #fff;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    /* Message HQ Header */
+    .message-hq-header {
+      background: rgba(20, 20, 20, 0.9);
+      padding: 15px 20px;
+      border-radius: 15px 15px 0 0;
+      border: 2px solid #ff6600;
+      border-bottom: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .header-title {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .header-title h2 {
+      color: #ff6600;
+      font-size: 1.8rem;
+      text-shadow: 0 0 10px rgba(255, 102, 0, 0.5);
+    }
+    
+    .header-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff6600, #ff9900);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: white;
+      box-shadow: 0 0 15px rgba(255, 102, 0, 0.7);
+    }
+    
+    .header-controls {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .header-btn {
+      background: rgba(40, 40, 40, 0.7);
+      border: 1px solid #444;
+      color: #ccc;
+      padding: 8px 15px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .header-btn:hover {
+      background: rgba(255, 102, 0, 0.2);
+      border-color: #ff6600;
+      color: #fff;
+    }
+    
+    .header-btn.active {
+      background: rgba(255, 102, 0, 0.3);
+      border-color: #ff6600;
+      color: #fff;
+    }
+    
+    /* Message HQ Main Container */
+    .message-hq-container {
+      display: grid;
+      grid-template-columns: 250px 1fr 250px;
+      gap: 0;
+      border: 2px solid #ff6600;
+      border-radius: 0 0 15px 15px;
+      overflow: hidden;
+      background: rgba(15, 15, 15, 0.9);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      height: 600px;
+    }
+    
+    /* Left Sidebar */
+    .message-sidebar {
+      background: rgba(20, 20, 20, 0.8);
+      border-right: 1px solid #333;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    
+    /* User Profile Area */
+    .user-profile {
+      padding: 20px 15px;
+      border-bottom: 1px solid #333;
+      background: rgba(40, 40, 40, 0.4);
+    }
+    
+    .user-profile-content {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .user-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff6600, #ff9900);
+      border: 2px solid #ff6600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: white;
+      position: relative;
+    }
+    
+    .user-avatar::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 12px;
+      height: 12px;
+      background: #4ee44e;
+      border: 2px solid #1a1a1a;
+      border-radius: 50%;
+    }
+    
+    .user-info {
+      flex: 1;
+    }
+    
+    .user-name {
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: #ff6600;
+      margin-bottom: 3px;
+    }
+    
+    .user-badges {
+      display: flex;
+      gap: 5px;
+    }
+    
+    .user-badge {
+      background: rgba(0, 200, 255, 0.2);
+      border: 1px solid rgba(0, 200, 255, 0.4);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+    }
+    
+    .user-badge:nth-child(2) {
+      background: rgba(255, 215, 0, 0.2);
+      border: 1px solid rgba(255, 215, 0, 0.4);
+    }
+    
+    .user-badge:nth-child(3) {
+      background: rgba(255, 0, 127, 0.2);
+      border: 1px solid rgba(255, 0, 127, 0.4);
+    }
+    
+    .user-status {
+      width: 100%;
+      padding: 8px 10px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid #333;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+    
+    .user-status::placeholder {
+      color: #777;
+    }
+    
+    /* Navigation Tabs */
+    .nav-tabs {
+      padding: 15px;
+      border-bottom: 1px solid #333;
+    }
+    
+    .nav-tab {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 15px;
+      background: rgba(40, 40, 40, 0.4);
+      border: 1px solid transparent;
+      border-radius: 8px;
+      color: #ccc;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-bottom: 8px;
+    }
+    
+    .nav-tab:hover {
+      background: rgba(60, 60, 60, 0.4);
+      color: #fff;
+    }
+    
+    .nav-tab.active {
+      background: rgba(255, 102, 0, 0.2);
+      border-color: #ff6600;
+      color: #ff6600;
+    }
+    
+    .nav-tab-icon {
+      font-size: 1.2rem;
+      width: 24px;
+      text-align: center;
+    }
+    
+    .nav-tab-badge {
+      background: #ff6600;
+      color: white;
+      padding: 0 8px;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      margin-left: auto;
+    }
+    
+    /* Channel List */
+    .channel-list {
+      padding: 15px;
+      flex: 1;
+      overflow-y: auto;
+    }
+    
+    .channel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      color: #777;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+    
+    .channel-add {
+      background: none;
+      border: none;
+      color: #777;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: all 0.3s;
+    }
+    
+    .channel-add:hover {
+      color: #ff6600;
+      transform: scale(1.2);
+    }
+    
+    .channel-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-bottom: 5px;
+      color: #ccc;
+    }
+    
+    .channel-item:hover {
+      background: rgba(60, 60, 60, 0.4);
+      color: #fff;
+    }
+    
+    .channel-item.active {
+      background: rgba(255, 102, 0, 0.2);
+      color: #ff6600;
+    }
+    
+    .channel-icon {
+      font-size: 1.1rem;
+      width: 20px;
+      text-align: center;
+    }
+    
+    /* Voice Chat Section */
+    .voice-chat {
+      padding: 15px;
+      border-top: 1px solid #333;
+      background: rgba(20, 20, 20, 0.5);
+    }
+    
+    .voice-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      color: #777;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+    
+    .voice-controls {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 10px;
+    }
+    
+    .voice-btn {
+      flex: 1;
+      background: rgba(40, 40, 40, 0.5);
+      border: 1px solid #333;
+      border-radius: 5px;
+      padding: 8px;
+      color: #ccc;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+    
+    .voice-btn:hover {
+      background: rgba(255, 102, 0, 0.2);
+      border-color: #ff6600;
+      color: #fff;
+    }
+    
+    .voice-btn.active {
+      background: rgba(78, 228, 78, 0.2);
+      border-color: #4ee44e;
+      color: #4ee44e;
+      animation: pulse 2s infinite;
+    }
+    
+    .voice-connect {
+      width: 100%;
+      background: #ff6600;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-bottom: 10px;
+    }
+    
+    .voice-connect:hover {
+      background: #ff8800;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 102, 0, 0.3);
+    }
+    
+    .voice-users {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid #333;
+      border-radius: 5px;
+      padding: 10px;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+    
+    .voice-user {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px;
+      margin-bottom: 5px;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+    
+    .voice-user:hover {
+      background: rgba(40, 40, 40, 0.4);
+    }
+    
+    .voice-user-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #444, #666);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      position: relative;
+    }
+    
+    .voice-user-name {
+      flex: 1;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+    
+    .voice-speaking {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4ee44e;
+      margin-left: auto;
+      animation: pulse 1.5s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { opacity: 0.4; transform: scale(0.95); }
+      50% { opacity: 1; transform: scale(1.05); }
+      100% { opacity: 0.4; transform: scale(0.95); }
+    }
+    
+    /* Main Chat Area */
+    .message-main {
+      display: flex;
+      flex-direction: column;
+      background: rgba(25, 25, 25, 0.8);
+      position: relative;
+    }
+    
+    /* Chat Header */
+    .chat-header {
+      padding: 15px 20px;
+      background: rgba(30, 30, 30, 0.8);
+      border-bottom: 1px solid #333;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .chat-header-icon {
+      width: 30px;
+      height: 30px;
+      background: rgba(255, 102, 0, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: #ff6600;
+    }
+    
+    .chat-header-info {
+      flex: 1;
+    }
+    
+    .chat-header-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #fff;
+    }
+    
+    .chat-header-subtitle {
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+    
+    .chat-header-actions {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .chat-header-btn {
+      background: rgba(40, 40, 40, 0.7);
+      border: 1px solid #444;
+      color: #ccc;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .chat-header-btn:hover {
+      background: rgba(255, 102, 0, 0.2);
+      border-color: #ff6600;
+      color: #fff;
+    }
+    
+    /* Messages Container */
+    .messages-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      scrollbar-width: thin;
+      scrollbar-color: #ff6600 #222;
+    }
+    
+    /* Custom Scrollbar */
+    .messages-container::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    .messages-container::-webkit-scrollbar-track {
+      background: #222;
+      border-radius: 10px;
+    }
+    
+    .messages-container::-webkit-scrollbar-thumb {
+      background: #ff6600;
+      border-radius: 10px;
+    }
+    
+    .messages-container::-webkit-scrollbar-thumb:hover {
+      background: #ff8800;
+    }
+    
+    /* Message Types */
+    .message {
+      display: flex;
+      margin-bottom: 25px;
+      animation: fadeIn 0.3s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .message-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff6600, #ff9900);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      margin-right: 15px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+    }
+    
+    .message-avatar:hover {
+      transform: scale(1.1) rotate(5deg);
+      border-color: #ff6600;
+      box-shadow: 0 6px 12px rgba(255, 102, 0, 0.3);
+    }
+    
+    .message-content {
+      flex: 1;
+    }
+    
+    .message-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+    
+    .message-author {
+      font-weight: bold;
+      color: #ff6600;
+      margin-right: 8px;
+    }
+    
+    .message-time {
+      font-size: 0.8rem;
+      color: #777;
+    }
+    
+    .message-badges {
+      display: flex;
+      gap: 5px;
+      margin-left: 10px;
+    }
+    
+    .message-badge {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: rgba(0, 200, 255, 0.2);
+      border: 1px solid rgba(0, 200, 255, 0.4);
+      font-size: 0.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    
+    .message-badge:hover {
+      transform: scale(1.2);
+      background: rgba(0, 200, 255, 0.4);
+      box-shadow: 0 0 8px rgba(0, 200, 255, 0.5);
+    }
+    
+    .message-text {
+      color: #ddd;
+      line-height: 1.5;
+      background: rgba(40, 40, 40, 0.5);
+      padding: 12px 15px;
+      border-radius: 0 15px 15px 15px;
+      position: relative;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+      border-left: 3px solid rgba(255, 102, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .message:hover .message-text {
+      background: rgba(40, 40, 40, 0.7);
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* System Message */
+    .message.system {
+      margin: 15px 0;
+    }
+    
+    .message.system .message-text {
+      background: rgba(0, 200, 255, 0.1);
+      border: 1px solid rgba(0, 200, 255, 0.3);
+      color: #ccc;
+      padding: 10px 15px;
+      text-align: center;
+      border-radius: 8px;
+      font-style: italic;
+      width: 80%;
+      margin: 0 auto;
+      animation: glow 3s infinite alternate;
+      box-shadow: 0 0 10px rgba(0, 200, 255, 0.1);
+    }
+    
+    @keyframes glow {
+      0% { box-shadow: 0 0 5px rgba(0, 200, 255, 0.1); }
+      100% { box-shadow: 0 0 15px rgba(0, 200, 255, 0.3); }
+    }
+    
+    /* Own Message */
+    .message.own {
+      flex-direction: row-reverse;
+    }
+    
+    .message.own .message-avatar {
+      margin-right: 0;
+      margin-left: 15px;
+      background: linear-gradient(135deg, #00a0c8, #00e0ff);
+    }
+    
+    .message.own .message-text {
+      background: rgba(0, 200, 255, 0.2);
+      border-radius: 15px 0 15px 15px;
+      color: #fff;
+      border-left: none;
+      border-right: 3px solid rgba(0, 200, 255, 0.3);
+    }
+    
+    .message.own .message-author {
+      color: #00c8ff;
+    }
+    
+    /* Message Animation for New Messages */
+    .message.new {
+      animation: newMessage 0.5s ease-out;
+    }
+    
+    @keyframes newMessage {
+      0% { transform: translateY(20px); opacity: 0; }
+      50% { transform: translateY(-5px); opacity: 0.8; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    
+    /* Message with Media */
+    .message-media {
+      margin-top: 10px;
+      border-radius: 10px;
+      overflow: hidden;
+      max-width: 80%;
+      position: relative;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      border: 2px solid rgba(50, 50, 50, 0.7);
+      transition: all 0.3s ease;
+    }
+    
+    .message-media:hover {
+      box-shadow: 0 6px 20px rgba(255, 102, 0, 0.2);
+      border-color: rgba(255, 102, 0, 0.4);
+    }
+    
+    .message-media img {
+      max-width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      display: block;
+    }
+    
+    .message-media img:hover {
+      transform: scale(0.98) translateY(-3px);
+    }
+    
+    /* Image Caption or Info */
+    .media-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      padding: 8px 12px;
+      font-size: 0.85rem;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+      border-top: 1px solid rgba(255, 102, 0, 0.3);
+    }
+    
+    .message-media:hover .media-caption {
+      transform: translateY(0);
+    }
+    
+    /* Media Controls */
+    .media-controls {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      gap: 8px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .message-media:hover .media-controls {
+      opacity: 1;
+    }
+    
+    .media-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .media-btn:hover {
+      background: rgba(255, 102, 0, 0.8);
+      transform: scale(1.1);
+    }
+    
+    /* Message Input */
+    .message-input-area {
+      padding: 15px 20px;
+      background: rgba(30, 30, 30, 0.8);
+      border-top: 1px solid #333;
+      position: relative;
+    }
+    
+    /* Typing Indicator */
+    .typing-indicator {
+      position: absolute;
+      top: -25px;
+      left: 20px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 5px 10px;
+      border-radius: 10px 10px 0 0;
+      font-size: 0.85rem;
+      color: #ccc;
+      animation: fadeInUp 0.3s ease-out;
+      display: none;
+    }
+    
+    .typing-indicator.show {
+      display: block;
+    }
+    
+    .typing-dots {
+      display: inline-block;
+    }
+    
+    .typing-dots::after {
+      content: "...";
+      animation: typingDots 1.5s infinite;
+      letter-spacing: 2px;
+    }
+    
+    @keyframes typingDots {
+      0%, 20% { content: "."; }
+      40% { content: ".."; }
+      60%, 100% { content: "..."; }
+    }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .message-form {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .message-tools {
+      display: flex;
+      padding: 8px;
+      background: rgba(40, 40, 40, 0.5);
+      border: 1px solid #444;
+      border-radius: 15px 0 0 15px;
+      border-right: none;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+    
+    .message-tool-btn {
+      background: none;
+      border: none;
+      color: #ccc;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+    }
+    
+    .message-tool-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+    
+    .message-tool-btn.active {
+      color: #ff6600;
+      background: rgba(255, 102, 0, 0.1);
+    }
+    
+    /* Tool Button Tooltips */
+    .message-tool-btn::after {
+      content: attr(title);
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+    
+    .message-tool-btn:hover::after {
+      opacity: 1;
+      visibility: visible;
+      top: -35px;
+    }
+    
+    .message-input-wrapper {
+      flex: 1;
+      position: relative;
+    }
+    
+    .message-input {
+      width: 100%;
+      background: rgba(40, 40, 40, 0.5);
+      border: 1px solid #444;
+      border-radius: 0 15px 15px 0;
+      padding: 12px 15px;
+      color: #fff;
+      font-size: 1rem;
+      resize: none;
+      height: 50px;
+      max-height: 150px;
+      outline: none;
+      transition: all 0.3s;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+    
+    .message-input:focus {
+      border-color: #ff6600;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 0 8px rgba(255, 102, 0, 0.3);
+    }
+    
+    /* Character Counter */
+    .char-counter {
+      position: absolute;
+      bottom: 5px;
+      right: 10px;
+      font-size: 0.75rem;
+      color: #777;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .message-input:focus + .char-counter {
+      opacity: 1;
+    }
+    
+    .char-counter.limit {
+      color: #ff3300;
+    }
+    
+    .message-send {
+      background: linear-gradient(135deg, #ff6600, #ff8800);
+      color: white;
+      border: none;
+      border-radius: 15px;
+      width: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    }
+    
+    .message-send:hover {
+      background: linear-gradient(135deg, #ff8800, #ff6600);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 5px 15px rgba(255, 102, 0, 0.3);
+    }
+    
+    .message-send:active {
+      transform: translateY(0) scale(0.98);
+    }
+    
+    /* Right Sidebar */
+    .user-sidebar {
+      background: rgba(20, 20, 20, 0.8);
+      border-left: 1px solid #333;
+      overflow-y: auto;
+    }
+    
+    .sidebar-section {
+      padding: 15px;
+      border-bottom: 1px solid #333;
+    }
+    
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      color: #777;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+    
+    .sidebar-header button {
+      background: none;
+      border: none;
+      color: #777;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    
+    .sidebar-header button:hover {
+      color: #ff6600;
+    }
+    
+    /* Recent activity section */
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .activity-item {
+      background: rgba(40, 40, 40, 0.3);
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 0.9rem;
+    }
+    
+    .activity-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 5px;
+    }
+    
+    .activity-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #ff6600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: white;
+    }
+    
+    .activity-user {
+      font-weight: bold;
+      color: #ccc;
+    }
+    
+    .activity-time {
+      margin-left: auto;
+      font-size: 0.8rem;
+      color: #777;
+    }
+    
+    .activity-text {
+      color: #aaa;
+    }
+    
+    /* Online users section */
+    .online-users {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .online-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px;
+      border-radius: 8px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    
+    .online-user:hover {
+      background: rgba(40, 40, 40, 0.4);
+    }
+    
+    .online-user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #444, #666);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1rem;
+      position: relative;
+    }
+    
+    .online-user-avatar::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 10px;
+      height: 10px;
+      background: #4ee44e;
+      border: 2px solid #1a1a1a;
+      border-radius: 50%;
+    }
+    
+    .online-user-info {
+      flex: 1;
+    }
+    
+    .online-user-name {
+      font-size: 0.9rem;
+      color: #ccc;
+      font-weight: bold;
+    }
+    
+    .online-user-status {
+      font-size: 0.8rem;
+      color: #777;
+    }
+    
+    .online-user-actions {
+      display: flex;
+      gap: 5px;
+    }
+    
+    .online-user-btn {
+      background: rgba(40, 40, 40, 0.5);
+      border: none;
+      color: #aaa;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .online-user-btn:hover {
+      background: rgba(255, 102, 0, 0.2);
+      color: #ff6600;
+    }
+    
+    /* Room settings section */
+    .room-settings {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .setting-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 10px;
+      background: rgba(40, 40, 40, 0.3);
+      border: 1px solid #333;
+      border-radius: 8px;
+    }
+    
+    .setting-name {
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+    
+    .setting-toggle {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 20px;
+    }
+    
+    .setting-toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #444;
+      transition: .4s;
+      border-radius: 34px;
+    }
+    
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .toggle-slider {
+      background-color: #ff6600;
+    }
+    
+    input:checked + .toggle-slider:before {
+      transform: translateX(20px);
+    }
+    
+    /* Private Message Tab Content */
+    .private-chat-container {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      height: 100%;
+      display: none;
+    }
+    
+    .private-chat-sidebar {
+      background: rgba(20, 20, 20, 0.7);
+      border-right: 1px solid #333;
+      overflow-y: auto;
+    }
+    
+    .private-chat-header {
+      padding: 15px;
+      font-weight: bold;
+      color: #ff6600;
+      border-bottom: 1px solid #333;
+    }
+    
+    .private-chat-list {
+      padding: 10px;
+    }
+    
+    .private-chat-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-bottom: 5px;
+    }
+    
+    .private-chat-item:hover {
+      background: rgba(40, 40, 40, 0.4);
+    }
+    
+    .private-chat-item.active {
+      background: rgba(255, 102, 0, 0.2);
+    }
+    
+    .private-chat-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #444, #666);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+    
+    .private-chat-info {
+      flex: 1;
+    }
+    
+    .private-chat-name {
+      font-weight: bold;
+      color: #ccc;
+    }
+    
+    .private-chat-message {
+      font-size: 0.8rem;
+      color: #777;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 150px;
+    }
+    
+    .private-chat-main {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .private-chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+    
+    .no-chat-message {
+      display: flex;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #777;
+      font-style: italic;
+      padding: 30px;
+    }
+    
+    /* Online Users Tab Content */
+    .online-users-list {
+      padding: 10px;
+      overflow-y: auto;
+      height: 100%;
+      display: none;
+    }
+    
+    /* Emoji Picker */
+    .emoji-picker {
+      position: absolute;
+      bottom: 60px;
+      left: 0;
+      background: rgba(30, 30, 30, 0.95);
+      border: 1px solid #444;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+      padding: 15px;
+      width: 300px;
+      z-index: 100;
+      display: none;
+    }
+    
+    .emoji-picker.show {
+      display: block;
+      animation: fadeIn 0.2s;
+    }
+    
+    .emoji-picker-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #444;
+    }
+    
+    .emoji-picker-title {
+      color: #ff6600;
+      font-weight: bold;
+    }
+    
+    .emoji-close {
+      background: none;
+      border: none;
+      color: #aaa;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .emoji-close:hover {
+      color: #fff;
+    }
+    
+    .emoji-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+    }
+    
+    .emoji-item {
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: all 0.3s;
+    }
+    
+    .emoji-item:hover {
+      background: rgba(255, 102, 0, 0.2);
+      transform: scale(1.2);
+    }
+    
+    /* File Upload Preview */
+    .upload-preview {
+      background: rgba(30, 30, 30, 0.8);
+      border: 1px solid #444;
+      border-radius: 10px;
+      padding: 10px;
+      margin-top: 10px;
+      position: relative;
+      display: none;
+    }
+    
+    .upload-preview.show {
+      display: block;
+      animation: fadeIn 0.3s;
+    }
+    
+    .preview-content img {
+      max-width: 100%;
+      max-height: 200px;
+      border-radius: 8px;
+    }
+    
+    .preview-cancel {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      border: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .preview-cancel:hover {
+      background: rgba(255, 0, 0, 0.5);
+      transform: scale(1.1);
+    }
+    
+    /* Community Guidelines */
+    .guidelines-notice {
+      background: rgba(255, 0, 0, 0.1);
+      border: 1px solid rgba(255, 0, 0, 0.3);
+      border-radius: 10px;
+      padding: 15px;
+      margin: 0 15px 15px;
+    }
+    
+    .guidelines-icon {
+      margin-right: 10px;
+      font-size: 1.2rem;
+      color: #ff3300;
+    }
+    
+    .guidelines-title {
+      font-weight: bold;
+      color: #ff3300;
+      margin-bottom: 5px;
+    }
+    
+    .guidelines-text {
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+    
+    .guidelines-link {
+      color: #00c8ff;
+      text-decoration: underline;
+    }
+    
+    /* Game integration section */
+    .game-integration {
+      position: absolute;
+      bottom: 60px;
+      left: 20px;
+      right: 20px;
+      background: rgba(20, 20, 20, 0.95);
+      border: 1px solid #444;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      display: none;
+    }
+    
+    .game-integration.show {
+      display: block;
+    }
+    
+    .game-integration-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+    }
+    
+    .game-integration-title {
+      font-weight: bold;
+      color: #ff6600;
+      font-size: 1.1rem;
+    }
+    
+    .game-integration-close {
+      background: none;
+      border: none;
+      color: #aaa;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .game-integration-close:hover {
+      color: #fff;
+    }
+    
+    .game-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    
+    .game-item {
+      background: rgba(40, 40, 40, 0.5);
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .game-item:hover {
+      background: rgba(60, 60, 60, 0.5);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .game-item-image {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .game-item-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .game-item-info {
+      flex: 1;
+    }
+    
+    .game-item-title {
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 5px;
+    }
+    
+    .game-item-players {
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+    
+    /* Modal for channel creation */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      display: none;
+    }
+    
+    .modal-overlay.show {
+      display: flex;
+    }
+    
+    .modal-container {
+      background: rgba(30, 30, 30, 0.95);
+      border: 2px solid #ff6600;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 500px;
+      padding: 20px;
+      box-shadow: 0 0 30px rgba(255, 102, 0, 0.3);
+      animation: scaleIn 0.3s ease-out;
+    }
+    
+    @keyframes scaleIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #444;
+    }
+    
+    .modal-title {
+      font-weight: bold;
+      color: #ff6600;
+      font-size: 1.2rem;
+    }
+    
+    .modal-close {
+      background: none;
+      border: none;
+      color: #aaa;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .modal-close:hover {
+      color: #fff;
+      transform: scale(1.1);
+    }
+    
+    .modal-content {
+      margin-bottom: 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      color: #ccc;
+      font-weight: bold;
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 10px 15px;
+      background: rgba(20, 20, 20, 0.5);
+      border: 1px solid #444;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s;
+    }
+    
+    .form-input:focus {
+      border-color: #ff6600;
+      box-shadow: 0 0 10px rgba(255, 102, 0, 0.3);
+    }
+    
+    .form-select {
+      width: 100%;
+      padding: 10px 15px;
+      background: rgba(20, 20, 20, 0.5);
+      border: 1px solid #444;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s;
+    }
+    
+    .form-select:focus {
+      border-color: #ff6600;
+      box-shadow: 0 0 10px rgba(255, 102, 0, 0.3);
+    }
+    
+    .form-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    
+    .form-checkbox input {
+      width: 18px;
+      height: 18px;
+      background: rgba(20, 20, 20, 0.5);
+      border: 1px solid #444;
+      border-radius: 4px;
+    }
+    
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    
+    .modal-btn {
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .modal-btn-cancel {
+      background: rgba(40, 40, 40, 0.7);
+      border: 1px solid #444;
+      color: #ccc;
+    }
+    
+    .modal-btn-cancel:hover {
+      background: rgba(60, 60, 60, 0.7);
+      color: #fff;
+    }
+    
+    .modal-btn-create {
+      background: #ff6600;
+      border: 1px solid #ff6600;
+      color: white;
+    }
+    
+    .modal-btn-create:hover {
+      background: #ff8800;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 102, 0, 0.3);
+    }
+    
+    /* Notifications */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 102, 0, 0.9);
+      border-radius: 8px;
+      padding: 15px;
+      color: white;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      z-index: 300;
+      max-width: 300px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: all 0.3s;
+    }
+    
+    .notification.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .notification-icon {
+      font-size: 1.5rem;
+    }
+    
+    .notification-content {
+      flex: 1;
+    }
+    
+    .notification-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    
+    .notification-message {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    
+    /* Responsive Styles */
+    @media (max-width: 1200px) {
+      .message-hq-container {
+        grid-template-columns: 220px 1fr 220px;
+      }
+    }
+    
+    @media (max-width: 1024px) {
+      .message-hq-container {
+        grid-template-columns: 220px 1fr;
+      }
+      
+      .user-sidebar {
+        position: fixed;
+        top: 0;
+        right: -300px;
+        width: 280px;
+        height: 100%;
+        z-index: 1000;
+        background: rgba(20, 20, 20, 0.95);
+        border-left: 2px solid #ff6600;
+        transition: right 0.3s ease;
+        overflow-y: auto;
+        box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
+      }
+      
+      .user-sidebar.show {
+        right: 0;
+      }
+      
+      .sidebar-toggle {
+        display: flex;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        background: rgba(20, 20, 20, 0.8);
+        border: 1px solid #444;
+        border-radius: 50%;
+        color: #ccc;
+        font-size: 1.2rem;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 1001;
+        transition: all 0.3s ease;
+      }
+      
+      .sidebar-toggle:hover {
+        background: rgba(255, 102, 0, 0.2);
+        border-color: #ff6600;
+        color: #ff6600;
+      }
+      
+      .sidebar-toggle.active {
+        right: 290px;
+        background: rgba(255, 102, 0, 0.3);
+        color: #ff6600;
+      }
+      
+      .chat-header-actions {
+        display: none;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .message-hq-container {
+        grid-template-columns: 1fr;
+        height: calc(100vh - 100px);
+      }
+      
+      .message-sidebar {
+        position: fixed;
+        top: 0;
+        left: -300px;
+        width: 280px;
+        height: 100%;
+        z-index: 1000;
+        background: rgba(20, 20, 20, 0.95);
+        border-right: 2px solid #ff6600;
+        transition: left 0.3s ease;
+        overflow-y: auto;
+        box-shadow: 5px 0 20px rgba(0, 0, 0, 0.5);
+      }
+      
+      .message-sidebar.show {
+        left: 0;
+      }
+      
+      .channel-toggle {
+        display: flex;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 40px;
+        height: 40px;
+        background: rgba(20, 20, 20, 0.8);
+        border: 1px solid #444;
+        border-radius: 50%;
+        color: #ccc;
+        font-size: 1.2rem;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 1001;
+        transition: all 0.3s ease;
+      }
+      
+      .channel-toggle:hover {
+        background: rgba(255, 102, 0, 0.2);
+        border-color: #ff6600;
+        color: #ff6600;
+      }
+      
+      .channel-toggle.active {
+        left: 290px;
+        background: rgba(255, 102, 0, 0.3);
+        color: #ff6600;
+      }
+      
+      .message-mobile-nav {
+        display: flex !important;
+        justify-content: center;
+        gap: 10px;
+        padding: 10px;
+        background: rgba(30, 30, 30, 0.8);
+        border-bottom: 1px solid #333;
+      }
+      
+      .mobile-nav-btn {
+        background: rgba(40, 40, 40, 0.5);
+        border: 1px solid #444;
+        color: #ccc;
+        padding: 8px 15px;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      
+      .mobile-nav-btn:hover {
+        background: rgba(255, 102, 0, 0.2);
+        border-color: #ff6600;
+        color: #fff;
+      }
+      
+      .mobile-nav-btn.active {
+        background: rgba(255, 102, 0, 0.3);
+        border-color: #ff6600;
+        color: #fff;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Message HQ Header -->
+    <div class="message-hq-header">
+      <div class="header-title">
+        <div class="header-logo">📢</div>
+        <h2>MESSAGE HQ CENTER</h2>
+      </div>
+      <div class="header-controls">
+        <button class="header-btn active" id="messages-btn">
+          <span>📝</span>
+          <span>Messages</span>
+        </button>
+        <button class="header-btn" id="settings-btn">
+          <span>⚙️</span>
+          <span>Settings</span>
+        </button>
+        <button class="header-btn" id="help-btn">
+          <span>❓</span>
+          <span>Help</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Message HQ Main Container -->
+    <div class="message-hq-container">
+      <!-- Left Sidebar -->
+      <div class="message-sidebar">
+        <!-- User Profile Area -->
+        <div class="user-profile">
+          <div class="user-profile-content">
+            <div class="user-avatar">R</div>
+            <div class="user-info">
+              <div class="user-name">RobloxGamer123</div>
+              <div class="user-badges">
+                <div class="user-badge">⭐</div>
+                <div class="user-badge">🏆</div>
+                <div class="user-badge">🛠️</div>
+              </div>
+            </div>
+          </div>
+          <input type="text" class="user-status" id="user-status" placeholder="Set your status...">
+        </div>
+        
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+          <button class="nav-tab active" id="community-tab">
+            <span class="nav-tab-icon">🌐</span>
+            <span>Community</span>
+          </button>
+          <button class="nav-tab" id="private-messages-tab">
+            <span class="nav-tab-icon">✉️</span>
+            <span>Private Messages</span>
+            <span class="nav-tab-badge">2</span>
+          </button>
+          <button class="nav-tab" id="online-users-tab">
+            <span class="nav-tab-icon">👥</span>
+            <span>Online Users</span>
+            <span class="nav-tab-badge">15</span>
+          </button>
+        </div>
+        
+        <!-- Channel List -->
+        <div class="channel-list">
+          <div class="channel-header">
+            <span>CHANNELS</span>
+            <button class="channel-add" id="add-channel-btn">+</button>
+          </div>
+          
+          <div class="channel-item active" data-channel="general">
+            <span class="channel-icon">🌍</span>
+            <span>General Chat</span>
+          </div>
+          <div class="channel-item" data-channel="builders">
+            <span class="channel-icon">🛠️</span>
+            <span>Builders Only</span>
+          </div>
+          <div class="channel-item" data-channel="traders">
+            <span class="channel-icon">💰</span>
+            <span>Robux Traders</span>
+          </div>
+          <div class="channel-item" data-channel="horror">
+            <span class="channel-icon">👻</span>
+            <span>Horror Roleplay</span>
+          </div>
+          <div class="channel-item" data-channel="suggestions">
+            <span class="channel-icon">🎮</span>
+            <span>Game Suggestions</span>
+          </div>
+        </div>
+        
+        <!-- Voice Chat Section -->
+        <div class="voice-chat">
+          <div class="voice-header">
+            <span>VOICE CHAT</span>
+          </div>
+          
+          <div class="voice-controls">
+            <button class="voice-btn" id="mic-btn">
+              <span>🎤</span>
+              <span>Mic</span>
+            </button>
+            <button class="voice-btn" id="speaker-btn">
+              <span>🔊</span>
+              <span>Speaker</span>
+            </button>
+          </div>
+          
+          <button class="voice-connect" id="voice-connect">Join Voice Channel</button>
+          
+          <div class="voice-users">
+            <div class="voice-user">
+              <div class="voice-user-avatar">B</div>
+              <div class="voice-user-name">BlockMaster</div>
+              <div class="voice-speaking"></div>
+            </div>
+            <div class="voice-user">
+              <div class="voice-user-avatar">P</div>
+              <div class="voice-user-name">PixelWarrior</div>
+            </div>
+            <div class="voice-user">
+              <div class="voice-user-avatar">G</div>
+              <div class="voice-user-name">GhostHunter</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Main Chat Area -->
+      <div class="message-main">
+        <!-- Mobile Navigation (hidden on desktop) -->
+        <div class="message-mobile-nav" style="display: none;">
+          <button class="mobile-nav-btn" id="mobile-channels-btn">
+            <span>☰ Channels</span>
+          </button>
+          <button class="mobile-nav-btn" id="mobile-users-btn">
+            <span>👥 Users</span>
+          </button>
+        </div>
+        
+        <!-- Chat Header -->
+        <div class="chat-header">
+          <div class="chat-header-icon" id="current-channel-icon">🌍</div>
+          <div class="chat-header-info">
+            <div class="chat-header-title" id="current-channel-title">General Chat</div>
+            <div class="chat-header-subtitle" id="current-channel-subtitle">Community discussion for all topics</div>
+          </div>
+          <div class="chat-header-actions">
+            <button class="chat-header-btn" title="Notification Settings" id="notif-settings-btn">
+              <span>🔔</span>
+            </button>
+            <button class="chat-header-btn" title="Pin Message" id="pin-message-btn">
+              <span>📌</span>
+            </button>
+            <button class="chat-header-btn" title="Channel Settings" id="channel-settings-btn">
+              <span>⚙️</span>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Channel toggle for mobile -->
+        <button class="channel-toggle" id="channel-toggle" style="display: none;">
+          <span>☰</span>
+        </button>
+        
+        <!-- User sidebar toggle for tablet -->
+        <button class="sidebar-toggle" id="sidebar-toggle" style="display: none;">
+          <span>👥</span>
+        </button>
+        
+        <!-- Community Guidelines Notice -->
+        <div class="guidelines-notice">
+          <div class="guidelines-title">
+            <span class="guidelines-icon">⚠️</span>
+            COMMUNITY SAFETY NOTICE
+          </div>
+          <div class="guidelines-text">
+            This Message Board is moderated for our young community (ages 11-21). 
+            Inappropriate language, bullying, and personal information will be automatically filtered.
+            Please follow our <a href="#" class="guidelines-link" id="guidelines-link">Community Guidelines</a>.
+          </div>
+        </div>
+        
+        <!-- Messages Container -->
+        <div class="messages-container" id="messages-container">
+          <!-- System Message -->
+          <div class="message system">
+            <div class="message-text">Welcome to the General Chat! Remember to be respectful and have fun!</div>
+          </div>
+          
+          <!-- Regular Message -->
+          <div class="message">
+            <div class="message-avatar">B</div>
+            <div class="message-content">
+              <div class="message-header">
+                <div class="message-author">BlockMaster</div>
+                <div class="message-time">9:15 AM</div>
+                <div class="message-badges">
+                  <div class="message-badge">⭐</div>
+                </div>
+              </div>
+              <div class="message-text">
+                Has anyone figured out how to create those animated doors in the new update? I've been trying all morning!
+              </div>
+            </div>
+          </div>
+          
+          <!-- Message with Media -->
+          <div class="message">
+            <div class="message-avatar">P</div>
+            <div class="message-content">
+              <div class="message-header">
+                <div class="message-author">PixelWarrior</div>
+                <div class="message-time">9:18 AM</div>
+                <div class="message-badges">
+                  <div class="message-badge">🛠️</div>
+                </div>
+              </div>
+              <div class="message-text">
+                @BlockMaster Yes! You need to use the new AnimationController with a trigger. Here's a screenshot of my setup:
+              </div>
+              <div class="message-media">
+                <img src="/api/placeholder/400/250" alt="Door Animation Setup">
+                <div class="media-controls">
+                  <button class="media-btn" title="Download">💾</button>
+                  <button class="media-btn" title="Share">🔗</button>
+                </div>
+                <div class="media-caption">AnimationController setup for door animations</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Own Message -->
+          <div class="message own">
+            <div class="message-avatar">R</div>
+            <div class="message-content">
+              <div class="message-header">
+                <div class="message-author">RobloxGamer123</div>
+                <div class="message-time">9:23 AM</div>
+                <div class="message-badges">
+                  <div class="message-badge">🏆</div>
+                </div>
+              </div>
+              <div class="message-text">
+                Thanks for sharing that! I was struggling with the same thing. Does this work with the new physics engine too?
+              </div>
+            </div>
+          </div>
+          
+          <!-- Another Message -->
+          <div class="message">
+            <div class="message-avatar">G</div>
+            <div class="message-content">
+              <div class="message-header">
+                <div class="message-author">GhostHunter</div>
+                <div class="message-time">9:26 AM</div>
+                <div class="message-badges">
+                  <div class="message-badge">👻</div>
+                </div>
+              </div>
+              <div class="message-text">
+                It does work with the new physics engine but you need to adjust the collision properties. I can send you my script later when I get home.
+              </div>
+            </div>
+          </div>
+          
+          <!-- System Message about new user -->
+          <div class="message system">
+            <div class="message-text">CubeCreator has joined the chat!</div>
+          </div>
+          
+          <!-- New User Message -->
+          <div class="message">
+            <div class="message-avatar">C</div>
+            <div class="message-content">
+              <div class="message-header">
+                <div class="message-author">CubeCreator</div>
+                <div class="message-time">9:30 AM</div>
+              </div>
+              <div class="message-text">
+                Hey everyone! First time here. I just released my first game, "Cube Escape Challenge." Would love some feedback if anyone wants to check it out!
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Typing indicator -->
+        <div class="typing-indicator" id="typing-indicator">
+          <span>BlockMaster is typing</span>
+          <span class="typing-dots"></span>
+        </div>
+        
+        <!-- Message Input Area -->
+        <div class="message-input-area">
+          <form class="message-form" id="message-form">
+            <div class="message-tools">
+              <button type="button" class="message-tool-btn" title="Add Emoji" id="emoji-btn">
+                😀
+              </button>
+              <button type="button" class="message-tool-btn" title="Upload File" id="upload-btn">
+                📎
+              </button>
+              <button type="button" class="message-tool-btn" title="Game Integration" id="game-btn">
+                🎮
+              </button>
+            </div>
+            <div class="message-input-wrapper">
+              <textarea class="message-input" id="message-input" placeholder="Type your message here..."></textarea>
+              <div class="char-counter" id="char-counter">0/200</div>
+              
+              <!-- Emoji Picker (Hidden by default) -->
+              <div class="emoji-picker" id="emoji-picker">
+                <div class="emoji-picker-header">
+                  <div class="emoji-picker-title">Roblox Emojis</div>
+                  <button class="emoji-close" id="emoji-close">×</button>
+                </div>
+                <div class="emoji-grid">
+                  <div class="emoji-item">😀</div>
+                  <div class="emoji-item">😂</div>
+                  <div class="emoji-item">😍</div>
+                  <div class="emoji-item">🎮</div>
+                  <div class="emoji-item">👍</div>
+                  <div class="emoji-item">👎</div>
+                  <div class="emoji-item">❤️</div>
+                  <div class="emoji-item">🔥</div>
+                  <div class="emoji-item">🏆</div>
+                  <div class="emoji-item">🎯</div>
+                  <div class="emoji-item">🎲</div>
+                  <div class="emoji-item">🧊</div>
+                  <div class="emoji-item">🧱</div>
+                  <div class="emoji-item">🛠️</div>
+                  <div class="emoji-item">🎨</div>
+                  <div class="emoji-item">💰</div>
+                  <div class="emoji-item">🎭</div>
+                  <div class="emoji-item">🚗</div>
+                  <div class="emoji-item">🏫</div>
+                  <div class="emoji-item">🏡</div>
+                  <div class="emoji-item">👻</div>
+                </div>
+              </div>
+              
+              <!-- File Upload Preview (Hidden by default) -->
+              <div class="upload-preview" id="upload-preview">
+                <button class="preview-cancel" id="preview-cancel">×</button>
+                <div class="preview-content">
+                  <img src="/api/placeholder/300/200" alt="Upload Preview">
+                </div>
+              </div>
+              
+              <!-- Game Integration (Hidden by default) -->
+              <div class="game-integration" id="game-integration">
+                <div class="game-integration-header">
+                  <div class="game-integration-title">Your Games</div>
+                  <button class="game-integration-close" id="game-integration-close">×</button>
+                </div>
+                <div class="game-list">
+                  <div class="game-item">
+                    <div class="game-item-image">
+                      <img src="/api/placeholder/60/60" alt="Game">
+                    </div>
+                    <div class="game-item-info">
+                      <div class="game-item-title">Adopt Me!</div>
+                      <div class="game-item-players">Online: 452,781</div>
+                    </div>
+                  </div>
+                  <div class="game-item">
+                    <div class="game-item-image">
+                      <img src="/api/placeholder/60/60" alt="Game">
+                    </div>
+                    <div class="game-item-info">
+                      <div class="game-item-title">Bloxburg</div>
+                      <div class="game-item-players">Online: 123,456</div>
+                    </div>
+                  </div>
+                  <div class="game-item">
+                    <div class="game-item-image">
+                      <img src="/api/placeholder/60/60" alt="Game">
+                    </div>
+                    <div class="game-item-info">
+                      <div class="game-item-title">Natural Disaster Survival</div>
+                      <div class="game-item-players">Online: 45,678</div>
+                    </div>
+                  </div>
+                  <div class="game-item">
+                    <div class="game-item-image">
+                      <img src="/api/placeholder/60/60" alt="Game">
+                    </div>
+                    <div class="game-item-info">
+                      <div class="game-item-title">Royale High</div>
+                      <div class="game-item-players">Online: 98,765</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="message-send" id="message-send">
+              📤
+            </button>
+          </form>
+        </div>
+      </div>
+      
+      <!-- Right Sidebar -->
+      <div class="user-sidebar">
+        <!-- Recent Activity Section -->
+        <div class="sidebar-section">
+          <div class="sidebar-header">
+            <span>RECENT ACTIVITY</span>
+            <button title="Refresh" id="refresh-activity">🔄</button>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-header">
+                <div class="activity-icon">🏆</div>
+                <div class="activity-user">BlockMaster</div>
+                <div class="activity-time">10m</div>
+              </div>
+              <div class="activity-text">
+                Achieved "Master Builder" badge in Tower Defense.
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-header">
+                <div class="activity-icon">🎮</div>
+                <div class="activity-user">PixelWarrior</div>
+                <div class="activity-time">25m</div>
+              </div>
+              <div class="activity-text">
+                Released new game: "Pixel Adventure 2.0"
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-header">
+                <div class="activity-icon">💬</div>
+                <div class="activity-user">GhostHunter</div>
+                <div class="activity-time">32m</div>
+              </div>
+              <div class="activity-text">
+                Posted in Horror Roleplay: "New haunted mansion map!"
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Online Users Section -->
+        <div class="sidebar-section">
+          <div class="sidebar-header">
+            <span>ONLINE USERS (15)</span>
+          </div>
+          <div class="online-users">
+            <div class="online-user">
+              <div class="online-user-avatar">B</div>
+              <div class="online-user-info">
+                <div class="online-user-name">BlockMaster</div>
+                <div class="online-user-status">Building in Studio</div>
+              </div>
+              <div class="online-user-actions">
+                <button class="online-user-btn" title="Message" data-user="BlockMaster">✉️</button>
+                <button class="online-user-btn" title="Profile" data-user="BlockMaster">👤</button>
+              </div>
+            </div>
+            <div class="online-user">
+              <div class="online-user-avatar">P</div>
+              <div class="online-user-info">
+                <div class="online-user-name">PixelWarrior</div>
+                <div class="online-user-status">In Game: Pixel Adventure</div>
+              </div>
+              <div class="online-user-actions">
+                <button class="online-user-btn" title="Message" data-user="PixelWarrior">✉️</button>
+                <button class="online-user-btn" title="Profile" data-user="PixelWarrior">👤</button>
+              </div>
+            </div>
+            <div class="online-user">
+              <div class="online-user-avatar">G</div>
+              <div class="online-user-info">
+                <div class="online-user-name">GhostHunter</div>
+                <div class="online-user-status">Online</div>
+              </div>
+              <div class="online-user-actions">
+                <button class="online-user-btn" title="Message" data-user="GhostHunter">✉️</button>
+                <button class="online-user-btn" title="Profile" data-user="GhostHunter">👤</button>
+              </div>
+            </div>
+            <div class="online-user">
+              <div class="online-user-avatar">C</div>
+              <div class="online-user-info">
+                <div class="online-user-name">CubeCreator</div>
+                <div class="online-user-status">New Member</div>
+              </div>
+              <div class="online-user-actions">
+                <button class="online-user-btn" title="Message" data-user="CubeCreator">✉️</button>
+                <button class="online-user-btn" title="Profile" data-user="CubeCreator">👤</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Room Settings Section -->
+        <div class="sidebar-section">
+          <div class="sidebar-header">
+            <span>ROOM SETTINGS</span>
+          </div>
+          <div class="room-settings">
+            <div class="setting-item">
+              <div class="setting-name">Notifications</div>
+              <label class="setting-toggle">
+                <input type="checkbox" checked id="notif-toggle">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="setting-item">
+              <div class="setting-name">Game Invites</div>
+              <label class="setting-toggle">
+                <input type="checkbox" checked id="invite-toggle">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="setting-item">
+              <div class="setting-name">Media Preview</div>
+              <label class="setting-toggle">
+                <input type="checkbox" checked id="media-toggle">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="setting-item">
+              <div class="setting-name">Voice Activity</div>
+              <label class="setting-toggle">
+                <input type="checkbox" id="voice-toggle">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Private Messages Tab Content (Hidden initially) -->
+    <div class="private-chat-container" id="private-chat-container">
+      <div class="private-chat-sidebar">
+        <div class="private-chat-header">
+          Private Messages
+        </div>
+        <div class="private-chat-list">
+          <div class="private-chat-item" data-user="BlockMaster">
+            <div class="private-chat-avatar">B</div>
+            <div class="private-chat-info">
+              <div class="private-chat-name">BlockMaster</div>
+              <div class="private-chat-message">Thanks for the help with the script!</div>
+            </div>
+          </div>
+          <div class="private-chat-item" data-user="PixelWarrior">
+            <div class="private-chat-avatar">P</div>
+            <div class="private-chat-info">
+              <div class="private-chat-name">PixelWarrior</div>
+              <div class="private-chat-message">Did you see my new game?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="private-chat-main">
+        <div class="no-chat-message">
+          <div>
+            <h3>Select a conversation to start chatting</h3>
+            <p>Or start a new conversation with someone from your friends list.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Online Users Tab Content (Hidden initially) -->
+    <div class="online-users-list" id="online-users-list">
+      <!-- Will be filled dynamically -->
+    </div>
+    
+    <!-- Add Channel Modal -->
+    <div class="modal-overlay" id="add-channel-modal">
+      <div class="modal-container">
+        <div class="modal-header">
+          <div class="modal-title">Create New Channel</div>
+          <button class="modal-close" id="modal-close">×</button>
+        </div>
+        <div class="modal-content">
+          <form id="new-channel-form">
+            <div class="form-group">
+              <label for="channel-name" class="form-label">Channel Name</label>
+              <input type="text" id="channel-name" class="form-input" placeholder="Enter channel name...">
+            </div>
+            <div class="form-group">
+              <label for="channel-type" class="form-label">Channel Type</label>
+              <select id="channel-type" class="form-select">
+                <option value="chat">Chat Channel</option>
+                <option value="voice">Voice Channel</option>
+                <option value="game">Game Channel</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="channel-icon" class="form-label">Channel Icon</label>
+              <input type="text" id="channel-icon" class="form-input" placeholder="Enter emoji for icon...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Privacy Settings</label>
+              <div class="form-checkbox">
+                <input type="checkbox" id="channel-public">
+                <label for="channel-public">Public Channel (visible to all)</label>
+              </div>
+              <div class="form-checkbox">
+                <input type="checkbox" id="channel-moderated">
+                <label for="channel-moderated">Moderated (messages require approval)</label>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="modal-btn modal-btn-cancel" id="cancel-create">Cancel</button>
+          <button class="modal-btn modal-btn-create" id="create-channel">Create Channel</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Notification -->
+    <div class="notification" id="notification">
+      <div class="notification-icon">🔔</div>
+      <div class="notification-content">
+        <div class="notification-title">New Message</div>
+        <div class="notification-message">BlockMaster sent you a message</div>
+      </div>
+    </div>
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // DOM Elements
+        const messagesContainer = document.getElementById('messages-container');
+        const messageForm = document.getElementById('message-form');
+        const messageInput = document.getElementById('message-input');
+        const messageSend = document.getElementById('message-send');
+        const channelItems = document.querySelectorAll('.channel-item');
+        const emojiBtn = document.getElementById('emoji-btn');
+        const emojiPicker = document.getElementById('emoji-picker');
+        const emojiClose = document.getElementById('emoji-close');
+        const emojiItems = document.querySelectorAll('.emoji-item');
+        const uploadBtn = document.getElementById('upload-btn');
+        const uploadPreview = document.getElementById('upload-preview');
+        const previewCancel = document.getElementById('preview-cancel');
+        const charCounter = document.getElementById('char-counter');
+        const typingIndicator = document.getElementById('typing-indicator');
+        const voiceConnect = document.getElementById('voice-connect');
+        const micBtn = document.getElementById('mic-btn');
+        const speakerBtn = document.getElementById('speaker-btn');
+        const addChannelBtn = document.getElementById('add-channel-btn');
+        const addChannelModal = document.getElementById('add-channel-modal');
+        const modalClose = document.getElementById('modal-close');
+        const cancelCreate = document.getElementById('cancel-create');
+        const createChannel = document.getElementById('create-channel');
+        const channelForm = document.getElementById('new-channel-form');
+        const channelName = document.getElementById('channel-name');
+        const channelType = document.getElementById('channel-type');
+        const channelIcon = document.getElementById('channel-icon');
+        const notification = document.getElementById('notification');
+        const userStatus = document.getElementById('user-status');
+        const privateMessagesTab = document.getElementById('private-messages-tab');
+        const onlineUsersTab = document.getElementById('online-users-tab');
+        const communityTab = document.getElementById('community-tab');
+        const privateChatContainer = document.getElementById('private-chat-container');
+        const onlineUsersList = document.getElementById('online-users-list');
+        const gameBtn = document.getElementById('game-btn');
+        const gameIntegration = document.getElementById('game-integration');
+        const gameIntegrationClose = document.getElementById('game-integration-close');
+        const gameItems = document.querySelectorAll('.game-item');
+        const chatHeaderTitle = document.getElementById('current-channel-title');
+        const chatHeaderSubtitle = document.getElementById('current-channel-subtitle');
+        const chatHeaderIcon = document.getElementById('current-channel-icon');
+        const onlineUserBtns = document.querySelectorAll('.online-user-btn');
+        const voiceUsers = document.querySelectorAll('.voice-user');
+        
+        // For mobile/responsive
+        const channelToggle = document.getElementById('channel-toggle');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const messageSidebar = document.querySelector('.message-sidebar');
+        const userSidebar = document.querySelector('.user-sidebar');
+        const mobileChannelsBtn = document.getElementById('mobile-channels-btn');
+        const mobileUsersBtn = document.getElementById('mobile-users-btn');
+        
+        // Show channel toggle on small screens
+        function checkScreenSize() {
+          if (window.innerWidth <= 768) {
+            channelToggle.style.display = 'flex';
+            sidebarToggle.style.display = 'flex';
+          } else if (window.innerWidth <= 1024) {
+            channelToggle.style.display = 'none';
+            sidebarToggle.style.display = 'flex';
+          } else {
+            channelToggle.style.display = 'none';
+            sidebarToggle.style.display = 'none';
+          }
+        }
+        
+        // Check on load and resize
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+        
+        // Mobile sidebar toggle
+        channelToggle.addEventListener('click', function() {
+          messageSidebar.classList.toggle('show');
+          this.classList.toggle('active');
+        });
+        
+        sidebarToggle.addEventListener('click', function() {
+          userSidebar.classList.toggle('show');
+          this.classList.toggle('active');
+        });
+        
+        mobileChannelsBtn.addEventListener('click', function() {
+          messageSidebar.classList.add('show');
+          channelToggle.classList.add('active');
+        });
+        
+        mobileUsersBtn.addEventListener('click', function() {
+          userSidebar.classList.add('show');
+          sidebarToggle.classList.add('active');
+        });
+        
+        // Channel switching functionality
+        channelItems.forEach(channel => {
+          channel.addEventListener('click', function() {
+            // Remove active class from all channels
+            channelItems.forEach(item => item.classList.remove('active'));
+            
+            // Add active class
