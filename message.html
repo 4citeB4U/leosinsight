@@ -2648,3 +2648,14 @@
             channelItems.forEach(item => item.classList.remove('active'));
             
             // Add active class
+            # 1️⃣ Add everything including the new .gitignore
+git add -A
+
+# 2️⃣ Commit it
+git commit -m "🧹 Add .gitignore and finalize push for Leo's Insight"
+
+# 3️⃣ Pull down remote changes before pushing (avoids rejection)
+git pull origin main --rebase
+
+# 4️⃣ Push everything to GitHub!
+git push -u origin main
