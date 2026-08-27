@@ -19,6 +19,7 @@ const schema = z.object({
   LEEWAY_RUNTIME_AUTH_TOKEN: z.string().optional(),
   LEEWAY_VERITAS_REQUIRED: z.coerce.boolean().default(true),
   LEEWAY_RECEIPTS_REQUIRED: z.coerce.boolean().default(true),
+  LEEWAY_ROOM_JOIN_CAPABILITY: z.string().min(1).optional(),
   ROBLOX_OPEN_CLOUD_API_KEY: z.string().optional(),
   ROBLOX_UNIVERSE_ID: z.string().optional(),
   ROBLOX_PLACE_ID: z.string().optional()
