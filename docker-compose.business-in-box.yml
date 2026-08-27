@@ -1,0 +1,30 @@
+services:
+  leo-backend:
+    build: ./backend
+    env_file: ./backend/.env
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    ports:
+      - "8787:8787"
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: leosinsight
+      POSTGRES_USER: leosinsight
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me}
+    volumes:
+      - leo_postgres:/var/lib/postgresql/data
+    restart: unless-stopped
+
+# LeeWay law: do not add caches, queues, schedulers, security engines,
+# memory systems, model routers, or automation infrastructure here when
+# those responsibilities already belong to canonical LeeWay capabilities.
+#
+# Authentik, Nextcloud, Jitsi, Roblox, and the canonical LeeWay Runtime
+# Fabric are external governed dependencies in this pre-deployment topology.
+# Their deployment bindings are supplied only after authority is proven.
+
+volumes:
+  leo_postgres:
