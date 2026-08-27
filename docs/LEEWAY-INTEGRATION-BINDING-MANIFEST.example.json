@@ -1,0 +1,28 @@
+{
+  "status": "BLOCKED_UNTIL_CANONICAL_FORGEJO_AUTHORITY_IS_VERIFIED",
+  "product": {
+    "id": "leos-insight",
+    "persona": "UNDECIDED_LEO_HELPER_OR_GUIDE",
+    "underlying_agent": "Pocket Agent Lee"
+  },
+  "canonical_bindings": {
+    "runtime_ingress": {"url": null, "contract_version": null, "artifact_path": null, "sha256": null},
+    "formula": {"artifact_path": null, "version": null, "sha256": null, "input_contract": null, "output_contract": null},
+    "intelligence_harness": {"artifact_path": null, "version": null, "sha256": null, "contract": null},
+    "security_harness": {"artifact_path": null, "version": null, "sha256": null, "room_join_capability": null},
+    "sensory_harness": {"artifact_path": null, "version": null, "sha256": null, "voice_ingress_contract": null, "voice_egress_contract": null},
+    "automation_harness": {"artifact_path": null, "version": null, "sha256": null, "contract": null},
+    "memory_context": {"artifact_path": null, "version": null, "sha256": null, "contract": null},
+    "model_routing": {"artifact_path": null, "version": null, "sha256": null, "one_b_worker_contract": null, "larger_model_escalation_contract": null},
+    "veritas": {"pre_gate_contract": null, "post_gate_contract": null, "artifact_path": null, "sha256": null},
+    "receipts": {"contract": null, "artifact_path": null, "sha256": null},
+    "learning_ledger": {"contract": null, "artifact_path": null, "sha256": null}
+  },
+  "external_services": {
+    "authentik": {"role": "identity_and_sso_only", "issuer": null},
+    "nextcloud": {"role": "collaboration_and_persistent_files", "base_url": null},
+    "jitsi": {"role": "rtc_transport_only", "domain": null},
+    "roblox": {"role": "game_runtime_studio_open_cloud_distribution", "universe_id": null, "place_id": null}
+  },
+  "law": "Do not populate canonical LeeWay fields from memory, GitHub shell code, filename similarity, or assumptions. Populate only from inspected canonical Forgejo authority with version/hash evidence."
+}
