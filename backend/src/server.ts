@@ -15,6 +15,7 @@ app.get('/health', async () => ({
   service: 'leos-insight-backend',
   status: 'OBSERVED_RUNNING',
   leewayBound: Boolean(config.LEEWAY_INGRESS_URL && config.LEEWAY_RUNTIME_AUTH_TOKEN),
+  leewayRoomAuthorizationBound: Boolean(config.LEEWAY_ROOM_JOIN_CAPABILITY),
   nextcloudConfigured: Boolean(config.NEXTCLOUD_SERVICE_USER && config.NEXTCLOUD_SERVICE_TOKEN),
   jitsiConfigured: Boolean(config.JITSI_APP_SECRET),
   robloxConfigured: Boolean(config.ROBLOX_OPEN_CLOUD_API_KEY)
@@ -53,13 +54,52 @@ app.post('/api/comms/rooms/:room/token', async (request, reply) => {
     return reply.code(401).send({ status: 'BLOCKED', reason: 'identity_not_verified' });
   }
 
+  if (!config.LEEWAY_ROOM_JOIN_CAPABILITY) {
+    return reply.code(503).send({
+      status: 'BLOCKED',
+      reason: 'canonical_leeway_room_authorization_not_bound'
+    });
+  }
+
   const params = z.object({ room: z.string().regex(/^[A-Za-z0-9_-]{3,80}$/) }).parse(request.params);
+  const requestedModerator = actor.roles.includes('room-moderator') || actor.roles.includes('owner');
+
+  const authorization = await executeLeeWay({
+    capability: config.LEEWAY_ROOM_JOIN_CAPABILITY,
+    actor: { sub: actor.sub, roles: actor.roles, groups: actor.groups },
+    input: {
+      action: 'creator_room_join',
+      room: params.room,
+      requestedModerator
+    },
+    context: {
+      product: 'leos-insight',
+      transport: 'jitsi'
+    }
+  });
+
+  if (authorization.status !== 'PASS') {
+    const code = authorization.status === 'BLOCKED' ? 403 : 502;
+    return reply.code(code).send({
+      status: authorization.status,
+      reason: 'leeway_room_authorization_not_passed',
+      evidence: authorization
+    });
+  }
+
   const token = await createJitsiRoomToken({
     room: params.room,
     user: { id: actor.sub, name: actor.name, email: actor.email },
-    moderator: actor.roles.includes('room-moderator') || actor.roles.includes('owner')
+    moderator: requestedModerator
   });
-  return { status: 'PASS', room: params.room, domain: config.JITSI_DOMAIN, token };
+
+  return {
+    status: 'PASS',
+    room: params.room,
+    domain: config.JITSI_DOMAIN,
+    token,
+    leewayReceiptId: authorization.receiptId
+  };
 });
 
 await app.listen({ port: config.PORT, host: '0.0.0.0' });
