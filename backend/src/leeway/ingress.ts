@@ -1,5 +1,15 @@
 import { config } from '../config.js';
 
+/**
+ * Thin product adapter only.
+ *
+ * This file MUST NOT implement LeeWay Formula, Harness routing, Security,
+ * Automation, Memory, model selection, Veritas, receipts, or Learning Ledger.
+ * Those are canonical LeeWay responsibilities in the Forgejo estate.
+ *
+ * The exact live ingress URL and canonical capability identifiers remain
+ * deployment bindings. When they are unavailable, this adapter fails closed.
+ */
 export type LeeWayCapabilityRequest = {
   capability: string;
   actor: { sub: string; roles: string[]; groups: string[] };
