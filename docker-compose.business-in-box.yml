@@ -1,0 +1,35 @@
+services:
+  leo-backend:
+    build: ./backend
+    env_file: ./backend/.env
+    restart: unless-stopped
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "8787:8787"
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: leosinsight
+      POSTGRES_USER: leosinsight
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me}
+    volumes:
+      - leo_postgres:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - leo_redis:/data
+    restart: unless-stopped
+
+# Authentik, Nextcloud, Jitsi and the canonical LeeWay Runtime Fabric are external
+# governed dependencies in this pre-deployment topology. Their deployment stacks
+# are bound through backend/.env after real endpoints/credentials are supplied.
+
+volumes:
+  leo_postgres:
+  leo_redis:
